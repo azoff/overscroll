@@ -1,0 +1,1175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="/styles/examples.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>OverScroll v1.0 (Beta) - An iPhone-like scroller plug-in</title>
+<style type="text/css">
+	#overscroll { width: 200px; height: 500px; overflow: hidden; border: solid 1px #000; margin: 30px auto; }
+	#overscroll ul { width: 2000px; margin:0; padding: 0; }
+	#overscroll li { display: block; border: solid 1px #000; float: left; padding: 10px; width: 178px; height: 30px; font-face: arial, sans; background-color: #FFF; color: #333; }
+	#overscroll li.alt { color: #FFF; background-color: #333; }
+	#overscroll li.last { clear: both; visibility: hidden; height: 0; padding: 0;  }
+</style>
+</head>
+
+<body>
+	<h1>OverScroll v1.0 (Beta) - An iPhone-like scroller plug-in</h1>
+    
+	<div id="overscroll">
+		<ul>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li><a href="#test123">I don't fire if dragged</a></li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li><a href="#test123">I don't fire if dragged</a></li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li>
+			<li>click & drag</li>
+			<li class="alt">click & drag</li> 			
+			<li class="last"></li>
+		</ul>
+    </div>
+	
+    <!--This is the stuff you need to run jWave-->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="jquery.overscroll.js"></script>
+    <script type="text/javascript">
+		$(function(){	
+			// add a google wave to a container div (the ID is my blog ID)
+			$("#overscroll").overscroll();
+		});
+    </script>
+</body>
+</html>
