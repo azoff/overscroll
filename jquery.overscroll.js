@@ -46,6 +46,7 @@
  *	 - Moved all code to GitHub
  *   - Several improvements to the thumb code
  *   - Greased up the scroll a bit more
+ *   - Removed the jerky animation on mouse wheel
  * 1.2.1
  *   - Made "smart" click support "smarter" :)
  *   - Added JSLint validation to the build process
@@ -96,15 +97,18 @@
 			ignored: "dragstart drag"
 		},
 		
+		// to save a couble bits
+		div: "<div/>",
+		
 		// helper element used to determine container size
-		clearfixElement: $("<div/>").css({
-			content: ".",
+		clearfixElement: $(o.div).css({
 			display: "block",
 			clear: "both",
-			visibility: "hidden",
 			"line-height": 0,
-			height: 0
-		}),
+			height: 0,
+			padding: 0,
+			margin: 0
+		}).html("."),
 		
 		// constants used to tune scrollability and thumbs
 		constants: {
@@ -141,12 +145,12 @@
 				data.thumbs = { visible: false };
 								
 				if(data.sizing.container.actual.width > data.sizing.container.current.width) {
-					data.thumbs.horizontal = $("<div/>").css(o.getThumbCss(data.sizing.thumbs.horizontal)).fadeTo(0, 0);
+					data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal)).fadeTo(0, 0);
 					target.append(data.thumbs.horizontal);	
 				}
 				
 				if(data.sizing.container.actual.height > data.sizing.container.current.height) {
-					data.thumbs.vertical = $("<div/>").css(o.getThumbCss(data.sizing.thumbs.vertical)).fadeTo(0, 0);
+					data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical)).fadeTo(0, 0);
 					target.append(data.thumbs.vertical);				
 				}
 
