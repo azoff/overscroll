@@ -43,7 +43,7 @@
  * 1.3.0
  *   - Merged iThumbs and Overscroll
  *   - Added the ability to pass in options
- *	 - Moved all code to GitHub
+ *   - Moved all code to GitHub
  *   - Several improvements to the thumb code
  *   - Greased up the scroll a bit more
  *   - Removed the jerky animation on mouse wheel
