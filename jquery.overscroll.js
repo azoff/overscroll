@@ -47,6 +47,7 @@
  *   - Several improvements to the thumb code
  *   - Greased up the scroll a bit more
  *   - Removed the jerky animation on mouse wheel
+ *   - Added caching for cursors
  * 1.2.1
  *   - Made "smart" click support "smarter" :)
  *   - Added JSLint validation to the build process
@@ -100,16 +101,6 @@
 		// to save a couble bits
 		div: "<div/>",
 		
-		// helper element used to determine container size
-		clearfixElement: $(o.div).css({
-			display: "block",
-			clear: "both",
-			"line-height": 0,
-			height: 0,
-			padding: 0,
-			margin: 0
-		}).html("."),
-		
 		// constants used to tune scrollability and thumbs
 		constants: {
 			scrollDuration: 800,
@@ -117,7 +108,8 @@
 			wheelDeltaMod: -18,
 			scrollDeltaMod: 5.7,
 			thumbThickness: 8,
-			thumbOpacity: 0.7
+			thumbOpacity: 0.7,
+			boundingBox: 1000000
 		},
 		
 		// main initialization function
@@ -133,8 +125,12 @@
 				showThumbs: true								
 			}, (options || {}));
 			
+			// cache cursors
+			options.cache = { openedCursor: new Image(), closedCursor: new Image() };
+			options.cache.openedCursor.src = options.openedCursor;
+			options.cache.closedCursor.src = options.closedCursor;
+			
 			target.css({"cursor":"url("+options.openedCursor+"), default", "overflow": "hidden"})
-				.scrollTop(0).scrollLeft(0)
 				.bind(o.events.wheel, data, o.wheel)
 				.bind(o.events.start, data, o.start)
 				.bind(o.events.end, data, o.stop)
@@ -144,21 +140,30 @@
 				
 				data.thumbs = { visible: false };
 								
-				if(data.sizing.container.actual.width > data.sizing.container.current.width) {
+				if(data.sizing.container.scrollWidth > 0) {
 					data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal)).fadeTo(0, 0);
-					target.append(data.thumbs.horizontal);	
+					target.prepend(data.thumbs.horizontal);	
 				}
 				
-				if(data.sizing.container.actual.height > data.sizing.container.current.height) {
+				if(data.sizing.container.scrollHeight > 0) {
 					data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical)).fadeTo(0, 0);
-					target.append(data.thumbs.vertical);				
+					target.prepend(data.thumbs.vertical);				
+				}
+				
+				data.sizing.relative = data.thumbs.vertical || data.thumbs.horizontal;
+				
+				if(data.sizing.relative) {
+					data.sizing.relative.oldOffset = data.sizing.relative.offset();
+					target.scrollTop(o.constants.boundingBox).scrollLeft(o.constants.boundingBox);
+					data.sizing.relative.remove().prependTo(target);
+					data.sizing.relative.newOffset = data.sizing.relative.offset();
+					data.sizing.relative = 
+						data.sizing.relative.oldOffset.left != data.sizing.relative.newOffset.left ||
+						data.sizing.relative.oldOffset.top != data.sizing.relative.newOffset.top;
+					target.scrollTop(0).scrollLeft(0);
+					target.bind(o.events.scroll, data, o.scroll);
 				}
 
-				data.marker = { target: target.children(":first-child") };
-				data.marker.left = data.marker.target.position().left;
-				data.marker.top = data.marker.target.position().top;
-
-				target.bind(o.events.scroll, data, o.scroll);
 			}
 			
 			data.target = target;
@@ -172,7 +177,9 @@
 			if ( event.wheelDelta ) { delta = event.wheelDelta/12000; }
 			if ( event.detail     ) { delta = -event.detail/3; }
 			
+			event.data.thumbs.vertical.stop(true, true).fadeTo(0, o.constants.thumbOpacity);
 			event.data.target.scrollTop(event.data.target.scrollTop() - (delta * o.constants.wheelDeltaMod));
+			event.data.thumbs.vertical.stop(true, true).fadeTo("fast", 0);
 			
 			return false;
 			
@@ -196,6 +203,7 @@
 			event.data.isDragging = false;
 			
 			return false;
+			
 		},
 		
 		// updates the current scroll location during a mouse move
@@ -230,24 +238,24 @@
 		},
 		
 		// called after a scroll event, moves the thumbs
-		scroll: function(event, position) {
-		
-			position = event.data.marker.target.position();
-			position.dx = (event.data.marker.left - position.left);
-			position.dy = (event.data.marker.top - position.top);
-			position.topHorizontal = position.dy + event.data.sizing.container.current.height - o.constants.thumbThickness;
-			position.leftVertical = position.dx + event.data.sizing.container.current.width - o.constants.thumbThickness;
+		scroll: function(event, ml, mt, left, top) {
+
+			left = event.data.target.scrollLeft();
 			
+			top = event.data.target.scrollTop();
+
 			if (event.data.thumbs.horizontal) {
-				position.left = 
-				position.dx * (1 + event.data.sizing.container.current.width / event.data.sizing.container.actual.width);
-				event.data.thumbs.horizontal.css("margin", position.topHorizontal + "px 0 0 " + position.left + "px");	
+				ml = left * event.data.sizing.container.width / event.data.sizing.container.scrollWidth;
+				mt = event.data.sizing.thumbs.horizontal.top;
+				if(event.data.sizing.relative) { ml += left; mt += top; }
+				event.data.thumbs.horizontal.css("margin", mt + "px 0 0 " + ml + "px");	
 			}
 			
 			if (event.data.thumbs.vertical) {
-				position.top = 
-				position.dy * (1 + event.data.sizing.container.current.height / event.data.sizing.container.actual.height);
-				event.data.thumbs.vertical.css("margin", position.top + "px 0 0 " + position.leftVertical + "px");
+				ml = event.data.sizing.thumbs.vertical.left;
+				mt = top * event.data.sizing.container.height / event.data.sizing.container.scrollHeight;
+				if(event.data.sizing.relative) { ml += left; mt += top; }
+				event.data.thumbs.vertical.css("margin", mt + "px 0 0 " + ml + "px");
 			}
 
 		},
@@ -296,45 +304,38 @@
 		
 		// gets sizing for the container and thumbs
 		getSizing: function(container, sizing) {
+		
+			sizing = { };
 			
-			container.css({
-				overflow: "visible", 
-				height: "auto", 
-				position: "absolute", 
-				visibility: "hidden"
-			}).append(o.clearfixElement);
-			
-			sizing = {
-				container: {
-					actual: {
-						height: container.height()
-					}
-				}	
-			};
-			
-			sizing.container.actual.width = container.css({width: "auto", height: ""}).width();
-			
-			o.clearfixElement.remove();
-			
-			container.css({overflow: "hidden", width: "", position: "", visibility: "visible"});
-			
-			sizing.container.current = {
+			sizing.container = {
 				width: container.width(),
 				height: container.height()
 			};
 			
+			container.scrollLeft(o.constants.boundingBox).scrollTop(o.constants.boundingBox);
+			sizing.container.scrollWidth = container.scrollLeft();
+			sizing.container.scrollHeight = container.scrollTop();							
+			container.scrollTop(0).scrollLeft(0);
+					
 			sizing.thumbs = {
 				horizontal: {
-					width: sizing.container.current.width * sizing.container.current.width / sizing.container.actual.width,
+					width: sizing.container.width * sizing.container.width / sizing.container.scrollWidth,
 					height: o.constants.thumbThickness,
-					corner: o.constants.thumbThickness / 2
+					corner: o.constants.thumbThickness / 2,
+					left: 0,
+					top: sizing.container.height - o.constants.thumbThickness
 				},
 				vertical: {
 					width: o.constants.thumbThickness,
-					height: sizing.container.current.height * sizing.container.current.height / sizing.container.actual.height,
-					corner: o.constants.thumbThickness / 2
+					height: sizing.container.height * sizing.container.height / sizing.container.scrollHeight,
+					corner: o.constants.thumbThickness / 2,
+					left: sizing.container.width - o.constants.thumbThickness,
+					top: 0
 				}
 			};
+			
+			sizing.container.width -= sizing.thumbs.horizontal.width;
+			sizing.container.height -= sizing.thumbs.vertical.height;
 			
 			return sizing;
 			
@@ -347,10 +348,11 @@
 				position: "absolute",
 				"background-color": "black",
 				width: size.width + "px",
-				height: size.height + "px", 
+				height: size.height + "px",
+				"margin": size.top + "px 0 0 " + size.left + "px",
 				"-moz-border-radius": size.corner + "px",
 				"-webkit-border-radius":  size.corner + "px", 
-				"border-radius":  size.corner + "px" 
+				"border-radius":  size.corner + "px"
 			};
 			
 		}
