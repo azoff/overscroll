@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.3.0
+ * Overscroll v1.3.1
  *  A jQuery Plugin for emulating the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -40,6 +40,8 @@
  *
  * Changelog:
  *
+ * 1.3.1
+ *   - Made the dragging state externally visible via .data("dragging")
  * 1.3.0
  *   - Merged iThumbs and Overscroll
  *   - Added the ability to pass in options
@@ -200,7 +202,7 @@
 			
 			event.data.capture = {};
 			
-			event.data.isDragging = false;
+			event.data.target.data("dragging", false);
 			
 			return false;
 			
@@ -215,7 +217,7 @@
 			event.data.position.y = event.pageY;
 			
 			if (typeof event.data.capture.index === "undefined" || --event.data.capture.index === 0 ) {
-				event.data.isDragging = true;
+				event.data.target.data("dragging", true);
 				event.data.capture = {
 					x: event.pageX,
 					y: event.pageY,
@@ -269,7 +271,7 @@
 					.css("cursor", "url("+event.data.options.openedCursor+"), default")
 					.unbind(o.events.drag, o.drag);
 				
-				if ( event.data.isDragging ) {	
+				if ( event.data.target.data("dragging") ) {	
 					
 					dx = o.constants.scrollDeltaMod * (event.pageX - event.data.capture.x);
 					dy = o.constants.scrollDeltaMod * (event.pageY - event.data.capture.y);
@@ -299,7 +301,7 @@
 				event.data.capture = event.data.position = undefined;
 			}
 			
-			return !event.data.isDragging;
+			return !event.data.target.data("dragging");
 		},
 		
 		// gets sizing for the container and thumbs
