@@ -21,7 +21,7 @@ Usage
     <dt>options</dt>
     <dd>
         An optional JavaScript object that you may pass if you would like to customize the experience of the overscroll element. Below is a list of properties that you may set on the options object and their respective effect.
-        <p>
+        <p><p>
             <dl>
                 <dt>options.showThumbs {Optional(true)} {Boolean}</dt>
                 <dd>Designates whether or not to show the scroll-bar thumbs on the scrollable container</dd>
@@ -32,7 +32,7 @@ Usage
                 <dt>options.direction {Optional('auto')} {String}</dt>
                 <dd>The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'</dd>
             </dl>
-        </p>
+        </p></p>
     <dd>
 </dl>
 
