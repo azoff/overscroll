@@ -16,17 +16,17 @@ Usage
 -----
 <pre>$(selector).overscroll([options]);</pre>
 
-+ _`selector`_
++ `_selector_`
     The jQuery selector, targeting an element to apply overscroll to
-+ _`options`_
++ `options`
     An optional JavaScript object that you may pass if you would like to customize the experience of the overscroll element. Below is a list of properties that you may set on the options object and their respective effect.
-    * _`options.showThumbs`_ `{Boolean: true}`
+    * `options.showThumbs` `{Boolean: true}`
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
-    * _`options.openedCursor`_ `{String: 'opened.cur'}`
+    * `options.openedCursor` `{String: 'opened.cur'}`
         - A url pointing at a .cur file to be used as the cursor when hovering over the overscrolled element
-    * _`options.closedCursor`_ `{String: 'closed.cur'}`
+    * `options.closedCursor` `{String: 'closed.cur'}`
         - A url pointing at a .cur file to be used as the cursor when dragging the overscrolled element
-    * _`options.direction`_ `{String: 'auto'}`
+    * `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
 
 Notes
