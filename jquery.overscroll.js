@@ -1,6 +1,6 @@
 /*!
- * Overscroll v1.3.1
- *  A jQuery Plugin for emulating the iPhone scrolling experience in a browser.
+ * Overscroll v1.3.2
+ *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
  * Intended for use with the latest jQuery
@@ -10,7 +10,7 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *  http://jquery.org/license
  *
- * Date: Wednesday, March 31st 2010
+ * Date: Tuesday, August 24th 2010
  */
 
 /* 
@@ -20,18 +20,32 @@
  *  "options" is an optional JavaScript object that you may pass if you would like to customize
  *  the experience of the overscroll element. Below is a list of properties that you may set on
  *  the options object and their respective effect:
+ *
  *   - options.showThumbs   {Boolean} Designates whether or not to show the scroll-bar thumbs
  *                                    on the scrollable container (default true).
  *   - options.openedCursor {String}  A url pointing at a .cur file to be used as the cursor when
  *                                    hovering over the overscrolled element (default 'opened.cur').
  *   - options.closedCursor {String}  A url pointing at a .cur file to be used as the cursor when
  *                                    dragging the overscrolled element (default 'closed.cur').
+ *   - options.direction    {String}  The scroll direction of the overscrolled element, by default it will
+ *                                    auto-detect the available directions. You can also restrict
+ *                                    direction by setting this property equal to 'vertical' or  
+ *                                    'horizontal'
  *
  * Notes:
  * 
  * In order to get the most out of this plugin, make sure to only apply it to parent elements 
  * that are smaller than the collective width and/or height then their children. This way,
  * you can see the actual scroll effect as you pan the element.
+ *
+ * While you can programatically control whether or not overscroll allows horizontal and/or
+ * vertical scroll, it is best practice to size the child elements accordingly (via CSS) and
+ * not depend on programatic restrictions.
+ *
+ * As of 1.3.1, if you would like to add click handlers to links inside of overscroll, you can 
+ * dynamially check the state of the overscrolled element via the jQuery.data method. This ability
+ * should allow you to exit a click handler if a drag state is detected. For example, an overscrolled 
+ * jQuery element "elm" can be checked for drag state via elm.data("dragging").
  *
  * You MUST have two cursors to get the "hand" to show up, open, and close during the panning 
  * process. You can store the cursors wherever you want, just make sure to reference them in 
@@ -40,6 +54,11 @@
  *
  * Changelog:
  *
+ * 1.3.2
+ *   - Updated documentation, added README file for Github
+ *   - Fixed undefined error on mouse wheel scroll for horizontal scrollers.
+ *      - http://github.com/azoff/Overscroll/issues/1
+ *   - Added the ability to restrict scroll direction via options.direction
  * 1.3.1
  *   - Made the dragging state externally visible via .data("dragging")
  * 1.3.0
@@ -124,7 +143,8 @@
 			options = $.extend({
 				openedCursor: "http://github.com/downloads/azoff/Overscroll/opened.cur",
 				closedCursor: "http://github.com/downloads/azoff/Overscroll/closed.cur",
-				showThumbs: true								
+				showThumbs: true,
+				direction: 'multi'				
 			}, (options || {}));
 			
 			// cache cursors
@@ -142,12 +162,12 @@
 				
 				data.thumbs = { visible: false };
 								
-				if(data.sizing.container.scrollWidth > 0) {
+				if(data.sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
 					data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal)).fadeTo(0, 0);
 					target.prepend(data.thumbs.horizontal);	
 				}
 				
-				if(data.sizing.container.scrollHeight > 0) {
+				if(data.sizing.container.scrollHeight > 0 && options.direction !== 'horizontal') {
 					data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical)).fadeTo(0, 0);
 					target.prepend(data.thumbs.vertical);				
 				}
@@ -176,13 +196,24 @@
 		// handles mouse wheel scroll events
 		wheel: function(event, delta) {
 			
-			if ( event.wheelDelta ) { delta = event.wheelDelta/12000; }
-			if ( event.detail     ) { delta = -event.detail/3; }
-			
-			event.data.thumbs.vertical.stop(true, true).fadeTo(0, o.constants.thumbOpacity);
-			event.data.target.scrollTop(event.data.target.scrollTop() - (delta * o.constants.wheelDeltaMod));
-			event.data.thumbs.vertical.stop(true, true).fadeTo("fast", 0);
-			
+			if(event.data.thumbs && event.data.thumbs.vertical 
+			    && event.data.options.direction !== 'horizontal') {
+			    
+			    if ( event.wheelDelta ) { delta = event.wheelDelta/12000; }
+			    if ( event.detail     ) { delta = -event.detail/3; }
+			    
+			    if(!event.data.thumbs.visible) {
+			        event.data.thumbs.visible = true;
+			        event.data.thumbs.vertical.stop(true, true).fadeTo(0, o.constants.thumbOpacity);
+			    }
+			    
+			    event.data.target.scrollTop(event.data.target.scrollTop() - (delta * o.constants.wheelDeltaMod));
+			    event.data.thumbs.vertical.fadeTo("fast", 0, function() {
+			        event.data.thumbs.visible = false;
+			    });
+		    
+		    }
+		
 			return false;
 			
 		},
@@ -211,8 +242,13 @@
 		// updates the current scroll location during a mouse move
 		drag: function(event) {
 			
-			this.scrollLeft -= (event.pageX - event.data.position.x);
-			this.scrollTop -= (event.pageY - event.data.position.y);
+			if(event.data.options.direction !== 'vertical') {
+			   this.scrollLeft -= (event.pageX - event.data.position.x);
+			}
+			if(event.data.options.direction !== 'horizontal') {
+			   this.scrollTop -= (event.pageY - event.data.position.y);
+			}
+			
 			event.data.position.x = event.pageX;
 			event.data.position.y = event.pageY;
 			
@@ -263,7 +299,7 @@
 		},
 		
 		// ends the drag operation and unbinds the mouse move handler
-		stop: function(event, dx, dy) {
+		stop: function(event, dx, dy, d) {
 
 			if( typeof event.data.position !== "undefined" ) {
 
@@ -275,11 +311,17 @@
 					
 					dx = o.constants.scrollDeltaMod * (event.pageX - event.data.capture.x);
 					dy = o.constants.scrollDeltaMod * (event.pageY - event.data.capture.y);
+					d = {};
 					
-					event.data.target.stop(true, true).animate({
-						scrollLeft: this.scrollLeft - dx,
-						scrollTop: this.scrollTop - dy
-					},{ 
+					if(event.data.options.direction !== 'vertical') {
+					    d.scrollLeft = this.scrollLeft - dx;
+					}
+					
+					if(event.data.options.direction !== 'horizontal') {
+					    d.scrollTop = this.scrollTop - dy;
+					}
+					
+					event.data.target.stop(true, true).animate(d, { 
 						queue: false, 
 						duration: o.constants.scrollDuration, 
 						easing: "cubicEaseOut",
