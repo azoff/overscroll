@@ -4,7 +4,7 @@ Tuesday, August 24th 2010
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery http://code.jquery.com/jquery-latest.min.js
 
-http://azoffdesign.com/overscroll
+<http://azoffdesign.com/overscroll>
  
 License
 -------
@@ -12,7 +12,7 @@ Copyright 2010, Jonathan Azoff
 
 Dual licensed under the MIT or GPL Version 2 licenses.
 
-http://jquery.org/license
+<http://jquery.org/license>
 
 Usage
 -----
@@ -47,7 +47,7 @@ Change Log
  * ###1.3.2
    - Updated documentation, added README file for Github
    - Fixed undefined error on mouse wheel scroll for horizontal scrollers (thanks Volderr).
-      + http://github.com/azoff/Overscroll/issues/1
+      + <http://github.com/azoff/Overscroll/issues/1>
    - Added the ability to restrict scroll direction via options.direction
  * ###1.3.1
    - Made the dragging state externally visible via .data("dragging")
