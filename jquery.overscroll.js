@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.3.3
+ * Overscroll v1.3.4
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -10,7 +10,7 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *  http://jquery.org/license
  *
- * Date: Tuesday, August 24th 2010
+ * Date: Thursday, August 26th 2010
  */
 
 /* 
@@ -21,18 +21,19 @@
  *  the experience of the overscroll element. Below is a list of properties that you may set on
  *  the options object and their respective effect:
  *
- *   - options.showThumbs   {Boolean} Designates whether or not to show the scroll-bar thumbs
- *                                    on the scrollable container (default true).
- *   - options.openedCursor {String}  A url pointing at a .cur file to be used as the cursor when
- *                                    hovering over the overscrolled element (default 'opened.cur').
- *   - options.closedCursor {String}  A url pointing at a .cur file to be used as the cursor when
- *                                    dragging the overscrolled element (default 'closed.cur').
- *   - options.direction    {String}  The scroll direction of the overscrolled element, by default it will
- *                                    auto-detect the available directions. You can also restrict
- *                                    direction by setting this property equal to 'vertical' or  
- *                                    'horizontal'
- *   - options.wheelDelta   {Number}  The amount of drift to apply per mouse wheel 'tick', defauts to 20
- *   - options.scrollDelta  {Number}  The amount of drift to apply per drag interval, defauts to 5.7
+ *   - options.showThumbs   {Boolean}   Designates whether or not to show the scroll-bar thumbs
+ *                                      on the scrollable container (default true).
+ *   - options.openedCursor {String}    A url pointing at a .cur file to be used as the cursor when
+ *                                      hovering over the overscrolled element (default 'opened.cur').
+ *   - options.closedCursor {String}    A url pointing at a .cur file to be used as the cursor when
+ *                                      dragging the overscrolled element (default 'closed.cur').
+ *   - options.direction    {String}    The scroll direction of the overscrolled element, by default it will
+ *                                      auto-detect the available directions. You can also restrict
+ *                                      direction by setting this property equal to 'vertical' or  
+ *                                      'horizontal'
+ *   - options.wheelDelta   {Number}    The amount of drift to apply per mouse wheel 'tick', defauts to 20
+ *   - options.scrollDelta  {Number}    The amount of drift to apply per drag interval, defauts to 5.7
+ *   - options.onDriftEnd   {Function}  A function to be called at the end of every drift, default $.noop
  *
  * Notes:
  * 
@@ -56,6 +57,9 @@
  *
  * Changelog:
  *
+ * 1.3.4
+ *   - Added the ability to call a function at the end of the drift via options.onDriftEnd (thanks Volderr)
+ *      - http://github.com/azoff/Overscroll/issues/4
  * 1.3.3
  *   - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta
  *      - http://github.com/azoff/Overscroll/issues/3
@@ -153,7 +157,8 @@
 				showThumbs: true,
 				wheelDelta: o.constants.wheelDelta,
 				scrollDelta: o.constants.scrollDelta,
-				direction: 'multi'
+				direction: 'multi',
+				onDriftEnd: $.noop
 			}, (options || {}));
 			
 			options.scrollDelta = m.abs(options.scrollDelta);
@@ -220,6 +225,7 @@
 			    
 			    if(!event.data.wheelCapture) {
 			        event.data.wheelCapture = { index: o.constants.wheelCaptureThreshold, timeout: null };
+			        event.data.target.data("dragging", true);
 			        event.data.thumbs.visible = true;
 			        event.data.target
 			            .css("cursor", "url("+event.data.options.closedCursor+"), default")
@@ -235,8 +241,10 @@
 			    
 			    event.data.wheelCapture.timeout = setTimeout(function(){
 			        event.data.wheelCapture = undefined;
+			        event.data.target.data("dragging", false);
 			        event.data.thumbs.visible = false;
 			        event.data.thumbs.vertical.fadeTo("fast", 0);
+			        event.data.options.onDriftEnd(event.data.target, event);
 			        event.data.target
 			            .css("cursor", "url("+event.data.options.openedCursor+"), default");
 			    }, o.constants.wheelTimeout);
@@ -357,6 +365,7 @@
 						easing: "cubicEaseOut",
 						complete: function() {
 						    event.data.target.data("dragging", false);
+						    event.data.options.onDriftEnd(event.data.target, event);
 							if(event.data.thumbs) {
 								if(event.data.thumbs.vertical) {
 									event.data.thumbs.vertical.fadeTo("fast", 0);

@@ -226,7 +226,11 @@
     <script src="jquery.overscroll.js"></script>
     <script>
 		$(function(o){	
-			o = $("#overscroll").overscroll();
+			o = $("#overscroll").overscroll({
+			    onDriftEnd: function() {
+			        console.log("done!");
+			    }
+			});
 			$("#link").click(function(){
 			    if(!o.data("dragging")) {
 			        alert("clicked!");
