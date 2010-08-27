@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.3.2
+ * Overscroll v1.3.3
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -31,6 +31,8 @@
  *                                    auto-detect the available directions. You can also restrict
  *                                    direction by setting this property equal to 'vertical' or  
  *                                    'horizontal'
+ *   - options.wheelDelta   {Number}  The amount of drift to apply per mouse wheel 'tick', defauts to 20
+ *   - options.scrollDelta  {Number}  The amount of drift to apply per drag interval, defauts to 5.7
  *
  * Notes:
  * 
@@ -54,6 +56,10 @@
  *
  * Changelog:
  *
+ * 1.3.3
+ *   - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta
+ *      - http://github.com/azoff/Overscroll/issues/3
+ *   - Made mouse wheel scrolling more efficient via deferred fade out call
  * 1.3.2
  *   - Updated documentation, added README file for Github
  *   - Fixed undefined error on mouse wheel scroll for horizontal scrollers.
@@ -95,10 +101,10 @@
  */
 
 /*jslint onevar: true, strict: true */
-/*global jQuery: false */
+/*global window, jQuery */
 "use strict"; 
 
-(function($, o){
+(function(w, m, $, o){
 
 	// create overscroll
 	o = $.fn.overscroll = function(options) {
@@ -125,9 +131,10 @@
 		// constants used to tune scrollability and thumbs
 		constants: {
 			scrollDuration: 800,
+			wheelTimeout: 400,
 			captureThreshold: 4,
-			wheelDeltaMod: -18,
-			scrollDeltaMod: 5.7,
+			wheelDelta: 20,
+			scrollDelta: 5.7,
 			thumbThickness: 8,
 			thumbOpacity: 0.7,
 			boundingBox: 1000000
@@ -144,8 +151,13 @@
 				openedCursor: "http://github.com/downloads/azoff/Overscroll/opened.cur",
 				closedCursor: "http://github.com/downloads/azoff/Overscroll/closed.cur",
 				showThumbs: true,
-				direction: 'multi'				
+				wheelDelta: o.constants.wheelDelta,
+				scrollDelta: o.constants.scrollDelta,
+				direction: 'multi'
 			}, (options || {}));
+			
+			options.scrollDelta = m.abs(options.scrollDelta);
+			options.wheelDelta = -m.abs(options.wheelDelta);
 			
 			// cache cursors
 			options.cache = { openedCursor: new Image(), closedCursor: new Image() };
@@ -199,19 +211,35 @@
 			if(event.data.thumbs && event.data.thumbs.vertical 
 			    && event.data.options.direction !== 'horizontal') {
 			    
-			    if ( event.wheelDelta ) { delta = event.wheelDelta/12000; }
-			    if ( event.detail     ) { delta = -event.detail/3; }
+			    if ( event.wheelDelta ) { 
+			        delta = event.wheelDelta/ (w.opera ? -120 : 120);
+			    }
+			    if ( event.detail ) { 
+			        delta = -event.detail/3; 
+			    }
 			    
-			    if(!event.data.thumbs.visible) {
+			    if(!event.data.wheelCapture) {
+			        event.data.wheelCapture = { index: o.constants.wheelCaptureThreshold, timeout: null };
 			        event.data.thumbs.visible = true;
+			        event.data.target
+			            .css("cursor", "url("+event.data.options.closedCursor+"), default")
+			            .stop(true, true);
 			        event.data.thumbs.vertical.stop(true, true).fadeTo(0, o.constants.thumbOpacity);
 			    }
 			    
-			    event.data.target.scrollTop(event.data.target.scrollTop() - (delta * o.constants.wheelDeltaMod));
-			    event.data.thumbs.vertical.fadeTo("fast", 0, function() {
+			    event.data.target.scrollTop(event.data.target.scrollTop() - (delta * event.data.options.wheelDelta));
+			    
+			    if(event.data.wheelCapture.timeout) {
+			        clearTimeout(event.data.wheelCapture.timeout);
+			    }
+			    
+			    event.data.wheelCapture.timeout = setTimeout(function(){
+			        event.data.wheelCapture = undefined;
 			        event.data.thumbs.visible = false;
-			    });
-		    
+			        event.data.thumbs.vertical.fadeTo("fast", 0);
+			        event.data.target
+			            .css("cursor", "url("+event.data.options.openedCursor+"), default");
+			    }, o.constants.wheelTimeout);
 		    }
 		
 			return false;
@@ -307,10 +335,12 @@
 					.css("cursor", "url("+event.data.options.openedCursor+"), default")
 					.unbind(o.events.drag, o.drag);
 				
-				if ( event.data.target.data("dragging") ) {	
+				d = event.data.target.data("dragging");
+				
+				if ( d ) {	
 					
-					dx = o.constants.scrollDeltaMod * (event.pageX - event.data.capture.x);
-					dy = o.constants.scrollDeltaMod * (event.pageY - event.data.capture.y);
+					dx = event.data.options.scrollDelta * (event.pageX - event.data.capture.x);
+					dy = event.data.options.scrollDelta * (event.pageY - event.data.capture.y);
 					d = {};
 					
 					if(event.data.options.direction !== 'vertical') {
@@ -326,24 +356,26 @@
 						duration: o.constants.scrollDuration, 
 						easing: "cubicEaseOut",
 						complete: function() {
-							if(event.data.thumbs && event.data.thumbs.visible) {
-								event.data.thumbs.visible = false;
+						    event.data.target.data("dragging", false);
+							if(event.data.thumbs) {
 								if(event.data.thumbs.vertical) {
-									event.data.thumbs.vertical.stop(true, true).fadeTo("fast", 0);
+									event.data.thumbs.vertical.fadeTo("fast", 0);
 								}
 								if(event.data.thumbs.horizontal) {
-									event.data.thumbs.horizontal.stop(true, true).fadeTo("fast", 0);
+									event.data.thumbs.horizontal.fadeTo("fast", 0);
 								}
 							}
 						}
 					});
+					
+					event.data.thumbs.visible = false; d = true;
 					
 				}
 				
 				event.data.capture = event.data.position = undefined;
 			}
 			
-			return !event.data.target.data("dragging");
+			return !d;
 		},
 		
 		// gets sizing for the container and thumbs
@@ -414,4 +446,4 @@
 		
 	});
 
-})(jQuery);
+})(window, Math, jQuery);

@@ -4,7 +4,7 @@ Tuesday, August 24th 2010
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery http://code.jquery.com/jquery-latest.min.js
 
-<http://azoffdesign.com/overscroll>
+Homepage: <http://azoffdesign.com/overscroll>
  
 License
 -------
@@ -30,6 +30,10 @@ Usage
         - A url pointing at a .cur file to be used as the cursor when dragging the overscrolled element
     * `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
+    * `options.wheelDelta` `{Number: 20}`
+        - The amount of drift to apply per mouse wheel 'tick'
+    * `options.scrollDelta` `{Number: 5.7}`
+        - The amount of drift to apply per drag interval
 
 Notes
 -----
@@ -44,6 +48,10 @@ You MUST have two cursors to get the "hand" to show up, open, and close during t
 Change Log
 ----------
 
+ * ###1.3.3
+    - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta
+       + <http://github.com/azoff/Overscroll/issues/3>
+    - Made mouse wheel scrolling more efficient via deferred fade out call
  * ###1.3.2
    - Updated documentation, added README file for Github
    - Fixed undefined error on mouse wheel scroll for horizontal scrollers (thanks Volderr).
