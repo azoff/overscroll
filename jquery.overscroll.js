@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.3.4
+ * Overscroll v1.3.5
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -21,19 +21,21 @@
  *  the experience of the overscroll element. Below is a list of properties that you may set on
  *  the options object and their respective effect:
  *
- *   - options.showThumbs   {Boolean}   Designates whether or not to show the scroll-bar thumbs
- *                                      on the scrollable container (default true).
- *   - options.openedCursor {String}    A url pointing at a .cur file to be used as the cursor when
- *                                      hovering over the overscrolled element (default 'opened.cur').
- *   - options.closedCursor {String}    A url pointing at a .cur file to be used as the cursor when
- *                                      dragging the overscrolled element (default 'closed.cur').
- *   - options.direction    {String}    The scroll direction of the overscrolled element, by default it will
- *                                      auto-detect the available directions. You can also restrict
- *                                      direction by setting this property equal to 'vertical' or  
- *                                      'horizontal'
- *   - options.wheelDelta   {Number}    The amount of drift to apply per mouse wheel 'tick', defauts to 20
- *   - options.scrollDelta  {Number}    The amount of drift to apply per drag interval, defauts to 5.7
- *   - options.onDriftEnd   {Function}  A function to be called at the end of every drift, default $.noop
+ *   - options.showThumbs       {Boolean}   Designates whether or not to show the scroll-bar thumbs
+ *                                          on the scrollable container (default true).
+ *   - options.openedCursor     {String}    A url pointing at a .cur file to be used as the cursor when
+ *                                          hovering over the overscrolled element (default 'opened.cur').
+ *   - options.closedCursor     {String}    A url pointing at a .cur file to be used as the cursor when
+ *                                          dragging the overscrolled element (default 'closed.cur').
+ *   - options.direction        {String}    The scroll direction of the overscrolled element, by default it will
+ *                                          auto-detect the available directions. You can also restrict
+ *                                          direction by setting this property equal to 'vertical' or  
+ *                                          'horizontal'
+ *   - options.wheelDirection   {String}    The direction scrolled when the mouse wheel is triggered. Options are
+ *                                          'horizontal' for left/right scrolling and 'vertical' as default.
+ *   - options.wheelDelta       {Number}    The amount of drift to apply per mouse wheel 'tick', defauts to 20
+ *   - options.scrollDelta      {Number}    The amount of drift to apply per drag interval, defauts to 5.7
+ *   - options.onDriftEnd       {Function}  A function to be called at the end of every drift, default $.noop
  *
  * Notes:
  * 
@@ -57,6 +59,11 @@
  *
  * Changelog:
  *
+ * 1.3.5
+ *   - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr)
+ *      - http://github.com/azoff/Overscroll/issues/4
+ *   - Fixed bug with mouse wheel scroll direction (thanks Volderr)
+ *   - Cached the cursor CSS
  * 1.3.4
  *   - Added the ability to call a function at the end of the drift via options.onDriftEnd (thanks Volderr)
  *      - http://github.com/azoff/Overscroll/issues/4
@@ -124,21 +131,22 @@
 			wheel: "mousewheel DOMMouseScroll",
 			start: "select mousedown touchstart",
 			drag: "mousemove touchmove",
-			end: "mouseup mouseleave touchend",
 			scroll: "scroll",
+			end: "mouseup mouseleave touchend",
 			ignored: "dragstart drag"
 		},
 		
 		// to save a couble bits
 		div: "<div/>",
+		noop: function(){return false;},
 		
 		// constants used to tune scrollability and thumbs
 		constants: {
 			scrollDuration: 800,
-			wheelTimeout: 400,
-			captureThreshold: 4,
+			timeout: 400,
+			captureThreshold: 3,
 			wheelDelta: 20,
-			scrollDelta: 5.7,
+			scrollDelta: 5.9,
 			thumbThickness: 8,
 			thumbOpacity: 0.7,
 			boundingBox: 1000000
@@ -155,6 +163,7 @@
 				openedCursor: "http://github.com/downloads/azoff/Overscroll/opened.cur",
 				closedCursor: "http://github.com/downloads/azoff/Overscroll/closed.cur",
 				showThumbs: true,
+				wheelDirection: 'vertical',
 				wheelDelta: o.constants.wheelDelta,
 				scrollDelta: o.constants.scrollDelta,
 				direction: 'multi',
@@ -162,22 +171,26 @@
 			}, (options || {}));
 			
 			options.scrollDelta = m.abs(options.scrollDelta);
-			options.wheelDelta = -m.abs(options.wheelDelta);
+			options.wheelDelta = m.abs(options.wheelDelta);
 			
 			// cache cursors
 			options.cache = { openedCursor: new Image(), closedCursor: new Image() };
 			options.cache.openedCursor.src = options.openedCursor;
 			options.cache.closedCursor.src = options.closedCursor;
 			
-			target.css({"cursor":"url("+options.openedCursor+"), default", "overflow": "hidden"})
+			// set css
+			options.openedCss = {cursor: "url('"+options.openedCursor+"'),default"};
+			options.closedCss = {cursor: "url('"+options.closedCursor+"'),default"};
+			
+			target.css('overflow', 'hidden').css(options.openedCss)
 				.bind(o.events.wheel, data, o.wheel)
 				.bind(o.events.start, data, o.start)
 				.bind(o.events.end, data, o.stop)
-				.bind(o.events.ignored, function(){return false;}); // disable proprietary drag handlers
+				.bind(o.events.ignored, o.noop); // disable proprietary drag handlers
 				
 			if(options.showThumbs) {
 				
-				data.thumbs = { visible: false };
+				data.thumbs = {};
 								
 				if(data.sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
 					data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal)).fadeTo(0, 0);
@@ -210,74 +223,119 @@
 				
 		},
 		
+		// toggles the drag mode of the target
+		toggleDragMode: function(data, dragging) {
+		    if(dragging) {
+		        data.target.css(data.options.closedCss);
+		    } else {
+		        data.target.css(data.options.openedCss);
+	        }
+	        if(data.thumbs) {
+                if(dragging) {
+                    if(data.thumbs.vertical) {
+                        data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
+                    }
+                    if(data.thumbs.horizontal) {
+                        data.thumbs.horizontal.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
+                    }
+                } else {
+                    if(data.thumbs.vertical) {
+                        data.thumbs.vertical.fadeTo("fast", 0);
+                    }
+                    if(data.thumbs.horizontal) {
+                        data.thumbs.horizontal.fadeTo("fast", 0);
+                    }
+                }
+		    }
+		},
+		
+		// sets a position object
+		setPosition: function(event, position, index) {
+		    position.x = event.pageX;
+		    position.y = event.pageY;
+		    position.index = index;
+		    return position;
+		},
+		
 		// handles mouse wheel scroll events
 		wheel: function(event, delta) {
 			
-			if(event.data.thumbs && event.data.thumbs.vertical 
-			    && event.data.options.direction !== 'horizontal') {
-			    
-			    if ( event.wheelDelta ) { 
-			        delta = event.wheelDelta/ (w.opera ? -120 : 120);
-			    }
-			    if ( event.detail ) { 
-			        delta = -event.detail/3; 
-			    }
-			    
-			    if(!event.data.wheelCapture) {
-			        event.data.wheelCapture = { index: o.constants.wheelCaptureThreshold, timeout: null };
-			        event.data.target.data("dragging", true);
-			        event.data.thumbs.visible = true;
-			        event.data.target
-			            .css("cursor", "url("+event.data.options.closedCursor+"), default")
-			            .stop(true, true);
-			        event.data.thumbs.vertical.stop(true, true).fadeTo(0, o.constants.thumbOpacity);
-			    }
-			    
-			    event.data.target.scrollTop(event.data.target.scrollTop() - (delta * event.data.options.wheelDelta));
-			    
-			    if(event.data.wheelCapture.timeout) {
-			        clearTimeout(event.data.wheelCapture.timeout);
-			    }
-			    
-			    event.data.wheelCapture.timeout = setTimeout(function(){
-			        event.data.wheelCapture = undefined;
-			        event.data.target.data("dragging", false);
-			        event.data.thumbs.visible = false;
-			        event.data.thumbs.vertical.fadeTo("fast", 0);
-			        event.data.options.onDriftEnd(event.data.target, event);
-			        event.data.target
-			            .css("cursor", "url("+event.data.options.openedCursor+"), default");
-			    }, o.constants.wheelTimeout);
+			if ( event.wheelDelta ) { 
+		        delta = event.wheelDelta/ (w.opera ? -120 : 120);
 		    }
+		    
+		    if ( event.detail ) { 
+		        delta = -event.detail/3; 
+		    }
+		    
+		    if(!event.data.wheelCapture) {
+		        event.data.wheelCapture = { timeout: null };
+		        o.toggleDragMode(event.data, true);
+		        event.data.target.stop(true, true).data('dragging', true);
+		    }
+		    
+		    delta *= event.data.options.wheelDelta;
+		    
+		    if(event.data.options.wheelDirection === 'horizontal') {
+		        this.scrollLeft -= delta;
+		    } else {
+		        this.scrollTop -= delta;
+		    }
+		    
+		    if(event.data.wheelCapture.timeout) {
+		        clearTimeout(event.data.wheelCapture.timeout);
+		    }
+		    
+		    event.data.wheelCapture.timeout = setTimeout(function(d){
+		        event.data.wheelCapture = undefined;
+		        o.toggleDragMode(event.data, false);
+		        event.data.target.data('dragging', false);
+		        event.data.options.onDriftEnd.call(event.data.target, event.data);
+		    }, o.constants.timeout);
 		
 			return false;
 			
 		},
 		
+		// handles a scroll event
+		scroll: function(event, thumbs, sizing, left, top, ml, mt) {
+		    
+		    thumbs = event.data.thumbs;
+		    sizing = event.data.sizing;
+		    left = this.scrollLeft;
+		    top = this.scrollTop;
+		    
+            if (thumbs.horizontal) {
+                ml = left * sizing.container.width / sizing.container.scrollWidth;
+                mt = sizing.thumbs.horizontal.top;
+                if(sizing.relative) { ml += left; mt += top; }
+                thumbs.horizontal.css("margin", mt + "px 0 0 " + ml + "px");	
+            }
+
+            if (thumbs.vertical) {
+                ml = sizing.thumbs.vertical.left;
+                mt = top * sizing.container.height / sizing.container.scrollHeight;
+                if(sizing.relative) { ml += left; mt += top; }
+                thumbs.vertical.css("margin", mt + "px 0 0 " + ml + "px");
+            }
+        
+        },
+		
 		// starts the drag operation and binds the mouse move handler
 		start: function(event) {
-			
-			event.data.target
-				.css("cursor", "url("+event.data.options.closedCursor+"), default")
-				.bind(o.events.drag, event.data, o.drag)
-				.stop(true, true);
-			
-			event.data.position = { 
-				x: event.pageX,
-				y: event.pageY
-			};
-			
-			event.data.capture = {};
-			
-			event.data.target.data("dragging", false);
+
+			event.data.target.bind(o.events.drag, event.data, o.drag).stop(true, true).data('dragging', false);
+			o.toggleDragMode(event.data, true);
+			event.data.position = o.setPosition(event, {});
+			event.data.capture = o.setPosition(event, {}, 2);
 			
 			return false;
 			
 		},
 		
 		// updates the current scroll location during a mouse move
-		drag: function(event) {
-			
+		drag: function(event, ml, mt, left, top) {
+
 			if(event.data.options.direction !== 'vertical') {
 			   this.scrollLeft -= (event.pageX - event.data.position.x);
 			}
@@ -285,106 +343,57 @@
 			   this.scrollTop -= (event.pageY - event.data.position.y);
 			}
 			
-			event.data.position.x = event.pageX;
-			event.data.position.y = event.pageY;
+			o.setPosition(event, event.data.position);
 			
-			if (typeof event.data.capture.index === "undefined" || --event.data.capture.index === 0 ) {
-				event.data.target.data("dragging", true);
-				event.data.capture = {
-					x: event.pageX,
-					y: event.pageY,
-					index: o.constants.captureThreshold
-				};
-				
-				if(event.data.thumbs && !event.data.thumbs.visible) {
-					event.data.thumbs.visible = true;
-					if(event.data.thumbs.vertical) {
-						event.data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
-					}
-					if(event.data.thumbs.horizontal) {
-						event.data.thumbs.horizontal.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
-					}
-				}
+			if (--event.data.capture.index <= 0 ) {
+			    event.data.target.data('dragging', true);
+			    o.setPosition(event, event.data.capture, o.constants.captureThreshold);
 			}
 
 			return true;
 		
 		},
 		
-		// called after a scroll event, moves the thumbs
-		scroll: function(event, ml, mt, left, top) {
-
-			left = event.data.target.scrollLeft();
-			
-			top = event.data.target.scrollTop();
-
-			if (event.data.thumbs.horizontal) {
-				ml = left * event.data.sizing.container.width / event.data.sizing.container.scrollWidth;
-				mt = event.data.sizing.thumbs.horizontal.top;
-				if(event.data.sizing.relative) { ml += left; mt += top; }
-				event.data.thumbs.horizontal.css("margin", mt + "px 0 0 " + ml + "px");	
-			}
-			
-			if (event.data.thumbs.vertical) {
-				ml = event.data.sizing.thumbs.vertical.left;
-				mt = top * event.data.sizing.container.height / event.data.sizing.container.scrollHeight;
-				if(event.data.sizing.relative) { ml += left; mt += top; }
-				event.data.thumbs.vertical.css("margin", mt + "px 0 0 " + ml + "px");
-			}
-
-		},
-		
 		// ends the drag operation and unbinds the mouse move handler
 		stop: function(event, dx, dy, d) {
 
-			if( typeof event.data.position !== "undefined" ) {
+			if(event.data.position) {
 
-				event.data.target
-					.css("cursor", "url("+event.data.options.openedCursor+"), default")
-					.unbind(o.events.drag, o.drag);
+				event.data.target.unbind(o.events.drag, o.drag);
 				
-				d = event.data.target.data("dragging");
-				
-				if ( d ) {	
-					
-					dx = event.data.options.scrollDelta * (event.pageX - event.data.capture.x);
-					dy = event.data.options.scrollDelta * (event.pageY - event.data.capture.y);
-					d = {};
-					
-					if(event.data.options.direction !== 'vertical') {
-					    d.scrollLeft = this.scrollLeft - dx;
-					}
-					
-					if(event.data.options.direction !== 'horizontal') {
-					    d.scrollTop = this.scrollTop - dy;
-					}
-					
-					event.data.target.stop(true, true).animate(d, { 
-						queue: false, 
-						duration: o.constants.scrollDuration, 
-						easing: "cubicEaseOut",
-						complete: function() {
-						    event.data.target.data("dragging", false);
-						    event.data.options.onDriftEnd(event.data.target, event);
-							if(event.data.thumbs) {
-								if(event.data.thumbs.vertical) {
-									event.data.thumbs.vertical.fadeTo("fast", 0);
-								}
-								if(event.data.thumbs.horizontal) {
-									event.data.thumbs.horizontal.fadeTo("fast", 0);
-								}
-							}
-						}
-					});
-					
-					event.data.thumbs.visible = false; d = true;
-					
+				if(event.data.target.data('dragging')) {
+				 
+				    dx = event.data.options.scrollDelta * (event.pageX - event.data.capture.x);
+                    dy = event.data.options.scrollDelta * (event.pageY - event.data.capture.y);
+                    d = {};
+
+                    if(event.data.options.direction !== 'vertical') {
+                        d.scrollLeft = this.scrollLeft - dx;
+                    }
+
+                    if(event.data.options.direction !== 'horizontal') {
+                        d.scrollTop = this.scrollTop - dy;
+                    }
+
+                    event.data.target.animate(d, {  
+                        duration: o.constants.scrollDuration, 
+                        easing: 'cubicEaseOut',
+                        complete: function() {
+                            event.data.target.data('dragging', false);
+                            event.data.options.onDriftEnd.call(event.data.target, event.data);
+                            o.toggleDragMode(event.data, false);
+                        }
+                    });
+				    
+				} else {
+				     o.toggleDragMode(event.data, false);
 				}
-				
-				event.data.capture = event.data.position = undefined;
+                
+                event.data.capture = event.data.position = undefined;
+                
 			}
 			
-			return !d;
+			return !event.data.target.data('dragging');
 		},
 		
 		// gets sizing for the container and thumbs

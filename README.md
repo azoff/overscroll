@@ -1,4 +1,4 @@
-Overscroll v1.3.4
+Overscroll v1.3.5
 =================
 Thursday, August 26th 2010
 
@@ -30,6 +30,8 @@ Usage
         - A url pointing at a .cur file to be used as the cursor when dragging the overscrolled element
     * `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
+    * `options.wheelDirection` `{String: 'vertical'}`
+        - The direction scrolled when the mouse wheel is triggered. Options are 'horizontal' for left/right scrolling and 'vertical' for up/down scrolling.
     * `options.wheelDelta` `{Number: 20}`
         - The amount of drift to apply per mouse wheel 'tick'
     * `options.scrollDelta` `{Number: 5.7}`
@@ -50,6 +52,11 @@ You MUST have two cursors to get the "hand" to show up, open, and close during t
 Change Log
 ----------
 
+ * ###1.3.5
+    - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr)
+       + http://github.com/azoff/Overscroll/issues/4
+    - Fixed bug with mouse wheel scroll direction (thanks Volderr)
+    - Cached the cursor CSS
  * ###1.3.4
    - Added the ability to call a function at the end of the drift via options.onDriftEnd 
       + <http://github.com/azoff/Overscroll/issues/4> (thanks Volderr)
