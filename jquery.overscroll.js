@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.4.0
+ * Overscroll v1.4.1
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Thursday, January 13th 2011
+ * Date: Thursday, January 16th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -46,8 +46,8 @@
 		
 		// constants used to tune scroll-ability and thumbs
 		constants: {
-            driftFrequency: 50, // 20 FPS
-			driftSequences: 20,
+            driftFrequency: 40, // 20 FPS
+			driftSequences: 22,
             driftDecay: 1.15,
 			timeout: 400,
 			captureThreshold: 3,
@@ -194,20 +194,24 @@
 		
 		// handles a scroll event
 		moveThumbs: function(event, left, top, thumbs, sizing, ml, mt) {
-		    
-		    thumbs = event.data.thumbs;
-		    sizing = event.data.sizing;
 
-            if (thumbs.horizontal) {
-                ml = left * (1 + sizing.container.width / sizing.container.scrollWidth);
-                mt = top + sizing.thumbs.horizontal.top;
-                thumbs.horizontal.css("margin", mt + "px 0 0 " + ml + "px");
-            }
+            if (event.data.options.showThumbs) {
 
-            if (thumbs.vertical) {
-                ml = left + sizing.thumbs.vertical.left;
-                mt = top * (1 + sizing.container.height / sizing.container.scrollHeight);
-                thumbs.vertical.css("margin", mt + "px 0 0 " + ml + "px");
+                thumbs = event.data.thumbs;
+                sizing = event.data.sizing;
+
+                if (thumbs.horizontal) {
+                    ml = left * (1 + sizing.container.width / sizing.container.scrollWidth);
+                    mt = top + sizing.thumbs.horizontal.top;
+                    thumbs.horizontal.css("margin", mt + "px 0 0 " + ml + "px");
+                }
+
+                if (thumbs.vertical) {
+                    ml = left + sizing.thumbs.vertical.left;
+                    mt = top * (1 + sizing.container.height / sizing.container.scrollHeight);
+                    thumbs.vertical.css("margin", mt + "px 0 0 " + ml + "px");
+                }
+
             }
         
         },

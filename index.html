@@ -229,7 +229,8 @@
 			o = $("#overscroll").overscroll({
 			    onDriftEnd: function() {
 			        console.log("done!");
-			    }
+			    },
+                showThumbs: false
 			});
 			$("#link").click(function(){
 			    if(!o.data("dragging")) {

@@ -1,4 +1,4 @@
-Overscroll v1.4
+Overscroll v1.4.1
 =================
 Thursday, January 13th 2011
 
@@ -48,6 +48,8 @@ As of 1.3.1, if you would like to add click handlers to links inside of overscro
 Change Log
 ----------
 
+ * ###1.4.1
+   - Fixed a null pointer exception that occurs when thumbs are hidden (thanks Henning)
  * ###1.4.0
    - Deprecated remote cursors in lieu of the native alternative
    - Moved thumb start handler to start of drag (more like iOS behavior)
