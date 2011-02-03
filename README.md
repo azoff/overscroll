@@ -1,6 +1,6 @@
-Overscroll v1.4.1
+Overscroll v1.4.2
 =================
-Thursday, January 13th 2011
+Thursday, February 17th 2011
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery http://code.jquery.com/jquery-latest.js
 
@@ -28,6 +28,8 @@ Usage
         - The cursor to use when hovering over the overscrolled element. For options, see <http://tinyurl.com/4g2qpnx>
 	* `options.cursor` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
+    * `options.cancelOn` `{String: ""}`
+		- An optional jQuery selector to ignore on drag events. Note: must match an element inside the overscrolled element.
     * `options.wheelDirection` `{String: 'vertical'}`
         - The direction scrolled when the mouse wheel is triggered. Options are 'horizontal' for left/right scrolling and 'vertical' for up/down scrolling.
     * `options.wheelDelta` `{Number: 20}`
@@ -48,6 +50,13 @@ As of 1.3.1, if you would like to add click handlers to links inside of overscro
 Change Log
 ----------
 
+ * ###1.4.2
+   - Fixed bug in chrome due to ambiguous positioning
+   - Added the cancelOn option (thanks Herhor)
+       + <https://github.com/azoff/Overscroll/issues/5>
+   - Fixed iOS start handler bug (thanks kkriehl)
+	   + <https://github.com/azoff/Overscroll/issues/9>
+   - Added Opera support
  * ###1.4.1
    - Fixed a null pointer exception that occurs when thumbs are hidden (thanks Henning)
  * ###1.4.0

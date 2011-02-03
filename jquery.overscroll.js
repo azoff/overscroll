@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.4.1
+ * Overscroll v1.4.2
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Thursday, January 16th 2011
+ * Date: Thursday, February 17th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -63,10 +63,10 @@
                 var devices = ["iPhone", "iPad", "iPod"], i;
                 for (i=0; i<devices.length; i++) {
                     if (navigator.platform.indexOf(devices[i]) >= 0) {
-                        return o.isIOS = true;
+                        return (o.isIOS = true);
                     }
                 }
-                return o.isIOS = false;
+                return (o.isIOS = false);
             }
             return o.isIOS;
         },
@@ -83,6 +83,7 @@
 				wheelDelta: o.constants.wheelDelta,
 				scrollDelta: o.constants.scrollDelta,
 				direction: 'multi',
+				cancelOn: '',
 				onDriftEnd: $.noop
 			}, (options || {}));
 			
@@ -90,8 +91,9 @@
 			options.wheelDelta = m.abs(options.wheelDelta);
 			
 			target.css({
-              'overflow': 'hidden',
-              'cursor': options.cursor
+			    'position': 'relative',
+                'overflow': 'hidden',
+                'cursor': options.cursor
             })
             .bind(o.events.wheel, data, o.wheel)
 		    .bind(o.events.start, data, o.start)
@@ -220,11 +222,15 @@
 		start: function(event) {
 
             o.clearInterval();
-			event.data.target.bind(o.events.drag, event.data, o.drag).stop(true, true).data('dragging', false);
-			event.data.position = o.setPosition(event, {});
-			event.data.capture = o.setPosition(event, {}, 2);
-			
-			return false;
+            
+
+            if (!$(event.target).is(event.data.options.cancelOn)) {               
+                o.normalizeEvent(event);
+                event.data.target.bind(o.events.drag, event.data, o.drag).stop(true, true).data('dragging', false);
+                event.data.position = o.setPosition(event, {});
+                event.data.capture = o.setPosition(event, {}, 2);
+                return false;
+            }
 			
 		},
 		

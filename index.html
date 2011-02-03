@@ -8,6 +8,7 @@
 	#overscroll ul { width: 2500px; margin:0; padding: 0; }
 	#overscroll li { display: block; float: left; width: 100px; height: 100px; background-color: #FFF; }
 	#overscroll li.alt { background-color: #C00; }
+	#overscroll li.no-drag { background-color: #000; color: #FFF; }
 	#overscroll li.last { clear: both; visibility: hidden; height: 0; padding: 0; }
 </style>
 </head>
@@ -31,7 +32,7 @@
 		 	<li></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
 			<li></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
 			<li></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
-		 	<li><a id="link" href="#">Click Me!</a></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
+		 	<li><a id="link" href="#">Click Me!</a></li><li class="no-drag">Can't drag me!</li><li></li><li class="alt"></li><li></li><li class="alt"></li>
 			<li></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
 			<li></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
 		 	<li></li><li class="alt"></li><li></li><li class="alt"></li><li></li><li class="alt"></li>
@@ -230,7 +231,8 @@
 			    onDriftEnd: function() {
 			        console.log("done!");
 			    },
-                showThumbs: false
+				cancelOn: '.no-drag',
+                showThumbs: true
 			});
 			$("#link").click(function(){
 			    if(!o.data("dragging")) {
