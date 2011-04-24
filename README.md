@@ -1,8 +1,9 @@
-Overscroll v1.4.2
+Overscroll v1.4.3
 =================
-Thursday, February 17th 2011
+Saturday, April 23rd 2011
 
-Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery http://code.jquery.com/jquery-latest.js
+Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
+<http://code.jquery.com/jquery-latest.js>
 
 Homepage: <http://azoffdesign.com/overscroll>
  
@@ -16,7 +17,7 @@ Dual licensed under the MIT or GPL Version 2 licenses.
 
 Usage
 -----
-<pre>$(selector).overscroll([options]);</pre>
+`$(selector).overscroll([options]);`
 
 + `selector`
     The jQuery selector, targeting an element to apply overscroll to
@@ -26,7 +27,7 @@ Usage
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
     * `options.cursor` `{String: 'move'}`
         - The cursor to use when hovering over the overscrolled element. For options, see <http://tinyurl.com/4g2qpnx>
-	* `options.cursor` `{String: 'auto'}`
+	* `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
     * `options.cancelOn` `{String: ""}`
 		- An optional jQuery selector to ignore on drag events. Note: must match an element inside the overscrolled element.
@@ -36,8 +37,23 @@ Usage
         - The amount of drift to apply per mouse wheel 'tick'
     * `options.scrollDelta` `{Number: 5.7}`
         - The amount of drift to apply per drag interval
-    * `options.onDriftEnd` `{Function: $.noop}`
-        - A function to be called at the end of every drift 
+
+Events
+------
+Apart from regular DOM events, overscrolled elements emit events to capture dragging and drifting boundaries. To listen to these events, simply listen for one of the following events on an overscrolled element:
+
++ `overscroll:dragstart`
+	The beginning of the drag event, happens when a user drags the overscrolled elemnent
++ `overscroll:dragend`
+	The end of the drag event, happens after the drag, but before the drift
++ `overscroll:driftstart`
+	Happens right after `overscroll:dragend`, but only if the drag had enough inertia
++ `overscroll:driftend`
+	The end of a drift, happens after the drift effect completes
+
+Here is an example using jQuery's [bind()](http://api.jquery.com/bind/) method, listening for drag start:
+
+<pre>$('#selector').overscroll().bind('overscroll:dragstart', function(){ console.log('Drag started!') });</pre>
 
 Notes
 -----
@@ -50,6 +66,12 @@ As of 1.3.1, if you would like to add click handlers to links inside of overscro
 Change Log
 ----------
 
+ * ###1.4.3
+  - Improved iOS detection algorithm
+  - Fixed a typo in README.md
+	   + <https://github.com/azoff/Overscroll/issues/14>
+  - Removed 'onDriftEnd' and added real events
+	   + <https://github.com/azoff/Overscroll/issues/13>	
  * ###1.4.2
    - Fixed bug in chrome due to ambiguous positioning
    - Added the cancelOn option (thanks Herhor)

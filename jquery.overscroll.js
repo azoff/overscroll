@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.4.2
+ * Overscroll v1.4.3
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Thursday, February 17th 2011
+ * Date: Saturday, April 23rd 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -59,14 +59,8 @@
 		},
 
         checkIosDevice: function() {
-            if (o.isIOS === undefined) {
-                var devices = ["iPhone", "iPad", "iPod"], i;
-                for (i=0; i<devices.length; i++) {
-                    if (navigator.platform.indexOf(devices[i]) >= 0) {
-                        return (o.isIOS = true);
-                    }
-                }
-                return (o.isIOS = false);
+            if (o.isIOS === undefined) {				
+                o.isIOS = /iP((hone)|(ad)|(od))/.test(navigator.platform);
             }
             return o.isIOS;
         },
@@ -119,6 +113,10 @@
 			data.target = target;
 			data.options = options;
 				
+		},
+		
+		triggerEvent: function(event, data) {
+			data.target.trigger('overscroll:' + event);
 		},
 		
 		// toggles the drag mode of the target
@@ -222,13 +220,13 @@
 		start: function(event) {
 
             o.clearInterval();
-            
 
             if (!$(event.target).is(event.data.options.cancelOn)) {               
                 o.normalizeEvent(event);
                 event.data.target.bind(o.events.drag, event.data, o.drag).stop(true, true).data('dragging', false);
                 event.data.position = o.setPosition(event, {});
                 event.data.capture = o.setPosition(event, {}, 2);
+				o.triggerEvent('dragstart', event.data);
                 return false;
             }
 			
@@ -279,6 +277,8 @@
 
 				event.data.target.unbind(o.events.drag, o.drag);
 				
+				o.triggerEvent('dragend', event.data);
+				
 				if(event.data.target.data('dragging')) {
 				 
 				    o.drift(this, event, function(data){
@@ -326,6 +326,8 @@
                 scrollTop -= dy;
             }
 
+			o.triggerEvent('driftstart', event.data);
+
             o.setInterval(w.setInterval(function() {
 
                 var done = true, min = 1, max = -1;
@@ -348,6 +350,7 @@
 
                 if (done) {
                     o.clearInterval();
+					o.triggerEvent('driftend', event.data);
                     callback.call(null, event.data);
                 }
 

@@ -228,15 +228,14 @@
     <script>
 		$(function(o){	
 			o = $("#overscroll").overscroll({
-			    onDriftEnd: function() {
-			        console.log("done!");
-			    },
 				cancelOn: '.no-drag',
                 showThumbs: true
+			}).bind('overscroll:dragstart overscroll:dragend overscroll:driftstart overscroll:driftend', function(event){
+				console.log(event.type);
 			});
 			$("#link").click(function(){
 			    if(!o.data("dragging")) {
-			        alert("clicked!");
+			        console.log("clicked!");
 			    } else {
 			        return false;
 			    }
