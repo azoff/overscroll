@@ -43,13 +43,13 @@ Events
 Apart from regular DOM events, overscrolled elements emit events to capture dragging and drifting boundaries. To listen to these events, simply listen for one of the following events on an overscrolled element:
 
 + `overscroll:dragstart`
-	The beginning of the drag event, happens when a user drags the overscrolled elemnent
+	* The beginning of the drag event, happens when a user drags the overscrolled elemnent
 + `overscroll:dragend`
-	The end of the drag event, happens after the drag, but before the drift
+	* The end of the drag event, happens after the drag, but before the drift
 + `overscroll:driftstart`
-	Happens right after `overscroll:dragend`, but only if the drag had enough inertia
+	* Happens right after `overscroll:dragend`, but only if the drag had enough inertia
 + `overscroll:driftend`
-	The end of a drift, happens after the drift effect completes
+	* The end of a drift, happens after the drift effect completes
 
 Here is an example using jQuery's [bind()](http://api.jquery.com/bind/) method, listening for drag start:
 
