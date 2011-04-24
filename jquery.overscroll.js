@@ -77,8 +77,7 @@
 				wheelDelta: o.constants.wheelDelta,
 				scrollDelta: o.constants.scrollDelta,
 				direction: 'multi',
-				cancelOn: '',
-				onDriftEnd: $.noop
+				cancelOn: ''
 			}, (options || {}));
 			
 			options.scrollDelta = m.abs(options.scrollDelta);
@@ -185,7 +184,6 @@
 		        event.data.wheelCapture = undefined;
 		        o.toggleThumbs(event.data, false);
 		        event.data.target.data('dragging', false);
-		        event.data.options.onDriftEnd.call(event.data.target, event.data);
 		    }, o.constants.timeout);
 		
 			return false;
@@ -283,7 +281,6 @@
 				 
 				    o.drift(this, event, function(data){
                         data.target.data('dragging', false);
-                        data.options.onDriftEnd.call(data.target, data);
                         o.toggleThumbs(data, false);
                     });
 

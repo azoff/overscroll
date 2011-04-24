@@ -26,7 +26,7 @@ Usage
     * `options.showThumbs` `{Boolean: true}`
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
     * `options.cursor` `{String: 'move'}`
-        - The cursor to use when hovering over the overscrolled element. For options, see <http://tinyurl.com/4g2qpnx>
+        - The cursor to use when hovering over the overscrolled element. For options, see [this reference](http://www.w3schools.com/CSS/pr_class_cursor.asp)
 	* `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
     * `options.cancelOn` `{String: ""}`
