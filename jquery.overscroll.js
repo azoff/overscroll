@@ -49,6 +49,7 @@
             driftFrequency: 40, // 20 FPS
 			driftSequences: 22,
             driftDecay: 1.15,
+            driftTimeout: 250,
 			timeout: 400,
 			captureThreshold: 3,
 			wheelDelta: 20,
@@ -143,6 +144,7 @@
 		setPosition: function(event, position, index) {
 		    position.x = event.pageX;
 		    position.y = event.pageY;
+		    position.time = (new Date()).getTime();
 		    position.index = index;
 		    return position;
 		},
@@ -305,6 +307,10 @@
 
         // sends the overscrolled element into a drift
         drift: function(target, event, callback) {
+            // do not drift if the user has stopped dragging the element
+            if ((new Date()).getTime() - event.data.capture.time > o.constants.driftTimeout) {
+                return;
+            }
 
             o.normalizeEvent(event);
 
