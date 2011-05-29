@@ -1,5 +1,5 @@
 /*!
- * Overscroll v1.4.3
+ * Overscroll v1.4.4
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Saturday, April 23rd 2011
+ * Date: Saturday, May 27th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -22,10 +22,18 @@
 
 (function(w, m, $, o){
 
-	// create overscroll
+	// adds overscroll from a jQuery object
 	o = $.fn.overscroll = function(options) {
 		return this.each(function(){
 			o.init($(this), options);
+		});
+	};
+	
+	// removes overscroll from a jQuery object
+	o = $.fn.removeOverscroll = function(options) {
+		return this.each(function(){
+			var remover = $(this).data(o.removerKey);
+			if ($.isFunction(remover)) { remover(); }
 		});
 	};
 	
@@ -41,7 +49,8 @@
 		},
 		
 		// to save a couple bits
-		div: "<div/>",
+		div: '<div/>',
+		removerKey: 'overscroll-remover',
 		noop: function(){return false;},
 		
 		// constants used to tune scroll-ability and thumbs
@@ -50,7 +59,7 @@
 			driftSequences: 22,
             driftDecay: 1.15,
 			timeout: 400,
-			captureThreshold: 3,
+			captureThreshold: 2,
 			wheelDelta: 20,
 			scrollDelta: 15,
 			thumbThickness: 8,
@@ -66,9 +75,9 @@
         },
 		
 		// main initialization function
-		init: function(target, options, data) {
+		init: function(target) {
 			
-			data = { sizing: o.getSizing(target) };
+			var data = { sizing: o.getSizing(target) },
 			
 			options = $.extend({
 				showThumbs: true,
@@ -82,6 +91,10 @@
 			
 			options.scrollDelta = m.abs(options.scrollDelta);
 			options.wheelDelta = m.abs(options.wheelDelta);
+			
+			// remove any old bindings and set up a deconstructor
+			target.removeOverscroll();
+			target.data(o.removerKey, o.remover(target, data));
 			
 			target.css({
 			    'position': 'relative',
@@ -112,6 +125,27 @@
 			data.target = target;
 			data.options = options;
 				
+		},
+		
+		remover: function(target, data) {
+			return function() {
+				target.css({
+					overflow: 'auto',
+					cursor: 'default'
+				})
+				.unbind(o.events.wheel, o.wheel)
+				.unbind(o.events.start, data, o.start)
+				.unbind(o.events.end, data, o.stop)
+				.unbind(o.events.ignored, o.noop);
+				if (data.thumbs) {
+					if (data.thumbs.horizontal) { 
+						data.thumbs.horizontal.remove();
+					}
+					if (data.thumbs.vertical) { 
+						data.thumbs.vertical.remove();
+					}
+				}
+			};
 		},
 		
 		triggerEvent: function(event, data) {
@@ -150,7 +184,7 @@
 		// handles mouse wheel scroll events
 		wheel: function(event, delta) {
 
-            o.clearInterval();
+            o.clearInterval(event.data.target);
 
 			if ( event.wheelDelta ) { 
 		        delta = event.wheelDelta/ (w.opera ? -120 : 120);
@@ -217,7 +251,7 @@
 		// starts the drag operation and binds the mouse move handler
 		start: function(event) {
 
-            o.clearInterval();
+            o.clearInterval(event.data.target);
 
             if (!$(event.target).is(event.data.options.cancelOn)) {               
                 o.normalizeEvent(event);
@@ -295,12 +329,16 @@
 			return !event.data.target.data('dragging');
 		},
 
-        clearInterval: function() {
-            if (o.driftInterval) { w.clearInterval(o.driftInterval); }
+        clearInterval: function(target) {
+			target = $(target);	
+            var interval = target.data('overscroll-interval');
+			if (interval) { w.clearInterval(interval); }
+			target.data('overscroll-interval', null);
         },
 
-        setInterval: function(interval) {
-            o.driftInterval = interval;
+        setInterval: function(target, interval) {
+			o.clearInterval(target);
+			$(target).data('overscroll-interval', interval);
         },
 
         // sends the overscrolled element into a drift
@@ -325,7 +363,7 @@
 
 			o.triggerEvent('driftstart', event.data);
 
-            o.setInterval(w.setInterval(function() {
+            o.setInterval(target, w.setInterval(function() {
 
                 var done = true, min = 1, max = -1;
 
@@ -346,7 +384,7 @@
                 o.moveThumbs(event, target.scrollLeft, target.scrollTop);
 
                 if (done) {
-                    o.clearInterval();
+                    o.clearInterval(target);
 					o.triggerEvent('driftend', event.data);
                     callback.call(null, event.data);
                 }
@@ -356,8 +394,12 @@
         },
 		
 		// gets sizing for the container and thumbs
-		getSizing: function(container, sizing) {
+		getSizing: function(container) {
 		
+			var 
+			
+			old = { left: container.scrollLeft(), top: container.scrollTop() },
+			
 			sizing = { };
 			
 			sizing.container = {
@@ -389,6 +431,8 @@
 			
 			sizing.container.width -= sizing.thumbs.horizontal.width;
 			sizing.container.height -= sizing.thumbs.vertical.height;
+			
+			container.scrollTop(old.top).scrollLeft(old.left);
 			
 			return sizing;
 			

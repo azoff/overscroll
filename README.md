@@ -1,6 +1,6 @@
-Overscroll v1.4.3
+Overscroll v1.4.4
 =================
-Saturday, April 23rd 2011
+Saturday, May 27th 2011
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -38,6 +38,10 @@ Usage
     * `options.scrollDelta` `{Number: 5.7}`
         - The amount of drift to apply per drag interval
 
+`$(selector).removeOverscroll();`
+
+- Returns an overscrolled element to its pre-overscroll state. This is essentially a deconstructor for overscrolled elements.
+
 Events
 ------
 Apart from regular DOM events, overscrolled elements emit events to capture dragging and drifting boundaries. To listen to these events, simply listen for one of the following events on an overscrolled element:
@@ -61,11 +65,16 @@ In order to get the most out of this plugin, make sure to only apply it to paren
 
 While you can programatically control whether or not overscroll allows horizontal and/or vertical scroll, it is best practice to size the child elements accordingly (via CSS) and not depend on programatic restrictions.
 
-As of 1.3.1, if you would like to add click handlers to links inside of overscroll, you can dynamially check the state of the overscrolled element via the jQuery's [data()](http://api.jquery.com/bind/) method. This ability should allow you to prevent default behavior of a click handler if a drag state is detected. For example, an overscrolled jQuery element `elm` can be checked for drag state via `elm.data("dragging")`.  
+As of 1.3.1, if you would like to add click handlers to links inside of overscroll, you can dynamially check the state of the overscrolled element via the jQuery's [data()](http://api.jquery.com/bind/) method. This ability should allow you to prevent default behavior of a click handler if a drag state is detected. For example, an overscrolled jQuery element `elm` can be checked for drag state via `elm.data("dragging")`.
+
+As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as much as you like, without worrying about memory leaks. What this means is that you may dynamically add elements to the overscrolled element, and then re-call the `overscroll` method to take into account the new height. This would have been done programatically if DOM Elements supported the resize event, alas only the window object supports this event.
 
 Change Log
 ----------
 
+ * __1.4.4__
+  - Maintain state on elements that have a pre-existing scroll offset
+  - Added deconstructor `jQuery.fn.removeOverscroll`
  * __1.4.3__
   - Improved iOS detection algorithm
   - Fixed a typo in README.md
