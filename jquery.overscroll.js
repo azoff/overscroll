@@ -1,5 +1,5 @@
-/*!
- * Overscroll v1.4.4
+/*
+ * Overscroll v1.4.5
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,11 +13,13 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Saturday, May 27th 2011
+ * Date: Saturday, May 31st 2011
  */
 
 /*jslint onevar: true, strict: true */
+
 /*global window, jQuery */
+
 "use strict"; 
 
 (function(w, m, $, o){
@@ -50,16 +52,16 @@
 		
 		// to save a couple bits
 		div: '<div/>',
-		removerKey: 'overscroll-remover',
-		noop: function(){return false;},
+		removerKey: 'overscroll-remover',		
 		
 		// constants used to tune scroll-ability and thumbs
 		constants: {
             driftFrequency: 40, // 20 FPS
 			driftSequences: 22,
             driftDecay: 1.15,
+			driftTimeout: 100,
 			timeout: 400,
-			captureThreshold: 2,
+			captureThreshold: 3,
 			wheelDelta: 20,
 			scrollDelta: 15,
 			thumbThickness: 8,
@@ -104,7 +106,7 @@
             .bind(o.events.wheel, data, o.wheel)
 		    .bind(o.events.start, data, o.start)
 			.bind(o.events.end, data, o.stop)
-			.bind(o.events.ignored, o.noop); // disable proprietary drag handlers
+			.bind(o.events.ignored, false); // disable proprietary drag handlers
 				
 			if(options.showThumbs) {
 				
@@ -136,7 +138,7 @@
 				.unbind(o.events.wheel, o.wheel)
 				.unbind(o.events.start, data, o.start)
 				.unbind(o.events.end, data, o.stop)
-				.unbind(o.events.ignored, o.noop);
+				.unbind(o.events.ignored, false);
 				if (data.thumbs) {
 					if (data.thumbs.horizontal) { 
 						data.thumbs.horizontal.remove();
@@ -177,6 +179,7 @@
 		setPosition: function(event, position, index) {
 		    position.x = event.pageX;
 		    position.y = event.pageY;
+			position.time = o.time();
 		    position.index = index;
 		    return position;
 		},
@@ -302,6 +305,10 @@
             }
         },
 		
+		time: function() {
+			return (new Date()).getTime();
+		},
+		
 		// ends the drag operation and unbinds the mouse move handler
 		stop: function(event, dx, dy, d) {
 
@@ -319,7 +326,8 @@
                     });
 
 				} else {
-				     o.toggleThumbs(event.data, false);
+					event.data.target.data('dragging', false);
+					o.toggleThumbs(event.data, false);
 				}
                 
                 event.data.capture = event.data.position = undefined;
@@ -343,6 +351,11 @@
 
         // sends the overscrolled element into a drift
         drift: function(target, event, callback) {
+
+			// only drift on intended drifts
+			if ((o.time() - event.data.capture.time) > o.constants.driftTimeout) {
+				return callback.call(null, event.data);
+			}
 
             o.normalizeEvent(event);
 
