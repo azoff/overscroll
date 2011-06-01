@@ -74,11 +74,11 @@ Change Log
 
  * __1.4.5__
   - Changed compiler to uglifyjs
-	+ <https://github.com/mishoo/UglifyJS>
+		+ <https://github.com/mishoo/UglifyJS>
   - Took advantage of `noop` shortcut
   - Applied first git tag (1.4.5)
   - Merged drift fix (thanks esseb)
-	+ <https://github.com/esseb/Overscroll/commit/8570a3cb564bbf7943c33cc6483036f1a7d8d81e>
+		+ <https://github.com/esseb/Overscroll/commit/8570a3cb564bbf7943c33cc6483036f1a7d8d81e>
  * __1.4.4__
   - Maintain state on elements that have a pre-existing scroll offset
   - Added deconstructor `jQuery.fn.removeOverscroll`
