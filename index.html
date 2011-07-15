@@ -230,7 +230,6 @@
 			o = $("#overscroll").overscroll({
 				cancelOn: '.no-drag',
                 showThumbs: true,
-				direction: 'horizontal'
 			}).bind('overscroll:dragstart overscroll:dragend overscroll:driftstart overscroll:driftend', function(event){
 				console.log(event.type);
 			});

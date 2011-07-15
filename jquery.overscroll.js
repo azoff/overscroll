@@ -228,8 +228,6 @@
                 event.data.target.data('dragging', false);
             }, o.constants.timeout);
 
-            return false;
-
         },
 
         // handles a scroll event
@@ -261,13 +259,14 @@
 
             o.clearInterval(event.data.target);
 
-            if (!$(event.target).is(event.data.options.cancelOn)) {
+            event.data.startTarget = $(event.target);
+
+            if (!event.data.startTarget.is(event.data.options.cancelOn)) {
                 o.normalizeEvent(event);
-                event.data.target.bind(o.events.drag, event.data, o.drag).stop(true, true).data('dragging', false);
+                event.data.target.bind(o.events.drag, event.data, o.drag).stop(true, true).data('dragging', false).data('dragged', false);
                 event.data.position = o.setPosition(event, {});
                 event.data.capture = o.setPosition(event, {}, 2);
                 o.triggerEvent('dragstart', event.data);
-                return false;
             }
 
         },
@@ -276,6 +275,8 @@
         drag: function (event, ml, mt, left, top) {
 
             o.normalizeEvent(event);
+
+            event.data.target.data('dragged', true);
 
             if (!event.data.target.data('dragging')) {
                 o.toggleThumbs(event.data, true);
@@ -298,8 +299,6 @@
                 o.setPosition(event, event.data.capture, o.constants.captureThreshold);
             }
 
-            return true;
-
         },
 
         normalizeEvent: function (event) {
@@ -314,6 +313,20 @@
             return (new Date()).getTime();
         },
 
+        // defers target click event's for one iteration
+        deferClick: function (target) {
+            var events = target.data('events');
+            if (events && events.click && events.click.length) {
+                events = events.click.slice();
+                target.unbind('click').one('click', function (event) {
+                    event.preventDefault();
+                    $.each(events, function (i, event) {
+                        target.click(event);
+                    });
+                });
+            }
+        },
+
         // ends the drag operation and unbinds the mouse move handler
         stop: function (event, dx, dy, d) {
 
@@ -324,22 +337,26 @@
                 o.triggerEvent('dragend', event.data);
 
                 if (event.data.target.data('dragging')) {
-
                     o.drift(this, event, function (data) {
                         data.target.data('dragging', false);
                         o.toggleThumbs(data, false);
                     });
-
                 } else {
-                    event.data.target.data('dragging', false);
                     o.toggleThumbs(event.data, false);
+                }
+
+                // only if we moved, and the mouse down is the same as 
+                // the mouse up target do we defer the event
+                if (event.data.target.data('dragged') && $(event.target).is(event.data.startTarget)) {
+                    event.data.target.data('dragged', false);
+                    o.deferClick(event.data.startTarget);
+                    event.data.startTarget = null;
                 }
 
                 event.data.capture = event.data.position = undefined;
 
             }
 
-            return !event.data.target.data('dragging');
         },
 
         clearInterval: function (target) {
