@@ -1,6 +1,6 @@
-Overscroll v1.4.5
+Overscroll v1.4.6
 =================
-Saturday, May 31st 2011
+Thursday, July 14th 2011
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -71,7 +71,9 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
-
+ * __1.4.6__
+ - Fixed regression in direction restriction
+	   + <https://github.com/azoff/Overscroll/issues/23>
  * __1.4.5__
   - Changed compiler to uglifyjs
 		+ <https://github.com/mishoo/UglifyJS>
