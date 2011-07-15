@@ -69,8 +69,7 @@
             wheelDelta: 20,
             scrollDelta: 15,
             thumbThickness: 8,
-            thumbOpacity: 0.7,
-            boundingBox: 1000000
+            thumbOpacity: 0.7
         },
 
         checkIosDevice: function () {
@@ -434,24 +433,15 @@
         // gets sizing for the container and thumbs
         getSizing: function (container) {
 
-            var
-
-            old = {
-                left: container.scrollLeft(),
-                top: container.scrollTop()
-            },
-
-            sizing = {};
+            var sizing = {}, parent = container.get(0);
 
             sizing.container = {
                 width: container.width(),
                 height: container.height()
-            };
+            };            
 
-            container.scrollLeft(o.constants.boundingBox).scrollTop(o.constants.boundingBox);
-            sizing.container.scrollWidth = container.scrollLeft();
-            sizing.container.scrollHeight = container.scrollTop();
-            container.scrollTop(0).scrollLeft(0);
+            sizing.container.scrollWidth = (parent.scrollWidth == sizing.container.width ? 0 : parent.scrollWidth);
+            sizing.container.scrollHeight = (parent.scrollHeight == sizing.container.height ? 0 : parent.scrollHeight);
 
             sizing.thumbs = {
                 horizontal: {
@@ -472,8 +462,6 @@
 
             sizing.container.width -= sizing.thumbs.horizontal.width;
             sizing.container.height -= sizing.thumbs.vertical.height;
-
-            container.scrollTop(old.top).scrollLeft(old.left);
 
             return sizing;
 

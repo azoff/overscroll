@@ -76,6 +76,7 @@ Change Log
 	   + <https://github.com/azoff/Overscroll/issues/23>
  - Added click insulation on drag events
        + <https://github.com/azoff/Overscroll/issues/22>
+ - Fixed bug when calculating container scrollWidth/Height (thanks Riccardo "Rial" Re)
  * __1.4.5__
   - Changed compiler to uglifyjs
 		+ <https://github.com/mishoo/UglifyJS>
