@@ -1,5 +1,5 @@
 /*
- * Overscroll v1.4.6
+ * Overscroll v1.4.7
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Thursday, July 14th 2011
+ * Date: Friday, July 15th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -33,7 +33,7 @@
     };
 
     // removes overscroll from a jQuery object
-    o = $.fn.removeOverscroll = function (options) {
+    $.fn.removeOverscroll = function (options) {
         return this.each(function () {
             var remover = $(this).data(o.removerKey);
             if ($.isFunction(remover)) {
@@ -68,7 +68,7 @@
             captureThreshold: 3,
             wheelDelta: 20,
             scrollDelta: 15,
-            thumbThickness: 8,
+            thumbThickness: 6,
             thumbOpacity: 0.7
         },
 
@@ -140,7 +140,10 @@
                 target.css({
                     overflow: 'auto',
                     cursor: 'default'
-                }).unbind(o.events.wheel, o.wheel).unbind(o.events.start, data, o.start).unbind(o.events.end, data, o.stop).unbind(o.events.ignored, false);
+                }).unbind(o.events.wheel, o.wheel)
+				.unbind(o.events.start, data, o.start)
+				.unbind(o.events.end, data, o.stop)
+				.unbind(o.events.ignored, false);
                 if (data.thumbs) {
                     if (data.thumbs.horizontal) {
                         data.thumbs.horizontal.remove();
