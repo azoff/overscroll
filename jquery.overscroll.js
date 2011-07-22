@@ -478,7 +478,8 @@
                 "margin": size.top + "px 0 0 " + size.left + "px",
                 "-moz-border-radius": size.corner + "px",
                 "-webkit-border-radius": size.corner + "px",
-                "border-radius": size.corner + "px"
+                "border-radius": size.corner + "px",
+                "z-index": "1",
             };
 
         }
