@@ -71,34 +71,37 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+ * __1.4.7__
+	+ Fixed formatting in README
+	+ Added a z-index to the thumb CSS
  * __1.4.6__
- - Fixed regression in direction restriction
-	   + <https://github.com/azoff/Overscroll/issues/23>
- - Added click insulation on drag events
-       + <https://github.com/azoff/Overscroll/issues/22>
- - Fixed bug when calculating container scrollWidth/Height (thanks Riccardo "Rial" Re)
+  - Fixed regression in direction restriction
+	+ <https://github.com/azoff/Overscroll/issues/23>
+  - Added click insulation on drag events
+	+ <https://github.com/azoff/Overscroll/issues/22>
+  - Fixed bug when calculating container scrollWidth/Height (thanks Riccardo "Rial" Re)
  * __1.4.5__
   - Changed compiler to uglifyjs
-		+ <https://github.com/mishoo/UglifyJS>
+	+ <https://github.com/mishoo/UglifyJS>
   - Took advantage of `noop` shortcut
   - Applied first git tag (1.4.5)
   - Merged drift fix (thanks esseb)
-		+ <https://github.com/esseb/Overscroll/commit/8570a3cb564bbf7943c33cc6483036f1a7d8d81e>
+	+ <https://github.com/esseb/Overscroll/commit/8570a3cb564bbf7943c33cc6483036f1a7d8d81e>
  * __1.4.4__
   - Maintain state on elements that have a pre-existing scroll offset
   - Added deconstructor `jQuery.fn.removeOverscroll`
  * __1.4.3__
   - Improved iOS detection algorithm
   - Fixed a typo in README.md
-	   + <https://github.com/azoff/Overscroll/issues/14>
+	+ <https://github.com/azoff/Overscroll/issues/14>
   - Removed 'onDriftEnd' and added real events
-	   + <https://github.com/azoff/Overscroll/issues/13>	
+	+ <https://github.com/azoff/Overscroll/issues/13>	
  * __1.4.2__
    - Fixed bug in chrome due to ambiguous positioning
    - Added the cancelOn option (thanks Herhor)
-       + <https://github.com/azoff/Overscroll/issues/5>
+	+ <https://github.com/azoff/Overscroll/issues/5>
    - Fixed iOS start handler bug (thanks kkriehl)
-	   + <https://github.com/azoff/Overscroll/issues/9>
+	+ <https://github.com/azoff/Overscroll/issues/9>
    - Added Opera support
  * __1.4.1__
    - Fixed a null pointer exception that occurs when thumbs are hidden (thanks Henning)
@@ -108,53 +111,53 @@ Change Log
    - Fixed bug with scroll event binding when no thumbs are present
    - Improved drift mechanism by using a native animation over jQuery
    - Added iOS support (thanks to Riccardo "Rial" Re)
-       + <http://github.com/azoff/Overscroll/issues/7>
+	+ <http://github.com/azoff/Overscroll/issues/7>
  * __1.3.5__
-    - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr)
-       + <http://github.com/azoff/Overscroll/issues/4>
-    - Fixed bug with mouse wheel scroll direction (thanks Volderr)
-    - Cached the cursor CSS
+   - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr)
+	+ <http://github.com/azoff/Overscroll/issues/4>
+   - Fixed bug with mouse wheel scroll direction (thanks Volderr)
+   - Cached the cursor CSS
  * __1.3.4__
-   - Added the ability to call a function at the end of the drift via options.onDriftEnd 
-      + <http://github.com/azoff/Overscroll/issues/4> (thanks Volderr)
+  - Added the ability to call a function at the end of the drift via options.onDriftEnd 
+	+ <http://github.com/azoff/Overscroll/issues/4> (thanks Volderr)
  * __1.3.3__
-    - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta
-       + <http://github.com/azoff/Overscroll/issues/3> (thanks Volderr)
-    - Made mouse wheel scrolling more efficient via deferred fade out call
+   - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta
+	+ <http://github.com/azoff/Overscroll/issues/3> (thanks Volderr)
+   - Made mouse wheel scrolling more efficient via deferred fade out call
  * __1.3.2__
    - Updated documentation, added README file for Github
    - Fixed undefined error on mouse wheel scroll for horizontal scrollers.
-      + <http://github.com/azoff/Overscroll/issues/1> (thanks Volderr)
+	+ <http://github.com/azoff/Overscroll/issues/1> (thanks Volderr)
    - Added the ability to restrict scroll direction via options.direction
  * __1.3.1__
-   - Made the dragging state externally visible via .data("dragging")
+  - Made the dragging state externally visible via .data("dragging")
  * __1.3.0__
-   - Merged iThumbs and Overscroll
-   - Added the ability to pass in options
-   - Moved all code to GitHub
-   - Several improvements to the thumb code
-   - Greased up the scroll a bit more
-   - Removed the jerky animation on mouse wheel
-   - Added caching for cursors
+  - Merged iThumbs and Overscroll
+  - Added the ability to pass in options
+  - Moved all code to GitHub
+  - Several improvements to the thumb code
+  - Greased up the scroll a bit more
+  - Removed the jerky animation on mouse wheel
+  - Added caching for cursors
  * __1.2.1__
-   - Made "smart" click support "smarter" :)
-   - Added JSLint validation to the build process
-   - Removed unused variables and cleaned up code
+  - Made "smart" click support "smarter" :)
+  - Added JSLint validation to the build process
+  - Removed unused variables and cleaned up code
  * __1.2.0__
-   - Updated license to match the jQuery license (thanks Jesse)
-   - Added vertical scroll wheel support (thanks Pwakman)
-   - Added support to ignore proprietary drag events (thanks Raphael)
-   - Added "smart" click support for clickable elements (thanks Mark)
+  - Updated license to match the jQuery license (thanks Jesse)
+  - Added vertical scroll wheel support (thanks Pwakman)
+  - Added support to ignore proprietary drag events (thanks Raphael)
+  - Added "smart" click support for clickable elements (thanks Mark)
  * __1.1.2__
-   - Added the correct click handling to the scroll operation (thanks Evilc)
+  - Added the correct click handling to the scroll operation (thanks Evilc)
  * __1.1.1__
-   - Made scroll a bit smoother (thanks Nick)
+  - Made scroll a bit smoother (thanks Nick)
  * __1.1.0__
-   - Optimized scrolling-internals so that it is both smoother and more memory efficient (relies entirely on event model now). 
-   - Added the ability to scroll horizontally (if the overscrolled element has wider children).
+  - Optimized scrolling-internals so that it is both smoother and more memory efficient (relies entirely on event model now). 
+  - Added the ability to scroll horizontally (if the overscrolled element has wider children).
  * __1.0.3__
-   - Extended the easing object, as opposed to the $ object (thanks Andre)
+  - Extended the easing object, as opposed to the $ object (thanks Andre)
  * __1.0.2__
-   - Fixed timer to actually return milliseconds (thanks Don)
+  - Fixed timer to actually return milliseconds (thanks Don)
  * __1.0.1__
-   - Fixed bug with interactive elements and made scrolling smoother (thanks Paul and Aktar)
+  - Fixed bug with interactive elements and made scrolling smoother (thanks Paul and Aktar)

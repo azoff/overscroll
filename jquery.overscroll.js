@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Friday, July 15th 2011
+ * Date: Thursday, August 11th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -479,7 +479,7 @@
                 "-moz-border-radius": size.corner + "px",
                 "-webkit-border-radius": size.corner + "px",
                 "border-radius": size.corner + "px",
-                "z-index": "1",
+                "z-index": "999"
             };
 
         }
