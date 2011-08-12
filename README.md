@@ -114,7 +114,7 @@ Change Log
 		+ <http://github.com/azoff/Overscroll/issues/7>
  * __1.3.5__
   - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr)
-	+ <http://github.com/azoff/Overscroll/issues/4>
+		+ <http://github.com/azoff/Overscroll/issues/4>
   - Fixed bug with mouse wheel scroll direction (thanks Volderr)
   - Cached the cursor CSS
  * __1.3.4__
