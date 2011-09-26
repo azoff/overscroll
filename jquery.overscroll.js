@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Thursday, August 11th 2011
+ * Date: Sunday, September 25th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -428,31 +428,31 @@
         },
 
         // gets sizing for the container and thumbs
-        getSizing: function (container) {
-
-            var sizing = {}, parent = container.get(0);
-
-            sizing.container = {
+        getSizing: function (container) { var 
+    
+            sizing = {}, 
+            parent = container.get(0),
+            container = sizing.container = {
                 width: container.width(),
                 height: container.height()
             };
 
-            sizing.container.scrollWidth = (parent.scrollWidth == sizing.container.width ? 0 : parent.scrollWidth);
-            sizing.container.scrollHeight = (parent.scrollHeight == sizing.container.height ? 0 : parent.scrollHeight);
+            container.scrollWidth = container.width >= parent.scrollWidth ? container.width : parent.scrollWidth;
+            container.scrollHeight = container.height >= parent.scrollHeight ? container.height : parent.scrollHeight
 
             sizing.thumbs = {
                 horizontal: {
-                    width: sizing.container.width * sizing.container.width / sizing.container.scrollWidth,
+                    width: container.width * container.width / container.scrollWidth,
                     height: o.constants.thumbThickness,
                     corner: o.constants.thumbThickness / 2,
                     left: 0,
-                    top: sizing.container.height - o.constants.thumbThickness
+                    top: container.height - o.constants.thumbThickness
                 },
                 vertical: {
                     width: o.constants.thumbThickness,
-                    height: sizing.container.height * sizing.container.height / sizing.container.scrollHeight,
+                    height: container.height * container.height / container.scrollHeight,
                     corner: o.constants.thumbThickness / 2,
-                    left: sizing.container.width - o.constants.thumbThickness,
+                    left: container.width - o.constants.thumbThickness,
                     top: 0
                 }
             };

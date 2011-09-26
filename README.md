@@ -71,6 +71,9 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+ * __1.4.8__
+  - Fixed incorrect iOS event detection and normalization
+		+ <https://github.com/azoff/Overscroll/issues/24>  
  * __1.4.7__
   - Fixed formatting in README
   - Added a z-index to the thumb CSS
