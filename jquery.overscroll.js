@@ -1,4 +1,4 @@
-/*
+/**@license
  * Overscroll v1.4.8
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
