@@ -1,5 +1,5 @@
 /*
- * Overscroll v1.4.7
+ * Overscroll v1.4.8
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -70,13 +70,6 @@
             scrollDelta: 15,
             thumbThickness: 6,
             thumbOpacity: 0.7
-        },
-
-        checkIosDevice: function () {
-            if (o.isIOS === undefined) {
-                o.isIOS = /iP((hone)|(ad)|(od))/.test(navigator.platform);
-            }
-            return o.isIOS;
         },
 
         // main initialization function
@@ -304,10 +297,11 @@
         },
 
         normalizeEvent: function (event) {
-            if (o.checkIosDevice()) {
-                var iosEvent = event.originalEvent.changedTouches[0];
-                event.pageX = iosEvent.pageX;
-                event.pageY = iosEvent.pageY;
+            var ios, original = event.originalEvent;
+            if (original.changedTouches) {
+                ios = original.changedTouches;
+                event.pageX = ios.pageX;
+                event.pageY = ios.pageY;
             }
         },
 
