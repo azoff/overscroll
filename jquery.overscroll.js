@@ -102,11 +102,14 @@
             target.data(o.removerKey, o.remover(target, data));
 
             target.css({
-                'position': 'relative',
-                'overflow': 'hidden',
-                'cursor': options.cursor
-            }).bind(o.events.wheel, data, o.wheel).bind(o.events.start, data, o.start).bind(o.events.end, data, o.stop).bind(o.events.ignored, false);
-            // disable proprietary drag handlers
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: options.cursor
+            }).bind(o.events.wheel, data, o.wheel)
+              .bind(o.events.start, data, o.start)
+              .bind(o.events.end, data, o.stop)
+              .bind(o.events.ignored, false);
+              
             if (options.showThumbs) {
 
                 data.thumbs = {};
@@ -125,6 +128,16 @@
 
             data.target = target;
             data.options = options;
+            
+            // if scroll offsets are defined, apply them here
+            if (options.scrollLeft) {
+                target.scrollLeft(options.scrollLeft);
+                console.log(options.scrollLeft, target.scrollLeft());
+            }
+            if (options.scrollTop) {
+                target.scrollTop(options.scrollTop);
+                console.log(options.scrollTop, target.scrollTop());                
+            }
 
         },
 
@@ -134,9 +147,9 @@
                     overflow: 'auto',
                     cursor: 'default'
                 }).unbind(o.events.wheel, o.wheel)
-				.unbind(o.events.start, data, o.start)
-				.unbind(o.events.end, data, o.stop)
-				.unbind(o.events.ignored, false);
+                  .unbind(o.events.start, data, o.start)
+                  .unbind(o.events.end, data, o.stop)
+                  .unbind(o.events.ignored, false);
                 if (data.thumbs) {
                     if (data.thumbs.horizontal) {
                         data.thumbs.horizontal.remove();
@@ -378,7 +391,7 @@
             }
 
             o.normalizeEvent(event);
-
+            
             var dx = event.data.options.scrollDelta * (event.pageX - event.data.capture.x),
                 dy = event.data.options.scrollDelta * (event.pageY - event.data.capture.y),
                 scrollLeft = target.scrollLeft,

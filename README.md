@@ -25,6 +25,10 @@ Usage
     An optional JavaScript object that you may pass if you would like to customize the experience of the overscroll element. Below is a list of properties that you may set on the options object and their respective effect.
     * `options.showThumbs` `{Boolean: true}`
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
+    * `options.scrollLeft` `{Integer: undefined}`
+        - Start the overscrolled element at a particular left offset. Defers to the browser default if not set
+    * `options.scrollTop` `{Integer: undefined}`
+        - Start the overscrolled element at a particular top offset. Defers to the browser default if not set
     * `options.cursor` `{String: 'move'}`
         - The cursor to use when hovering over the overscrolled element. For options, see [this reference](http://www.w3schools.com/CSS/pr_class_cursor.asp)
 	* `options.direction` `{String: 'auto'}`
@@ -74,6 +78,8 @@ Change Log
  * __1.4.8__
   - Fixed incorrect iOS event detection and normalization
 		+ <https://github.com/azoff/Overscroll/issues/24>  
+  - Cleaned up sizing method
+  - Added scrollLeft and scrollTop options
  * __1.4.7__
   - Fixed formatting in README
   - Added a z-index to the thumb CSS
