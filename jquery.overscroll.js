@@ -132,11 +132,9 @@
             // if scroll offsets are defined, apply them here
             if (options.scrollLeft) {
                 target.scrollLeft(options.scrollLeft);
-                console.log(options.scrollLeft, target.scrollLeft());
             }
             if (options.scrollTop) {
                 target.scrollTop(options.scrollTop);
-                console.log(options.scrollTop, target.scrollTop());                
             }
 
         },
