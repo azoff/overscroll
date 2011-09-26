@@ -1,4 +1,4 @@
-Overscroll v1.4.7
+Overscroll v1.4.8
 =================
 Sunday, September 25th 2011
 
