@@ -77,7 +77,7 @@
 
             var data = {
                 sizing: o.getSizing(target),
-                flags: {}
+                flags: {}, cleaned: {}
             };
 
             data.options = options = $.extend({
@@ -163,7 +163,7 @@
         },
 
         triggerEvent: function (event, data) {
-            data.target.trigger('overscroll:' + event);
+            //data.target.trigger('overscroll:' + event);
         },
 
         // toggles the drag mode of the target
@@ -216,7 +216,7 @@
             if (!data.wheelCapture) {
                 data.wheelCapture = { timeout: null };
                 o.toggleThumbs(data, true);
-                data.target.stop(true, true).data('flags').dragging = true;
+                data.target.stop(true, data.flags.dragging = true);
             }
 
             delta *= data.options.wheelDelta;
@@ -230,13 +230,11 @@
             o.moveThumbs(data, this.scrollLeft, this.scrollTop);
 
             if (data.wheelCapture.timeout) {
-                clearTimeout(data.wheelCapture.timeout);
+                w.clearTimeout(data.wheelCapture.timeout);
             }
 
-            data.wheelCapture.timeout = setTimeout(function (d) {
-                data.wheelCapture = undefined;
-                o.toggleThumbs(data, false);
-                data.flags.dragging = false;
+            data.wheelCapture.timeout = w.setTimeout(function (d) {
+                o.toggleThumbs(data, data.wheelCapture = data.flags.dragging = null);
             }, o.constants.timeout);
 
         },
@@ -358,7 +356,7 @@
                 o.triggerEvent('dragend', data);
 
                 if (flags.dragging) {
-                    o.drift(this, event, function (data) {                        
+                    o.drift(this, event, function () {                        
                         o.toggleThumbs(data, flags.dragging = false);
                     });
                 } else {
@@ -406,9 +404,9 @@
 
             o.normalizeEvent(event);
             
-            dx = data.options.scrollDelta * (event.pageX - data.capture.x),
-            dy = data.options.scrollDelta * (event.pageY - data.capture.y),
-            xMod = dx / o.constants.driftSequences,
+            dx = data.options.scrollDelta * (event.pageX - data.capture.x);
+            dy = data.options.scrollDelta * (event.pageY - data.capture.y);
+            xMod = dx / o.constants.driftSequences;
             yMod = dy / o.constants.driftSequences;
 
             if (data.options.direction !== 'vertical') {
@@ -450,17 +448,16 @@
         },
 
         // gets sizing for the container and thumbs
-        getSizing: function (container) { var 
-    
-            sizing = {}, 
-            parent = container.get(0),
+        getSizing: function (container) { 
+            
+            var sizing = {}, parent = container.get(0);
             container = sizing.container = {
                 width: container.width(),
                 height: container.height()
             };
 
             container.scrollWidth = container.width >= parent.scrollWidth ? container.width : parent.scrollWidth;
-            container.scrollHeight = container.height >= parent.scrollHeight ? container.height : parent.scrollHeight
+            container.scrollHeight = container.height >= parent.scrollHeight ? container.height : parent.scrollHeight;
 
             sizing.thumbs = {
                 horizontal: {
