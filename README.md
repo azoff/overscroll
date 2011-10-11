@@ -78,10 +78,13 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 Change Log
 ----------
  * __1.4.9__
+  - Data reference optimization in often called methods
   - Renamed demo file
   - Prevent default behavior on mouse wheel to prevent window scroll
   - Less assumptions made in removeOverscroll
   - Migrated to function form of "use strict"
+  - Added persistent thumb support
+        + <https://github.com/azoff/Overscroll/issues/26>
   - Ensured that events are removed on Overscroll re-binding
         + <https://github.com/azoff/Overscroll/issues/21>
  * __1.4.8__
