@@ -75,9 +75,14 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+ * __1.4.9__
+  - Less assumptions made in removeOverscroll
+  - Migrated to function form of "use strict"
+  - Ensured that events are removed on Overscroll re-binding
+        + <https://github.com/azoff/Overscroll/issues/21>
  * __1.4.8__
   - Fixed incorrect iOS event detection and normalization
-		+ <https://github.com/azoff/Overscroll/issues/24>  
+        + <https://github.com/azoff/Overscroll/issues/24>  
   - Cleaned up sizing method
   - Added scrollLeft and scrollTop options
  * __1.4.7__

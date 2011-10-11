@@ -20,9 +20,9 @@
 
 /*global window, jQuery */
 
-"use strict";
-
 (function (w, m, $, o) {
+    
+    "use strict";
 
     // adds overscroll from a jQuery object
     o = $.fn.overscroll = function (options) {
@@ -82,7 +82,7 @@
             options = $.extend({
                 showThumbs: true,
                 wheelDirection: 'vertical',
-                cursor: 'move',
+                cursor: $.browser.opera ? 'move' : 'all-scroll',
                 wheelDelta: o.constants.wheelDelta,
                 scrollDelta: o.constants.scrollDelta,
                 direction: 'multi',
@@ -141,10 +141,8 @@
 
         remover: function (target, data) {
             return function () {
-                target.css({
-                    overflow: 'auto',
-                    cursor: 'default'
-                }).unbind(o.events.wheel, o.wheel)
+                target.removeAttr('style')
+                  .unbind(o.events.wheel, o.wheel)
                   .unbind(o.events.start, data, o.start)
                   .unbind(o.events.end, data, o.stop)
                   .unbind(o.events.ignored, false);
@@ -195,6 +193,8 @@
 
         // handles mouse wheel scroll events
         wheel: function (event, delta) {
+
+            event.preventDefault();
 
             o.clearInterval(event.data.target);
 
