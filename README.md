@@ -25,11 +25,13 @@ Usage
     An optional JavaScript object that you may pass if you would like to customize the experience of the overscroll element. Below is a list of properties that you may set on the options object and their respective effect.
     * `options.showThumbs` `{Boolean: true}`
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
+    * `options.persistThumbs` `{Boolean: false}`
+        - Designates whether or not to fade the thumbs in and out
     * `options.scrollLeft` `{Integer: undefined}`
         - Start the overscrolled element at a particular left offset. Defers to the browser default if not set
     * `options.scrollTop` `{Integer: undefined}`
         - Start the overscrolled element at a particular top offset. Defers to the browser default if not set
-    * `options.cursor` `{String: 'move'}`
+    * `options.cursor` `{String: 'all-scroll' or 'move'}`
         - The cursor to use when hovering over the overscrolled element. For options, see [this reference](http://www.w3schools.com/CSS/pr_class_cursor.asp)
 	* `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
@@ -76,6 +78,8 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 Change Log
 ----------
  * __1.4.9__
+  - Renamed demo file
+  - Prevent default behavior on mouse wheel to prevent window scroll
   - Less assumptions made in removeOverscroll
   - Migrated to function form of "use strict"
   - Ensured that events are removed on Overscroll re-binding

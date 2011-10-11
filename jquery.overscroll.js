@@ -11,7 +11,7 @@
  *  http://jquery.org/license
  *
  * For API documentation, see the README file
- *  https://github.com/azoff/Overscroll/blob/master/README.md
+ *  http://azof.fr/pYCzuM
  *
  * Date: Tuesday, October 10th 2011
  */
@@ -79,10 +79,11 @@
                 sizing: o.getSizing(target)
             };
 
-            options = $.extend({
+            data.options = options = $.extend({
                 showThumbs: true,
+                persistThumbs: false,
                 wheelDirection: 'vertical',
-                cursor: $.browser.opera ? 'move' : 'all-scroll',
+                cursor: w.opera ? 'move' : 'all-scroll',
                 wheelDelta: o.constants.wheelDelta,
                 scrollDelta: o.constants.scrollDelta,
                 direction: 'multi',
@@ -101,7 +102,7 @@
             target.removeOverscroll();
             target.data(o.removerKey, o.remover(target, data));
 
-            target.css({
+            data.target = target.css({
                 position: 'relative',
                 overflow: 'hidden',
                 cursor: options.cursor
@@ -115,19 +116,18 @@
                 data.thumbs = {};
 
                 if (data.sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
-                    data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal)).fadeTo(0, 0);
+                    data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal))
+                                .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
                     target.prepend(data.thumbs.horizontal);
                 }
 
                 if (data.sizing.container.scrollHeight > 0 && options.direction !== 'horizontal') {
-                    data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical)).fadeTo(0, 0);
+                    data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical))
+                                .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
                     target.prepend(data.thumbs.vertical);
                 }
 
             }
-
-            data.target = target;
-            data.options = options;
             
             // if scroll offsets are defined, apply them here
             if (options.scrollLeft) {
@@ -136,12 +136,16 @@
             if (options.scrollTop) {
                 target.scrollTop(options.scrollTop);
             }
+            
+            o.moveThumbs({ data: data }, target.scrollLeft(), target.scrollTop());
 
         },
 
         remover: function (target, data) {
             return function () {
-                target.removeAttr('style')
+                target
+                  .removeAttr('style')
+                  .removeData(o.removerKey)
                   .unbind(o.events.wheel, o.wheel)
                   .unbind(o.events.start, data, o.start)
                   .unbind(o.events.end, data, o.stop)
@@ -163,7 +167,7 @@
 
         // toggles the drag mode of the target
         toggleThumbs: function (data, dragging) {
-            if (data.thumbs) {
+            if (data.thumbs && !data.options.persistThumbs) {
                 if (dragging) {
                     if (data.thumbs.vertical) {
                         data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
@@ -278,7 +282,7 @@
         },
 
         // updates the current scroll location during a mouse move
-        drag: function (event, ml, mt, left, top) {
+        drag: function (event) {
 
             o.normalizeEvent(event);
 
@@ -335,7 +339,7 @@
         },
 
         // ends the drag operation and unbinds the mouse move handler
-        stop: function (event, dx, dy, d) {
+        stop: function (event) {
 
             if (event.data.position) {
 
