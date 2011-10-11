@@ -1,5 +1,5 @@
 /**@license
- * Overscroll v1.4.8
+ * Overscroll v1.4.9
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  https://github.com/azoff/Overscroll/blob/master/README.md
  *
- * Date: Sunday, September 25th 2011
+ * Date: Tuesday, October 10th 2011
  */
 
 /*jslint onevar: true, strict: true */
