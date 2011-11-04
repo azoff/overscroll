@@ -133,18 +133,18 @@
             
             if (options.hoverThumbs && !options.persistThumbs) {
                 target.mouseenter(function(){
-                    if (data.thumbs.vertical) {
+                    if (data.thumbs.vertical && data.sizing.container.scrollHeight > data.sizing.container.height) {
                         data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
                     }
-                    if (data.thumbs.horizontal) {
+                    if (data.thumbs.horizontal && data.sizing.container.scrollWidth > data.sizing.container.width) {
                         data.thumbs.horizontal.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
                     }
                 });
                 target.mouseleave(function(){
-                    if (data.thumbs.vertical) {
+                    if (data.thumbs.vertical && data.sizing.container.scrollHeight > data.sizing.container.height) {
                         data.thumbs.vertical.stop(true, true).fadeTo("fast", 0);
                     }
-                    if (data.thumbs.horizontal) {
+                    if (data.thumbs.horizontal && data.sizing.container.scrollWidth > data.sizing.container.width) {
                         data.thumbs.horizontal.stop(true, true).fadeTo("fast", 0);
                     }
                 });
