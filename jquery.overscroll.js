@@ -83,6 +83,7 @@
             data.options = options = $.extend({
                 showThumbs: true,
                 persistThumbs: false,
+                hoverThumbs: false,
                 wheelDirection: 'vertical',
                 cursor: w.opera ? 'move' : 'all-scroll',
                 wheelDelta: o.constants.wheelDelta,
@@ -130,6 +131,25 @@
 
             }
             
+            if (options.hoverThumbs) {
+                target.mouseenter(function(){
+                    if (data.thumbs.vertical) {
+                        data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
+                    }
+                    if (data.thumbs.horizontal) {
+                        data.thumbs.horizontal.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
+                    }
+                });
+                target.mouseleave(function(){
+                    if (data.thumbs.vertical) {
+                        data.thumbs.vertical.stop(true, true).fadeTo("fast", 0);
+                    }
+                    if (data.thumbs.horizontal) {
+                        data.thumbs.horizontal.stop(true, true).fadeTo("fast", 0);
+                    }
+                });
+            }
+            
             // if scroll offsets are defined, apply them here
             if (options.scrollLeft) {
                 target.scrollLeft(options.scrollLeft);
@@ -168,7 +188,7 @@
 
         // toggles the drag mode of the target
         toggleThumbs: function (data, dragging) {
-            if (data.thumbs && !data.options.persistThumbs) {
+            if (data.thumbs && !data.options.persistThumbs && !data.options.hoverThumbs) {
                 if (dragging) {
                     if (data.thumbs.vertical) {
                         data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
