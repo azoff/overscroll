@@ -131,7 +131,7 @@
 
             }
             
-            if (options.hoverThumbs) {
+            if (options.hoverThumbs && !options.persistThumbs) {
                 target.mouseenter(function(){
                     if (data.thumbs.vertical) {
                         data.thumbs.vertical.stop(true, true).fadeTo("fast", o.constants.thumbOpacity);
