@@ -27,6 +27,8 @@ Usage
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
     * `options.persistThumbs` `{Boolean: false}`
         - Designates whether or not to fade the thumbs in and out
+    * `options.hoverThumbs` `{Boolean: false}`
+        - Designates whether or not to display thumbs when the mouse is hovered over the element
     * `options.scrollLeft` `{Integer: undefined}`
         - Start the overscrolled element at a particular left offset. Defers to the browser default if not set
     * `options.scrollTop` `{Integer: undefined}`
