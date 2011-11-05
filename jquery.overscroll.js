@@ -197,20 +197,22 @@
         },
 
         // handles mouse wheel scroll events
-        wheel: function (event, delta) {
-
-            var data = event.data;
+        wheel: function (event, delta) { var 
+            
+            data = event.data, 
+            
+            original = event.originalEvent;
 
             event.preventDefault();
 
             o.clearInterval(data.target);
 
-            if (event.wheelDelta) {
-                delta = event.wheelDelta / (w.opera ? - 120 : 120);
+            if (original.wheelDelta) {
+                delta = original.wheelDelta / (w.opera ? - 120 : 120);
             }
 
-            if (event.detail) {
-                delta = -event.detail / 3;
+            if (original.detail) {
+                delta = -original.detail / 3;
             }
 
             if (!data.wheelCapture) {
