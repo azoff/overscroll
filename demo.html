@@ -233,7 +233,7 @@
                 //showThumbs: false,
                 scrollLeft: 200,
                 scrollTop: 100
-			}).bind('overscroll:dragstart overscroll:dragend overscroll:driftstart overscroll:driftend', function(event){
+			}).on('overscroll:dragstart overscroll:dragend overscroll:driftstart overscroll:driftend', function(event){
 				console.log(event.type);
 			});
 			$("#link").click(function(){

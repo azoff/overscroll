@@ -35,7 +35,7 @@
     // removes overscroll from a jQuery object
     $.fn.removeOverscroll = function (options) {
         return this.each(function () {
-            var remover = $(this).data(o.removerKey);
+            var remover = $(this).data(o.removerKey);            
             if ($.isFunction(remover)) {
                 remover();
             }
@@ -107,10 +107,10 @@
                 position: 'relative',
                 overflow: 'hidden',
                 cursor: options.cursor
-            }).bind(o.events.wheel, data, o.wheel)
-              .bind(o.events.start, data, o.start)
-              .bind(o.events.end, data, o.stop)
-              .bind(o.events.ignored, false);
+            }).on(o.events.wheel, data, o.wheel)
+              .on(o.events.start, data, o.start)
+              .on(o.events.end, data, o.stop)
+              .on(o.events.ignored, false);
               
             if (options.showThumbs) {
 
@@ -147,10 +147,10 @@
                 target
                   .removeAttr('style')
                   .removeData(o.removerKey)
-                  .unbind(o.events.wheel, o.wheel)
-                  .unbind(o.events.start, data, o.start)
-                  .unbind(o.events.end, data, o.stop)
-                  .unbind(o.events.ignored, false);
+                  .off(o.events.wheel, o.wheel)
+                  .off(o.events.start, o.start)
+                  .off(o.events.end, o.stop)
+                  .off(o.events.ignored, false);
                 if (data.thumbs) {
                     if (data.thumbs.horizontal) {
                         data.thumbs.horizontal.remove();
@@ -163,7 +163,7 @@
         },
 
         triggerEvent: function (event, data) {
-            //data.target.trigger('overscroll:' + event);
+            data.target.trigger('overscroll:' + event);
         },
 
         // toggles the drag mode of the target
