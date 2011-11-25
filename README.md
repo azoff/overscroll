@@ -77,7 +77,11 @@ Change Log
 ----------
  * __1.5.1__
   - Added CSS "grab" cursors to scrolled elements
-       + <https://github.com/azoff/Overscroll/issues/31> 
+       + <https://github.com/azoff/Overscroll/issues/31>
+  - Fixed click deference on event targets
+       + <https://github.com/azoff/Overscroll/issues/30> 
+  - Native scrolling support for touch enabled devices
+       + <https://github.com/azoff/Overscroll/issues/29>       
  * __1.5.0__
   - Updated code to support jQuery v1.7
   - Fixed mouse wheel support

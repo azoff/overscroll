@@ -20,9 +20,12 @@
 
 /*global window, jQuery */
 
-(function (w, m, $, o) {
+(function (w, m, $, o, touch) {
     
     "use strict";
+    
+    // check for native touch support
+    touch = "ontouchstart" in w;
 
     // adds overscroll from a jQuery object
     o = $.fn.overscroll = function (options) {
@@ -47,10 +50,10 @@
         // events handled by overscroll
         events: {
             wheel: "mousewheel DOMMouseScroll",
-            start: "select mousedown touchstart",
-            drag: "mousemove touchmove",
-            end: "mouseup mouseleave touchend",
-            ignored: "dragstart drag"
+            start: "mousedown",
+            drag: "mousemove",
+            end: "mouseup mouseleave",
+            ignored: "select dragstart drag"
         },
 
         // to save a couple bits
@@ -103,42 +106,56 @@
             target.removeOverscroll();
             target.data(o.removerKey, o.remover(target, data));
 
-            data.target = target.css({
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: data.cursors.grab
-            }).on(o.events.wheel, data, o.wheel)
-              .on(o.events.start, data, o.start)
-              .on(o.events.end, data, o.stop)
-              .on(o.events.ignored, false);
-              
-            if (options.showThumbs) {
+            // no need for emulation, just apply styles if touch supported natively
+            if (touch) {
+                
+                target.css({
+                    'overflow': 'auto',
+                    '-webkit-overflow-scrolling': 'touch',
+                    '-moz-overflow-scrolling': 'touch',
+                    'overflow-scrolling': 'touch'
+                });
+                
+            } else {
+             
+                data.target = target.css({
+                    position: 'relative',
+                    overflow: 'hidden',
+                    cursor: data.cursors.grab
+                }).on(o.events.wheel, data, o.wheel)
+                  .on(o.events.start, data, o.start)
+                  .on(o.events.end, data, o.stop)
+                  .on(o.events.ignored, false);
 
-                data.thumbs = {};
+                if (options.showThumbs) {
 
-                if (data.sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
-                    data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal))
-                                .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
-                    target.prepend(data.thumbs.horizontal);
+                    data.thumbs = {};
+
+                    if (data.sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
+                        data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal))
+                                    .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
+                        target.prepend(data.thumbs.horizontal);
+                    }
+
+                    if (data.sizing.container.scrollHeight > 0 && options.direction !== 'horizontal') {
+                        data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical))
+                                    .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
+                        target.prepend(data.thumbs.vertical);
+                    }
+
                 }
 
-                if (data.sizing.container.scrollHeight > 0 && options.direction !== 'horizontal') {
-                    data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical))
-                                .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
-                    target.prepend(data.thumbs.vertical);
+                // if scroll offsets are defined, apply them here
+                if (options.scrollLeft) {
+                    target.scrollLeft(options.scrollLeft);
+                }
+                if (options.scrollTop) {
+                    target.scrollTop(options.scrollTop);
                 }
 
+                o.moveThumbs(data, target.scrollLeft(), target.scrollTop());
+                
             }
-            
-            // if scroll offsets are defined, apply them here
-            if (options.scrollLeft) {
-                target.scrollLeft(options.scrollLeft);
-            }
-            if (options.scrollTop) {
-                target.scrollTop(options.scrollTop);
-            }
-            
-            o.moveThumbs(data, target.scrollLeft(), target.scrollTop());
 
         },
         
@@ -295,7 +312,7 @@
             data.startTarget = $(event.target);
 
             if (!data.startTarget.is(data.options.cancelOn)) {
-                o.normalizeEvent(event);
+                event.preventDefault();
                 data.target.css('cursor', data.cursors.grabbing);
                 flags.dragging = flags.dragged = false;
                 target.bind(o.events.drag, data, o.drag).stop(true, true);
@@ -310,8 +327,6 @@
         drag: function (event) {
 
             var data = event.data, flags = data.flags;
-
-            o.normalizeEvent(event);
 
             if (!flags.dragged) {
                 o.toggleThumbs(data, true);
@@ -336,15 +351,6 @@
                 o.setPosition(event, data.capture, o.constants.captureThreshold);
             }
 
-        },
-
-        normalizeEvent: function (event) {
-            var ios, original = event.originalEvent;
-            if (original.changedTouches) {
-                ios = original.changedTouches;
-                event.pageX = ios.pageX;
-                event.pageY = ios.pageY;
-            }
         },
 
         time: function () {
@@ -424,8 +430,6 @@
             if ((o.time() - data.capture.time) > o.constants.driftTimeout) {
                 return callback.call(null, data);
             }
-
-            o.normalizeEvent(event);
             
             dx = data.options.scrollDelta * (event.pageX - data.capture.x);
             dy = data.options.scrollDelta * (event.pageY - data.capture.y);
