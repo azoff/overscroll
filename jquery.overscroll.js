@@ -1,5 +1,5 @@
 /**@license
- * Overscroll v1.5.0
+ * Overscroll v1.5.1
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  http://azof.fr/pYCzuM
  *
- * Date: Saturday, November 5th 2011
+ * Date: Thursday, November 24th 2011 (Gobble Gobble)
  */
 
 /*jslint onevar: true, strict: true */
@@ -69,7 +69,7 @@
             wheelDelta: 20,
             scrollDelta: 15,
             thumbThickness: 6,
-            thumbOpacity: 0.7
+            thumbOpacity: 0.7,
         },
 
         // main initialization function
@@ -77,6 +77,7 @@
 
             var data = {
                 sizing: o.getSizing(target),
+                cursors: o.getCursors(),
                 flags: {}, cleaned: {}
             };
 
@@ -84,7 +85,6 @@
                 showThumbs: true,
                 persistThumbs: false,
                 wheelDirection: 'vertical',
-                cursor: w.opera ? 'move' : 'all-scroll',
                 wheelDelta: o.constants.wheelDelta,
                 scrollDelta: o.constants.scrollDelta,
                 direction: 'multi',
@@ -106,7 +106,7 @@
             data.target = target.css({
                 position: 'relative',
                 overflow: 'hidden',
-                cursor: options.cursor
+                cursor: data.cursors.grab
             }).on(o.events.wheel, data, o.wheel)
               .on(o.events.start, data, o.start)
               .on(o.events.end, data, o.stop)
@@ -140,6 +140,24 @@
             
             o.moveThumbs(data, target.scrollLeft(), target.scrollTop());
 
+        },
+        
+        getCursors: function() {            
+            var cursors = {};
+            switch (true) {
+                case $.browser.mozilla:
+                    cursors.grab = '-moz-grab';
+                    cursors.grabbing = '-moz-grabbing';
+                    break; 
+                case $.browser.webkit:
+                    cursors.grab = '-webkit-grab';
+                    cursors.grabbing = '-webkit-grabbing';
+                    break;
+                default:
+                    cursors.grab = cursors.grabbing = 'move';
+                    break;
+            }
+            return cursors;
         },
 
         remover: function (target, data) {
@@ -278,6 +296,7 @@
 
             if (!data.startTarget.is(data.options.cancelOn)) {
                 o.normalizeEvent(event);
+                data.target.css('cursor', data.cursors.grabbing);
                 flags.dragging = flags.dragged = false;
                 target.bind(o.events.drag, data, o.drag).stop(true, true);
                 data.position = o.setPosition(event, {});
@@ -375,6 +394,8 @@
                 data.capture = data.position = undefined;
 
             }
+            
+            data.target.css('cursor', data.cursors.grab);
 
         },
 

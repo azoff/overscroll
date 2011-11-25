@@ -1,6 +1,6 @@
-Overscroll v1.5.0
+Overscroll v1.5.1
 =================
-Saturday, November 5th 2011
+Thursday, November 24th 2011 (Gobble Gobble)
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -31,8 +31,6 @@ Usage
         - Start the overscrolled element at a particular left offset. Defers to the browser default if not set
     * `options.scrollTop` `{Integer: undefined}`
         - Start the overscrolled element at a particular top offset. Defers to the browser default if not set
-    * `options.cursor` `{String: 'all-scroll' or 'move'}`
-        - The cursor to use when hovering over the overscrolled element. For options, see [this reference](http://www.w3schools.com/CSS/pr_class_cursor.asp)
 	* `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
     * `options.cancelOn` `{String: ""}`
@@ -77,6 +75,9 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+ * __1.5.1__
+  - Added CSS "grab" cursors to scrolled elements
+       + <https://github.com/azoff/Overscroll/issues/31> 
  * __1.5.0__
   - Updated code to support jQuery v1.7
   - Fixed mouse wheel support
