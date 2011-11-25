@@ -354,15 +354,15 @@
         // defers target click event's for one iteration
         deferClick: function (target) {
             var events = target.data('events');
-            if (events && events.click && events.click.length) {
-                events = events.click.slice();
-                target.unbind('click').one('click', function (event) {
-                    event.preventDefault();
+            events = events && events.click ? events.click.slice() : false;
+            target.unbind('click').one('mouseup', function () {
+                if (events) {
                     $.each(events, function (i, event) {
                         target.click(event);
                     });
-                });
-            }
+                }
+                return false;
+            });
         },
 
         // ends the drag operation and unbinds the mouse move handler
