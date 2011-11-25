@@ -52,7 +52,7 @@
             wheel: "mousewheel DOMMouseScroll",
             start: "mousedown",
             drag: "mousemove",
-            end: "mouseup mouseleave",
+            end: "mouseup mouseleave click",
             ignored: "select dragstart drag"
         },
 
@@ -143,19 +143,19 @@
                         target.prepend(data.thumbs.vertical);
                     }
 
-                }
-
-                // if scroll offsets are defined, apply them here
-                if (options.scrollLeft) {
-                    target.scrollLeft(options.scrollLeft);
-                }
-                if (options.scrollTop) {
-                    target.scrollTop(options.scrollTop);
-                }
-
-                o.moveThumbs(data, target.scrollLeft(), target.scrollTop());
+                }                
                 
             }
+            
+            // if scroll offsets are defined, apply them here
+            if (options.scrollLeft) {
+                target.scrollLeft(options.scrollLeft);
+            }
+            if (options.scrollTop) {
+                target.scrollTop(options.scrollTop);
+            }
+
+            o.moveThumbs(data, target.scrollLeft(), target.scrollTop());
 
         },
         
@@ -322,6 +322,8 @@
         // updates the current scroll location during a mouse move
         drag: function (event) {
 
+            event.preventDefault();
+
             var data = event.data, flags = data.flags;
 
             if (!flags.dragged) {
@@ -372,9 +374,9 @@
 
             var data = event.data, target = data.target, flags = data.flags;
 
-            if (data.position) {
+            target.unbind(o.events.drag, o.drag);
 
-                target.unbind(o.events.drag, o.drag);
+            if (data.position) {                
 
                 o.triggerEvent('dragend', data);
 
