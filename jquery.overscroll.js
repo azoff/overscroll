@@ -72,7 +72,7 @@
             wheelDelta: 20,
             scrollDelta: 15,
             thumbThickness: 6,
-            thumbOpacity: 0.7,
+            thumbOpacity: 0.7
         },
 
         // main initialization function
@@ -161,18 +161,14 @@
         
         getCursors: function() {            
             var cursors = {};
-            switch (true) {
-                case $.browser.mozilla:
-                    cursors.grab = '-moz-grab';
-                    cursors.grabbing = '-moz-grabbing';
-                    break; 
-                case $.browser.webkit:
-                    cursors.grab = '-webkit-grab';
-                    cursors.grabbing = '-webkit-grabbing';
-                    break;
-                default:
-                    cursors.grab = cursors.grabbing = 'move';
-                    break;
+            if ($.browser.mozilla) {
+                cursors.grab = '-moz-grab';
+                cursors.grabbing = '-moz-grabbing';
+            } else if ($.browser.webkit) {
+                cursors.grab = '-webkit-grab';
+                cursors.grabbing = '-webkit-grabbing';
+            } else { 
+                cursors.grab = cursors.grabbing = 'move';
             }
             return cursors;
         },
