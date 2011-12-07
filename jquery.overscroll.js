@@ -1,5 +1,5 @@
 /**@license
- * Overscroll v1.5.1
+ * Overscroll v1.5.1.1
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  http://azof.fr/pYCzuM
  *
- * Date: Thursday, November 24th 2011 (Gobble Gobble)
+ * Date: Wednesday, December 7th 2011
  */
 
 /*jslint onevar: true, strict: true */
@@ -53,6 +53,7 @@
             start: "mousedown",
             drag: "mousemove",
             end: "mouseup mouseleave click",
+            scroll: "scroll",
             ignored: "select dragstart drag"
         },
 
@@ -91,7 +92,8 @@
                 wheelDelta: o.constants.wheelDelta,
                 scrollDelta: o.constants.scrollDelta,
                 direction: 'multi',
-                cancelOn: ''
+                cancelOn: '',
+                zIndex: 999
             }, options);
 
             // check for inconsistent directional restrictions
@@ -125,6 +127,7 @@
                 }).on(o.events.wheel, data, o.wheel)
                   .on(o.events.start, data, o.start)
                   .on(o.events.end, data, o.stop)
+                  .on(o.events.scroll, data, o.scroll)
                   .on(o.events.ignored, false);
 
                 if (options.showThumbs) {
@@ -132,13 +135,13 @@
                     data.thumbs = {};
 
                     if (data.sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
-                        data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal))
+                        data.thumbs.horizontal = $(o.div).css(o.getThumbCss(data.sizing.thumbs.horizontal, data.options.zIndex))
                                     .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
                         target.prepend(data.thumbs.horizontal);
                     }
 
                     if (data.sizing.container.scrollHeight > 0 && options.direction !== 'horizontal') {
-                        data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical))
+                        data.thumbs.vertical = $(o.div).css(o.getThumbCss(data.sizing.thumbs.vertical, data.options.zIndex))
                                     .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
                         target.prepend(data.thumbs.vertical);
                     }
@@ -402,6 +405,14 @@
             data.target.css('cursor', data.cursors.grab);
 
         },
+        
+        scroll: function (event) {
+            var data = event.data, flags = data.flags;
+            
+            if (!flags.dragging) {
+                o.moveThumbs(data, this.scrollLeft, this.scrollTop);
+            }
+        },
 
         clearInterval: function (target) {
             target = $(target);
@@ -506,7 +517,7 @@
         },
 
         // gets the CSS object for a thumb
-        getThumbCss: function (size) {
+        getThumbCss: function (size, zIndex) {
 
             return {
                 position: "absolute",
@@ -517,7 +528,7 @@
                 "-moz-border-radius": size.corner + "px",
                 "-webkit-border-radius": size.corner + "px",
                 "border-radius": size.corner + "px",
-                "z-index": "999"
+                "z-index": zIndex
             };
 
         }
