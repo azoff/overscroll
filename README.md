@@ -1,6 +1,6 @@
-Overscroll v1.5.1.1
-===================
-Wednesday, December 7th 2011
+Overscroll v1.5.2
+=================
+Sunday, December 11th 2011
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -77,7 +77,7 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
- * __1.5.1.1__
+ * __1.5.2__
   - Added zIndex option for configuring thumb elements' z-index
        + <https://github.com/azoff/Overscroll/issues/33>
   - Added handling of external scroll event for repositioning thumbs
