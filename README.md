@@ -86,6 +86,8 @@ Change Log
        + <https://github.com/azoff/Overscroll/issues/34>
   - Added `hoverThumbs` option to show thumbs on hover
        + <https://github.com/azoff/Overscroll/pull/32>
+  - Migrated to new  jQuery plugin standard
+       + <https://github.com/jquery/plugins.jquery.com/blob/master/docs/package.md>
  * __1.5.1__
   - Added CSS "grab" cursors to scrolled elements
        + <https://github.com/azoff/Overscroll/issues/31>
