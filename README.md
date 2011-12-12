@@ -27,6 +27,8 @@ Usage
         - Designates whether or not to show the scroll-bar thumbs on the scrollable container
     * `options.persistThumbs` `{Boolean: false}`
         - Designates whether or not to fade the thumbs in and out
+    * `options.hoverThumbs` `{Boolean: false}`
+        - Designates whether or not to fade the thumbs in and out on hover
     * `options.scrollLeft` `{Integer: undefined}`
         - Start the overscrolled element at a particular left offset. Defers to the browser default if not set
     * `options.scrollTop` `{Integer: undefined}`
@@ -82,6 +84,8 @@ Change Log
        + <https://github.com/azoff/Overscroll/issues/33>
   - Added handling of external scroll event for repositioning thumbs
        + <https://github.com/azoff/Overscroll/issues/34>
+  - Added `hoverThumbs` option to show thumbs on hover
+       + <https://github.com/azoff/Overscroll/pull/32>
  * __1.5.1__
   - Added CSS "grab" cursors to scrolled elements
        + <https://github.com/azoff/Overscroll/issues/31>

@@ -49,12 +49,13 @@
 
         // events handled by overscroll
         events: {
-            wheel: "mousewheel DOMMouseScroll",
-            start: "mousedown",
-            drag: "mousemove",
-            end: "mouseup mouseleave click",
-            scroll: "scroll",
-            ignored: "select dragstart drag"
+            wheel: 'mousewheel DOMMouseScroll',
+            start: 'mousedown',
+            hover: 'mouseenter mouseleave',
+            drag: 'mousemove',
+            end: 'mouseup mouseleave click',
+            scroll: 'scroll',
+            ignored: 'select dragstart drag'
         },
 
         // to save a couple bits
@@ -88,6 +89,7 @@
             data.options = options = $.extend({
                 showThumbs: true,
                 persistThumbs: false,
+                hoverThumbs: false,                
                 wheelDirection: 'vertical',
                 wheelDelta: o.constants.wheelDelta,
                 scrollDelta: o.constants.scrollDelta,
@@ -145,6 +147,10 @@
                                     .css({ opacity: options.persistThumbs ? o.constants.thumbOpacity : 0 });
                         target.prepend(data.thumbs.vertical);
                     }
+                    
+                    if (data.options.hoverThumbs) {
+                        target.on(o.events.hover, data, o.hover);
+                    }
 
                 }                
                 
@@ -192,12 +198,20 @@
                     if (data.thumbs.vertical) {
                         data.thumbs.vertical.remove();
                     }
+                    if (data.options.hoverThumbs) {
+                        target.off(o.events.hover, o.hover);
+                    }
                 }
             };
         },
 
         triggerEvent: function (event, data) {
             data.target.trigger('overscroll:' + event);
+        },
+
+        // toggles the drag mode of the target
+        hover: function (event) {
+            o.toggleThumbs(event.data, event.type === 'mouseenter');
         },
 
         // toggles the drag mode of the target
@@ -373,9 +387,16 @@
         },
 
         // ends the drag operation and unbinds the mouse move handler
-        stop: function (event) {
-
-            var data = event.data, target = data.target, flags = data.flags;
+        stop: function (event) { var 
+            
+            data = event.data, 
+            target = data.target, 
+            flags = data.flags,
+            done = function() {
+                if (!data.options.hoverThumbs) {
+                    o.toggleThumbs(data, flags.dragging = false);
+                }
+            };
 
             target.unbind(o.events.drag, o.drag);
 
@@ -384,11 +405,9 @@
                 o.triggerEvent('dragend', data);
 
                 if (flags.dragging) {
-                    o.drift(this, event, function () {                        
-                        o.toggleThumbs(data, flags.dragging = false);
-                    });
-                } else {
-                    o.toggleThumbs(data, false);
+                    o.drift(this, event, done);
+                } else { 
+                    done(); 
                 }
 
                 // only if we moved, and the mouse down is the same as
