@@ -84,7 +84,7 @@ Change Log
        + <https://github.com/azoff/Overscroll/issues/33>
   - Added handling of external scroll event for repositioning thumbs
        + <https://github.com/azoff/Overscroll/issues/34>
-  - Added `hoverThumbs` option to show thumbs on hover
+  - Added `hoverThumbs` option to show thumbs on hover (thanks @groenroos)
        + <https://github.com/azoff/Overscroll/pull/32>
   - Migrated to new  jQuery plugin standard
        + <https://github.com/jquery/plugins.jquery.com/blob/master/docs/package.md>
