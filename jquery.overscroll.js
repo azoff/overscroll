@@ -186,8 +186,13 @@
 
         remover: function (target, data) {
             return function () {
+                var origStyle = target.data(o.origStyleKey);
+                if (!origStyle) {
+                    target.removeAttr('style');
+                } else {
+                    target.attr('style', origStyle);
+                }
                 target
-                  .attr('style', target.data(o.origStyleKey))
                   .removeData(o.removerKey)
                   .removeData(o.origStyleKey)
                   .off(o.events.wheel, o.wheel)
