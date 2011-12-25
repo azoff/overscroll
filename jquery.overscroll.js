@@ -126,12 +126,12 @@
             if (thumbs.horizontal) {
                 ml = left * (1 + sizing.container.width / sizing.container.scrollWidth);
                 mt = top + sizing.thumbs.horizontal.top;
-                thumbs.horizontal.css("margin", mt + "px 0 0 " + ml + "px");
+                thumbs.horizontal.css('margin', mt + 'px 0 0 ' + ml + 'px');
             }
             if (thumbs.vertical) {
                 ml = left + sizing.thumbs.vertical.left;
                 mt = top * (1 + sizing.container.height / sizing.container.scrollHeight);
-                thumbs.vertical.css("margin", mt + "px 0 0 " + ml + "px");
+                thumbs.vertical.css('margin', mt + 'px 0 0 ' + ml + 'px');
             }
         }
 
@@ -521,17 +521,16 @@
     // Genterates CSS specific to a particular thumb.
     // It requires sizing data and options
     getThumbCss = function(size, options) {
-        var css = {
-            position: "absolute",
+        return {
+            position: 'absolute',
             opacity: options.persistThumbs ? settings.thumbOpacity : 0,
-            "background-color": "black",
-            width: size.width + "px",
-            height: size.height + "px",
-            "margin": size.top + "px 0 0 " + size.left + "px",
-            "z-index": options.zIndex
+            'background-color': 'black',
+            width: size.width + 'px',
+            height: size.height + 'px',
+            'border-radius': size.corner + 'px', 
+            'margin': size.top + 'px 0 0 ' + size.left + 'px',
+            'z-index': options.zIndex
         };
-        css[prefix + 'border-radius'] = size.corner + "px";
-        return css;
     },
     
     // Creates the DOM elements used as "thumbs" within 
