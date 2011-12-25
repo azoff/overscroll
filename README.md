@@ -1,6 +1,6 @@
-Overscroll v1.5.2
+Overscroll v1.6.0
 =================
-Sunday, December 11th 2011
+Sunday, December 24th 2011
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -17,7 +17,9 @@ Dual licensed under the MIT or GPL Version 2 licenses.
 
 Usage
 -----
-`$(selector).overscroll([options]);`
+```javascript
+$(selector).overscroll([options]);
+```
 
 + `selector`
     The jQuery selector, targeting an element to apply overscroll to
@@ -46,9 +48,28 @@ Usage
     * `options.zIndex` `{Number: 999}`
         - The z-index applied to the thumb elements
 
-`$(selector).removeOverscroll();`
+```javascript
+$(selector).removeOverscroll();
+```
 
-- Returns an overscrolled element to its pre-overscroll state. This is essentially a deconstructor for overscrolled elements.
++ Returns an overscrolled element to its pre-overscroll state. This is essentially a deconstructor for overscrolled elements.
+
+Global Settings
+------
+Due to popular demand, overscroll also exposes some of its internal constants for advanced tweaking. You can modify any of these settings via `jQuery.fn.overscroll.settings`, here are the defaults:
+
+```javascript
+jQuery.fn.overscroll.settings = {
+    captureThreshold:   3,   // The number of mouse move events before considering the gesture a "drag"
+    driftDecay:         1.1, // The linear-friction coefficient for drift decay (must be > 1)
+    driftSequences:     22   // The number of animation frames to constrain a drift to
+    driftTimeout:       100, // The amount of time to imply the user is no longer trying to drift (in ms)
+    thumbOpacity:       0.7, // The default active opacity for the thumbs
+    thumbThickness:     6,   // The thickness, in pixels, of the generated thumbs
+    thumbTimeout:       400, // The amount of time to wait before fading out thumbs
+}
+```
+
 
 Events
 ------
@@ -63,9 +84,11 @@ Apart from regular DOM events, overscrolled elements emit events to capture drag
 + `overscroll:driftend`
 	* The end of a drift, happens after the drift effect completes
 
-Here is an example using jQuery's [bind()](http://api.jquery.com/bind/) method, listening for drag start:
+Here is an example using jQuery's [on()](http://api.jquery.com/on/) method, listening for drag start:
 
-<pre>$('#selector').overscroll().bind('overscroll:dragstart', function(){ console.log('Drag started!') });</pre>
+```javascript
+$('#selector').overscroll().on('overscroll:dragstart', function(){ console.log('Drag started!') });
+```
 
 Notes
 -----
@@ -79,6 +102,12 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+ * __1.6.0__
+  - Major re-factor on code structure to improve readability (more modular, added comments)
+  - Migrated drift function to use requestAnimationFrame
+  - Exposed global settings, for even finer-grained control of plug-in execution
+  - Added restoration of original style information on removeOverscroll (thanks @coeamyd)
+       + <https://github.com/azoff/Overscroll/pull/38>
  * __1.5.2__
   - Added zIndex option for configuring thumb elements' z-index
        + <https://github.com/azoff/Overscroll/issues/33>
