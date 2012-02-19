@@ -20,40 +20,60 @@
 
 /*global window, setTimeout, clearTimeout, jQuery */
 
-(function(global, math, wait, cancel, browser, namespace, $, none){
+(function(global, dom, math, wait, cancel, namespace, $, none){
     
     // We want to run this plug-in in strict-mode
     // so that we may benefit from any optimizations
     // strict execution
     'use strict';
-    
-    // CSS Prefix used for compatibility across the bleeding edge
-    var prefix = browser.mozilla ? '-moz-' : (
-                 browser.webkit ? '-webkit-' : (
-                 browser.opera ? '-o-' : (
-                 browser.msie && browser.version > 9 ? '-ms-' : 
-                 ''))),
-
-    // A polyfill, for optimal animation loops
-    animate = global.requestAnimationFrame       || 
-              global.webkitRequestAnimationFrame || 
-              global.mozRequestAnimationFrame    || 
-              global.oRequestAnimationFrame      || 
-              global.msRequestAnimationFrame     || 
-              function(callback) {
-                  wait(callback, 1000/60);
-              },
              
     // The key used to bind-instance specific data to an object
-    datakey = 'overscroll',
+    var datakey = 'overscroll',
     
-    // Compatibility tests for feature detection
-    compat = {
-        cursorGrab:     prefix ? (prefix + 'grab')               : 'move',
-        cursorGrabbing: prefix ? (prefix + 'grabbing')           : 'move',
-        scrollingProp:  prefix ? (prefix + 'overflow-scrolling') : 'overflow-scrolling',
-        touchEnabled:   'ontouchstart' in global
-    },
+    // runs feature detection for overscroll
+    compat = (function(){
+        var b  = $.browser, fallback,
+        style  = dom.createElement(datakey).style,
+        prefix = b.webkit ? 'webkit' : (b.mozilla ? 'moz' : (b.msie ? 'ms' : (b.opera ? 'o' : ''))),
+        cssprefix = prefix ? ['-','-'].join(prefix) : '';
+        compat = { overflowScrolling: false };
+        $.each(prefix ? [prefix, ''] : [prefix], function(i, prefix){
+            var animator = prefix ? (prefix + 'RequestAnimationFrame') : 'requestAnimationFrame',
+            scroller = prefix ? (prefix + 'OverflowScrolling') : 'overflowScrolling';
+            
+            // check to see if requestAnimationFrame is available
+            if (global[animator] !== none) {
+                compat.animate = function(callback){
+                    global[animator].call(global, callback);
+                };
+            }
+            
+            // check to see if overflowScrolling is available
+            if (style[scroller] !== none) {
+                compat.overflowScrolling = cssprefix + 'overflow-scrolling';
+            }
+        });        
+        
+        // fallback to set timeout for no animation support
+        if (!compat.animate) {
+            compat.animate = function(callback) {
+                wait(callback, 1000/60);
+            };
+        }
+        
+        // firefox and webkit browsers support native grabbing cursors
+        if (prefix === 'moz' || prefix === 'webkit') {
+            compat.cursorGrab     = cssprefix + 'grab';
+            compat.cursorGrabbing = cssprefix + 'grabbing';
+        
+        // other browsers can user google's assets
+        } else {
+            fallback = 'https://mail.google.com/mail/images/2/';
+            compat.cursorGrab     = 'url('+fallback+'openhand.cur), default';
+            compat.cursorGrabbing = 'url('+fallback+'closedhand.cur), default';
+        }
+        return compat;
+    })(),
     
     // These are all the events that could possibly 
     // be used by the plug-in
@@ -219,7 +239,7 @@
 
         // initialize flags if this is the first tick
         if (!wheel) {
-            flags.dragging = true;
+            data.target.data(datakey).dragging = flags.dragging = true;
             data.wheel = wheel = { timeout: null };
             toggleThumbs(thumbs, options, true);
         }
@@ -236,7 +256,8 @@
         moveThumbs(thumbs, sizing, this.scrollLeft, this.scrollTop);
 
         wheel.timeout = wait(function() {
-            toggleThumbs(thumbs, options, data.wheel = flags.dragging = null);
+            data.target.data(datakey).dragging = flags.dragging = false;
+            toggleThumbs(thumbs, options, data.wheel = null);
         }, settings.thumbTimeout);
 
     },
@@ -270,7 +291,7 @@
         capturePosition(event, data.position);
 
         if (--data.capture.index <= 0) {
-            flags.dragging = true;
+            data.target.data(datakey).dragging = flags.dragging = true;
             capturePosition(event, data.capture, settings.captureThreshold);
         }
         
@@ -317,7 +338,7 @@
         data.drifting = true;
 
         // animate the drift sequence
-        animate(function render() {
+        compat.animate(function render() {
             if (data.drifting) {            
                 var min = 1, max = -1;
                 data.drifting = false;
@@ -332,7 +353,7 @@
                     xMod /= decay;
                 }
                 moveThumbs(thumbs, sizing, target.scrollLeft, target.scrollTop);
-                animate(render);
+                compat.animate(render);
             } else {                
                 triggerEvent('driftend', data.target);
                 callback(data);                
@@ -356,7 +377,7 @@
         if (!start.is(data.options.cancelOn)) {
             event.preventDefault();
             target.css('cursor', compat.cursorGrabbing);
-            flags.dragging = flags.dragged = false;
+            target.data(datakey).dragging = flags.dragging = flags.dragged = false;
             target.on(events.drag, data, drag);
             data.position = capturePosition(event, {});
             data.capture = capturePosition(event, {}, settings.captureThreshold);
@@ -405,11 +426,12 @@
         }
         
         // clear all internal flags and settings
-        data.start     = 
-        data.capture   = 
-        data.position  = 
-        flags.dragged  = 
-        flags.dragging = false;
+        target.data(datakey).dragging =
+            data.start     = 
+            data.capture   = 
+            data.position  = 
+            flags.dragged  = 
+            flags.dragging = false;
 
         // set the cursor back to normal
         target.css('cursor', compat.cursorGrab);
@@ -628,7 +650,7 @@
     touchscroll = function(options) {
         return this.removeOverscroll().each(function() {
             $(this).data(datakey, { remover: getRemover(this) })
-            .css(prefix + 'overflow-scrolling', 'touch')
+            .css(compat.overflowScrolling, 'touch')
             .css('overflow', 'auto');
         });
     },
@@ -646,11 +668,11 @@
     overscroll.settings = settings;
         
     // Extend jQuery's prototype to expose the plug-in.
-    // If the navigator is touchEnabled, overscroll will not
+    // If the supports native overflowScrolling, overscroll will not
     // attempt to override the browser's built in support
     $.extend(namespace, {
-        overscroll:         compat.touchEnabled ? touchscroll : overscroll,
+        overscroll:         compat.overflowScrolling ? touchscroll : overscroll,
         removeOverscroll:   removeOverscroll
     });
     
-})(window, Math, setTimeout, clearTimeout, jQuery.browser, jQuery.fn, jQuery);
+})(window, document, Math, setTimeout, clearTimeout, jQuery.fn, jQuery);
