@@ -1,5 +1,5 @@
-/**@license
- * Overscroll v1.6.0
+/**
+ * Overscroll v1.6.1
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,12 +13,12 @@
  * For API documentation, see the README file
  *  http://azof.fr/pYCzuM
  *
- * Date: Sunday, December 24th 2011
+ * Date: Saturday, February 18th 2012
  */
 
 /*jslint onevar: true, strict: true */
 
-/*global window, setTimeout, clearTimeout, jQuery */
+/*global window, document, setTimeout, clearTimeout, jQuery */
 
 (function(global, dom, math, wait, cancel, namespace, $, none){
     
@@ -36,7 +36,7 @@
         style  = dom.createElement(datakey).style,
         prefix = b.webkit ? 'webkit' : (b.mozilla ? 'moz' : (b.msie ? 'ms' : (b.opera ? 'o' : ''))),
         cssprefix = prefix ? ['-','-'].join(prefix) : '';
-        compat = { overflowScrolling: false };
+        compat = { prefix: prefix, overflowScrolling: false };
         $.each(prefix ? [prefix, ''] : [prefix], function(i, prefix){
             var animator = prefix ? (prefix + 'RequestAnimationFrame') : 'requestAnimationFrame',
             scroller = prefix ? (prefix + 'OverflowScrolling') : 'overflowScrolling';
@@ -52,7 +52,7 @@
             if (style[scroller] !== none) {
                 compat.overflowScrolling = cssprefix + 'overflow-scrolling';
             }
-        });        
+        });
         
         // fallback to set timeout for no animation support
         if (!compat.animate) {
@@ -232,7 +232,7 @@
         // calculate how much to move the viewport by
         // TODO: let's base this on some fact somewhere...
         if (original.wheelDelta) {
-            delta = original.wheelDelta / (browser.opera ? -120 : 120);
+            delta = original.wheelDelta / (compat.prefix === 'o' ? -120 : 120);
         } if (original.detail) {
             delta = -original.detail / 3;
         } delta *= options.wheelDelta;

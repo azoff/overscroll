@@ -1,6 +1,6 @@
-Overscroll v1.6.0
+Overscroll v1.6.1
 =================
-Sunday, December 24th 2011
+Saturday, February 18th 2012
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -102,6 +102,11 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+* __1.6.1__
+ - Fixed feature detection and dragging data flag.
+      + <https://github.com/azoff/Overscroll/issues/41>
+ - Don't prevent default until after checking cancel on.
+      + <https://github.com/azoff/Overscroll/issues/42>
  * __1.6.0__
   - Major re-factor on code structure to improve readability (more modular, added comments)
   - Migrated drift function to use requestAnimationFrame
