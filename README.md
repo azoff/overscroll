@@ -1,6 +1,6 @@
-Overscroll v1.6.0
+Overscroll v1.6.1
 =================
-Sunday, December 24th 2011
+Saturday, February 18th 2012
 
 Overscroll is a jQuery Plugin that emulates the iPhone scrolling experience in a browser. It is intended for use with the latest version of jQuery
 <http://code.jquery.com/jquery-latest.js>
@@ -62,7 +62,7 @@ Due to popular demand, overscroll also exposes some of its internal constants fo
 jQuery.fn.overscroll.settings = {
     captureThreshold:   3,   // The number of mouse move events before considering the gesture a "drag"
     driftDecay:         1.1, // The linear-friction coefficient for drift decay (must be > 1)
-    driftSequences:     22   // The number of animation frames to constrain a drift to
+    driftSequences:     22,  // The number of animation frames to constrain a drift to
     driftTimeout:       100, // The amount of time to imply the user is no longer trying to drift (in ms)
     thumbOpacity:       0.7, // The default active opacity for the thumbs
     thumbThickness:     6,   // The thickness, in pixels, of the generated thumbs
@@ -102,6 +102,11 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+* __1.6.1__
+ - Fixed feature detection and dragging data flag.
+      + <https://github.com/azoff/Overscroll/issues/41>
+ - Don't prevent default until after checking cancel on.
+      + <https://github.com/azoff/Overscroll/issues/42>
  * __1.6.0__
   - Major re-factor on code structure to improve readability (more modular, added comments)
   - Migrated drift function to use requestAnimationFrame
