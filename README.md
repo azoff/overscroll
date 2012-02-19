@@ -62,7 +62,7 @@ Due to popular demand, overscroll also exposes some of its internal constants fo
 jQuery.fn.overscroll.settings = {
     captureThreshold:   3,   // The number of mouse move events before considering the gesture a "drag"
     driftDecay:         1.1, // The linear-friction coefficient for drift decay (must be > 1)
-    driftSequences:     22   // The number of animation frames to constrain a drift to
+    driftSequences:     22,  // The number of animation frames to constrain a drift to
     driftTimeout:       100, // The amount of time to imply the user is no longer trying to drift (in ms)
     thumbOpacity:       0.7, // The default active opacity for the thumbs
     thumbThickness:     6,   // The thickness, in pixels, of the generated thumbs
