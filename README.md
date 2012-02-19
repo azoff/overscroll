@@ -102,10 +102,10 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
-* __1.6.1__
- - Fixed feature detection and dragging data flag.
+ * __1.6.1__
+  - Fixed feature detection and dragging data flag.
       + <https://github.com/azoff/Overscroll/issues/41>
- - Don't prevent default until after checking cancel on.
+  - Don't prevent default until after checking cancel on.
       + <https://github.com/azoff/Overscroll/issues/42>
  * __1.6.0__
   - Major re-factor on code structure to improve readability (more modular, added comments)
