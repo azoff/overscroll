@@ -344,8 +344,6 @@
     // starts the drag operation and binds the mouse move handler
     start = function (event) {
 
-        event.preventDefault();
-
         var data = event.data, 
         target   = data.target,
         start    = data.start = $(event.target),
@@ -355,7 +353,8 @@
         flags.drifting = false;
 
         // only start drag if the user has not explictly banned it.
-        if (!start.is(data.options.cancelOn)) {            
+        if (!start.is(data.options.cancelOn)) {
+            event.preventDefault();
             target.css('cursor', compat.cursorGrabbing);
             flags.dragging = flags.dragged = false;
             target.on(events.drag, data, drag);
