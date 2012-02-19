@@ -6,7 +6,7 @@
  * Intended for use with the latest jQuery
  *  http://code.jquery.com/jquery-latest.js
  *
- * Copyright 2011, Jonathan Azoff
+ * Copyright 2012, Jonathan Azoff
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *  http://jquery.org/license
  *

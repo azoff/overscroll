@@ -9,7 +9,7 @@ Homepage: <http://azoffdesign.com/overscroll>
  
 License
 -------
-Copyright 2011, Jonathan Azoff
+Copyright 2012, Jonathan Azoff
 
 Dual licensed under the MIT or GPL Version 2 licenses.
 
