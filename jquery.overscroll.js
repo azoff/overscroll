@@ -1,5 +1,5 @@
 /**
- * Overscroll v1.6.1
+ * Overscroll v1.6.2
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  http://azof.fr/pYCzuM
  *
- * Date: Saturday, February 18th 2012
+ * Date: Thursday, April 12th 2012
  */
 
 /*jslint onevar: true, strict: true */
@@ -374,7 +374,7 @@
         flags.drifting = false;
 
         // only start drag if the user has not explictly banned it.
-        if (!start.is(data.options.cancelOn)) {
+        if (start.size() && !start.is(data.options.cancelOn)) {
             event.preventDefault();
             target.css('cursor', compat.cursorGrabbing);
             target.data(datakey).dragging = flags.dragging = flags.dragged = false;
@@ -647,7 +647,7 @@
     // the behavior that Overscroll emulates. This function
     // is called instead of overscroll if the device supports
     // it
-    touchscroll = function(options) {
+    touchscroll = function() {
         return this.removeOverscroll().each(function() {
             $(this).data(datakey, { remover: getRemover(this) })
             .css(compat.overflowScrolling, 'touch')
