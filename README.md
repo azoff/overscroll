@@ -46,6 +46,8 @@ $(selector).overscroll([options]);
         - The amount of drift to apply per drag interval
     * `options.zIndex` `{Number: 999}`
         - The z-index applied to the thumb elements
+	* `options.dragHold` `{Boolean: false}`
+		- Locks onto the overscrolled element when dragging and doesn't let go when the mouse moves away from it.
 
 ```javascript
 $(selector).removeOverscroll();

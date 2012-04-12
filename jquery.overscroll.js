@@ -112,7 +112,8 @@
         persistThumbs:  false,
         wheelDelta:     settings.wheelDelta,
         wheelDirection: 'vertical',
-        zIndex:         999
+        zIndex:         999,
+        dragHold:       false
     },
     
     // Triggers a DOM event on the overscrolled element.
@@ -269,10 +270,11 @@
 
         var data = event.data, 
         options  = data.options,
-        sizing  = data.sizing,
+        sizing   = data.sizing,
         thumbs   = data.thumbs,
         position = data.position,
-        flags    = data.flags;
+        flags    = data.flags,
+        target   = options.dragHold ? data.target[0] : this;
 
         if (!flags.dragged) {
             toggleThumbs(thumbs, options, true);
@@ -281,11 +283,11 @@
         flags.dragged = true;
 
         if (options.direction !== 'vertical') {
-            this.scrollLeft -= (event.pageX - position.x);
+            target.scrollLeft -= (event.pageX - position.x);
         }
 
-        if (data.options.direction !== 'horizontal') {
-            this.scrollTop -= (event.pageY - position.y);
+        if (options.direction !== 'horizontal') {
+            target.scrollTop -= (event.pageY - position.y);
         }
 
         capturePosition(event, data.position);
@@ -295,7 +297,7 @@
             capturePosition(event, data.capture, settings.captureThreshold);
         }
         
-        moveThumbs(thumbs, sizing, this.scrollLeft, this.scrollTop);
+        moveThumbs(thumbs, sizing, target.scrollLeft, target.scrollTop);
 
     },
     
@@ -339,7 +341,7 @@
 
         // animate the drift sequence
         compat.animate(function render() {
-            if (data.drifting) {            
+            if (data.drifting) {
                 var min = 1, max = -1;
                 data.drifting = false;
                 if (yMod > min && target.scrollTop > scrollTop || yMod < max && target.scrollTop < scrollTop) {
@@ -354,10 +356,10 @@
                 }
                 moveThumbs(thumbs, sizing, target.scrollLeft, target.scrollTop);
                 compat.animate(render);
-            } else {                
+            } else {
                 triggerEvent('driftend', data.target);
                 callback(data);                
-            }            
+            }
         });
 
     },
@@ -365,7 +367,7 @@
     // starts the drag operation and binds the mouse move handler
     start = function (event) {
 
-        var data = event.data, 
+        var data = event.data,
         target   = data.target,
         start    = data.start = $(event.target),
         flags    = data.flags;
@@ -378,7 +380,13 @@
             event.preventDefault();
             target.css('cursor', compat.cursorGrabbing);
             target.data(datakey).dragging = flags.dragging = flags.dragged = false;
-            target.on(events.drag, data, drag);
+            
+            if(data.options.dragHold) {
+                $(document).on(events.drag, data, drag);
+            } else {
+                target.on(events.drag, data, drag);
+            }
+            
             data.position = capturePosition(event, {});
             data.capture = capturePosition(event, {}, settings.captureThreshold);
             triggerEvent('dragstart', target);
@@ -402,17 +410,21 @@
             }
         };
 
-        target.unbind(events.drag, drag);
+        if(options.dragHold) {
+            $(document).unbind(events.drag, drag);
+        } else {
+            target.unbind(events.drag, drag);
+        }
 
         // only fire events and drift if we started with a
         // valid position
-        if (data.position) {            
+        if (data.position) {
 
             triggerEvent('dragend', target);
 
             // only drift if a drag passed our threshold
             if (flags.dragging) {
-                drift(this, event, done);
+                drift(target[0], event, done);
             } else {
                 done();
             }
@@ -600,10 +612,14 @@
             cursor: compat.cursorGrab
         }).on(events.wheel, data, wheel)
           .on(events.start, data, start)
-          .on(events.end, data, stop)
           .on(events.scroll, data, scroll)
           .on(events.ignored, false);
         
+        if(options.dragHold) {
+            $(document).on(events.end, data, stop);
+        } else {
+            data.target.on(events.end, data, stop);
+        }
         
         // apply any user-provided scroll offsets
         if (options.scrollLeft !== null) {
