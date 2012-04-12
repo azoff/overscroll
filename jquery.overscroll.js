@@ -47,12 +47,19 @@
                     global[animator].call(global, callback);
                 };
             }
-            
+			
             // check to see if overflowScrolling is available
             if (style[scroller] !== none) {
                 compat.overflowScrolling = cssprefix + 'overflow-scrolling';
-            }
+            } else if (compat.touchEvents) {
+				
+			}
+			
+			
         });
+		
+		// check to see if the client supports touch
+		compat.touchEvents = 'ontouchstart' in global;
         
         // fallback to set timeout for no animation support
         if (!compat.animate) {
@@ -78,12 +85,12 @@
     // These are all the events that could possibly 
     // be used by the plug-in
     events = {
-        drag:       'mousemove',
-        end:        'mouseup mouseleave click',
+		drag:       'mousemove touchmove',
+        end:        'mouseup mouseleave click touchend touchcancel',
         hover:      'mouseenter mouseleave',
         ignored:    'select dragstart drag',
         scroll:     'scroll',
-        start:      'mousedown',
+        start:      'mousedown touchstart',
         wheel:      'mousewheel DOMMouseScroll'
     },
     
@@ -186,7 +193,7 @@
         var events = target.data('events'),
         click = events && events.click ? events.click.slice() : [];
         if (events) { delete events.click; }
-        target.one('mouseup', function () {
+        target.one('mouseup touchend touchcancel', function () {
             $.each(click, function(i, event){
                 target.click(event);
             });
@@ -265,17 +272,24 @@
 
     // updates the current scroll offset during a mouse move
     drag = function (event) {
+		
+		event.preventDefault();
 
-        event.preventDefault();
-
-        var data = event.data, 
+        var data = event.data,
+		touches  = event.originalEvent.touches, 
         options  = data.options,
         sizing   = data.sizing,
         thumbs   = data.thumbs,
         position = data.position,
         flags    = data.flags,
-        target   = options.dragHold ? data.target.get(0) : this;
+		target   = data.target.get(0);
 
+		
+		// correct page coordinates for touch devices
+		if (compat.touchEvents && touches && touches.length) {
+			event = touches[0];
+		}
+		
         if (!flags.dragged) {
             toggleThumbs(thumbs, options, true);
         }
@@ -283,11 +297,11 @@
         flags.dragged = true;
 
         if (options.direction !== 'vertical') {
-            target.scrollLeft -= (event.pageX - position.x);
+			target.scrollLeft -= (event.pageX - position.x);
         }
 
-        if (options.direction !== 'horizontal') {
-            target.scrollTop -= (event.pageY - position.y);
+        if (data.options.direction !== 'horizontal') {
+			target.scrollTop -= (event.pageY - position.y);
         }
 
         capturePosition(event, data.position);
@@ -341,7 +355,7 @@
 
         // animate the drift sequence
         compat.animate(function render() {
-            if (data.drifting) {
+            if (data.drifting) {            
                 var min = 1, max = -1;
                 data.drifting = false;
                 if (yMod > min && target.scrollTop > scrollTop || yMod < max && target.scrollTop < scrollTop) {
@@ -356,10 +370,10 @@
                 }
                 moveThumbs(thumbs, sizing, target.scrollLeft, target.scrollTop);
                 compat.animate(render);
-            } else {
+            } else {                
                 triggerEvent('driftend', data.target);
                 callback(data);                
-            }
+            }            
         });
 
     },
@@ -367,7 +381,7 @@
     // starts the drag operation and binds the mouse move handler
     start = function (event) {
 
-        var data = event.data,
+        var data = event.data, 
         target   = data.target,
         start    = data.start = $(event.target),
         flags    = data.flags;
@@ -376,11 +390,17 @@
         flags.drifting = false;
 
         // only start drag if the user has not explictly banned it.
-        if (start.size() && !start.is(data.options.cancelOn)) {
-            event.preventDefault();
+		if (start.size() && !start.is(data.options.cancelOn)) {
+			
+			// without this the simple "click" event won't be recognized on touch clients
+			if (!compat.touchEvents) {
+				event.preventDefault();
+			}
+			
             target.css('cursor', compat.cursorGrabbing);
             target.data(datakey).dragging = flags.dragging = flags.dragged = false;
             
+			// apply the drag listeners to the doc or target
             if(data.options.dragHold) {
                 $(document).on(events.drag, data, drag);
             } else {
@@ -410,6 +430,7 @@
             }
         };
 
+		// remove drag listeners from doc or target
         if(options.dragHold) {
             $(document).unbind(events.drag, drag);
         } else {
@@ -418,7 +439,7 @@
 
         // only fire events and drift if we started with a
         // valid position
-        if (data.position) {
+        if (data.position) {            
 
             triggerEvent('dragend', target);
 
@@ -612,9 +633,11 @@
             cursor: compat.cursorGrab
         }).on(events.wheel, data, wheel)
           .on(events.start, data, start)
+          .on(events.end, data, stop)
           .on(events.scroll, data, scroll)
           .on(events.ignored, false);
         
+		// apply the stop listeners for drag end
         if(options.dragHold) {
             $(document).on(events.end, data, stop);
         } else {
