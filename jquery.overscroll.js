@@ -78,12 +78,12 @@
     // These are all the events that could possibly 
     // be used by the plug-in
     events = {
-        drag:       'mousemove',
-        end:        'mouseup mouseleave click',
+		drag:       'mousemove touchmove',
+        end:        'mouseup mouseleave click touchend touchcancel',
         hover:      'mouseenter mouseleave',
         ignored:    'select dragstart drag',
         scroll:     'scroll',
-        start:      'mousedown',
+        start:      'mousedown touchstart',
         wheel:      'mousewheel DOMMouseScroll'
     },
     
@@ -114,6 +114,8 @@
         wheelDirection: 'vertical',
         zIndex:         999
     },
+	
+	isTouchClient=(!compat.overflowScrolling && (('ontouchstart' in window)&&('ontouchend' in window))),
     
     // Triggers a DOM event on the overscrolled element.
     // All events are namespaced under the overscroll name
@@ -185,7 +187,7 @@
         var events = target.data('events'),
         click = events && events.click ? events.click.slice() : [];
         if (events) { delete events.click; }
-        target.one('mouseup', function () {
+        target.one('mouseup touchend touchcancel', function () {
             $.each(click, function(i, event){
                 target.click(event);
             });
@@ -264,7 +266,11 @@
 
     // updates the current scroll offset during a mouse move
     drag = function (event) {
-
+		if(event.originalEvent.touches){
+			event.pageX=event.originalEvent.touches[0].pageX;
+			event.pageY=event.originalEvent.touches[0].pageY;
+		}
+		
         event.preventDefault();
 
         var data = event.data, 
@@ -375,7 +381,7 @@
 
         // only start drag if the user has not explictly banned it.
         if (!start.is(data.options.cancelOn)) {
-            event.preventDefault();
+            if(!isTouchClient)event.preventDefault();//Without this the simple "click" event won't be recognized on touch clients
             target.css('cursor', compat.cursorGrabbing);
             target.data(datakey).dragging = flags.dragging = flags.dragged = false;
             target.on(events.drag, data, drag);
