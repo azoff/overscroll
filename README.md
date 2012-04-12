@@ -1,6 +1,6 @@
-Overscroll v1.6.1
+Overscroll v1.6.2
 =================
-Saturday, February 18th 2012
+Thursday, April 12th 2012
 
 Overscroll is a jQuery Plugin that [polyfills](http://remysharp.com/2010/10/08/what-is-a-polyfill) mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style in a desktop browser. It is intended for use with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -103,6 +103,13 @@ As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as muc
 
 Change Log
 ----------
+ * __1.6.2__
+  - Explicit check for start element.
+      + <https://github.com/azoff/Overscroll/issues/48>
+  - Added support for android devices.
+      + <https://github.com/azoff/Overscroll/issues/51>
+  - Added dragHold feature support.
+      + <https://github.com/azoff/Overscroll/issues/49>
  * __1.6.1__
   - Fixed feature detection and dragging data flag.
       + <https://github.com/azoff/Overscroll/issues/41>
