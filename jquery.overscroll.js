@@ -207,7 +207,15 @@
         var data = event.data,
         thumbs   = data.thumbs,
         options  = data.options,
-        dragging = event.type === 'mouseenter';
+        dragging = event.type === 'mouseenter',
+        sizing = data.sizing,
+        target = data.target;
+        
+        // check to see if there is anything to actually scroll, if not, then don't show grab cursor
+        if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollHeight > sizing.container.height) {
+            target.css('cursor', compat.cursorGrab);
+        }
+        
         toggleThumbs(thumbs, options, dragging);
     },
 
@@ -384,7 +392,8 @@
         var data = event.data, 
         target   = data.target,
         start    = data.start = $(event.target),
-        flags    = data.flags;
+        flags    = data.flags,
+        sizing = data.sizing;
 
         // stop any drifts
         flags.drifting = false;
@@ -397,7 +406,11 @@
                 event.preventDefault();
             }
 
-            target.css('cursor', compat.cursorGrabbing);
+            // check to see if there is anything to scroll, if not, don't show grabbing cursor
+            if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollHeight > sizing.container.height) {
+                target.css('cursor', compat.cursorGrabbing);
+            }
+            
             target.data(datakey).dragging = flags.dragging = flags.dragged = false;
 
             // apply the drag listeners to the doc or target
@@ -422,6 +435,7 @@
         options = data.options,
         flags = data.flags,
         thumbs = data.thumbs,
+        sizing = data.sizing,
 
         // hides the thumbs after the animation is done
         done = function () {
@@ -466,8 +480,10 @@
             flags.dragged  = 
             flags.dragging = false;
 
-        // set the cursor back to normal
-        target.css('cursor', compat.cursorGrab);
+        // if there is actually content to scroll, reset to grab cursor
+        if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollHeight > sizing.container.height) {
+            target.css('cursor', compat.cursorGrab);
+        }
 
     },
 
@@ -595,12 +611,12 @@
         thumbs  = {}, 
         css     = false;
 
-        if (sizing.container.scrollWidth > 0 && options.direction !== 'vertical') {
+        if (sizing.container.scrollWidth > 0 && sizing.container.scrollWidth > sizing.container.width && options.direction !== 'vertical') {
             css = getThumbCss(sizing.thumbs.horizontal, options);
             thumbs.horizontal = $(div).css(css).prependTo(target);
         }
 
-        if (sizing.container.scrollHeight > 0 && options.direction !== 'horizontal') {
+        if (sizing.container.scrollHeight > 0 && sizing.container.scrollHeight > sizing.container.height && options.direction !== 'horizontal') {
             css = getThumbCss(sizing.thumbs.vertical, options);
             thumbs.vertical = $(div).css(css).prependTo(target);
         }
@@ -629,8 +645,7 @@
         // apply any required CSS
         data.target = target = $(target).css({
             position: 'relative',
-            overflow: 'hidden',
-            cursor: compat.cursorGrab
+            overflow: 'hidden'
         }).on(events.wheel, data, wheel)
           .on(events.start, data, start)
           .on(events.end, data, stop)
