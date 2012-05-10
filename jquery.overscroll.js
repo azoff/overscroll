@@ -407,7 +407,7 @@
             }
 
             // check to see if there is anything to scroll, if not, don't show grabbing cursor
-            if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollWidth > sizing.container.width) {
+            if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollHeight > sizing.container.height) {
                 target.css('cursor', compat.cursorGrabbing);
             }
             
