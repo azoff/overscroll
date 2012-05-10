@@ -212,7 +212,7 @@
         target = data.target;
         
         // check to see if there is anything to actually scroll, if not, then don't show grab cursor
-        if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollWidth > sizing.container.width) {
+        if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollHeight > sizing.container.height) {
             target.css('cursor', compat.cursorGrab);
         }
         
@@ -481,7 +481,7 @@
             flags.dragging = false;
 
         // if there is actually content to scroll, reset to grab cursor
-        if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollWidth > sizing.container.width) {
+        if(sizing.container.scrollWidth > sizing.container.width || sizing.container.scrollHeight > sizing.container.height) {
             target.css('cursor', compat.cursorGrab);
         }
 
