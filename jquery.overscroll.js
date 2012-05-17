@@ -1,5 +1,5 @@
 /**
- * Overscroll v1.6.2
+ * Overscroll v1.6.3
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,14 +13,14 @@
  * For API documentation, see the README file
  *  http://azof.fr/pYCzuM
  *
- * Date: Thursday, April 12th 2012
+ * Date: Thursday, May 17th 2012
  */
 
 /*jslint onevar: true, strict: true */
 
 /*global window, document, setTimeout, clearTimeout, jQuery */
 
-(function(global, dom, math, wait, cancel, namespace, $, none){
+(function(global, dom, browser, math, wait, cancel, namespace, $, none){
 
     // We want to run this plug-in in strict-mode
     // so that we may benefit from any optimizations
@@ -33,6 +33,7 @@
     // runs feature detection for overscroll
     compat = (function(){
         var b  = $.browser, fallback,
+        agent = browser.userAgent,
         style  = dom.createElement(datakey).style,
         prefix = b.webkit ? 'webkit' : (b.mozilla ? 'moz' : (b.msie ? 'ms' : (b.opera ? 'o' : ''))),
         cssprefix = prefix ? ['-','-'].join(prefix) : '';
@@ -50,12 +51,13 @@
 
             // check to see if overflowScrolling is available
             if (style[scroller] !== none) {
-                compat.overflowScrolling = cssprefix + 'overflow-scrolling';
-            } else if (compat.touchEvents) {
-
+                // Chrome 19 introduced overflow scrolling. Unfortunately, their touch 
+                // implementation is incomplete. Hence, we act like it is not supported
+                // for chrome. #59
+                if (agent.indexOf('Chrome') < 0) {
+                    compat.overflowScrolling = cssprefix + 'overflow-scrolling';
+                }
             }
-
-
         });
 
         // check to see if the client supports touch
@@ -503,9 +505,11 @@
         width        = $target.width(),
         height       = $target.height(),
         scrollWidth  = width >= target.scrollWidth ? width : target.scrollWidth,
-        scrollHeight = height >= target.scrollHeight ? height : target.scrollHeight;
+        scrollHeight = height >= target.scrollHeight ? height : target.scrollHeight,
+        hasScroll    = scrollWidth > width || scrollHeight > height;
 
         return {
+            valid: hasScroll,
             container: {
                 width: width,
                 height: height,
@@ -614,55 +618,59 @@
     // This function takes a jQuery element, some
     // (optional) options, and sets up event metadata 
     // for each instance the plug-in affects
-    setup = function(target, options) {
+    setup = function(target, options) {        
 
         // create initial data properties for this instance
-        var thumbs, sizing,
-        data = {
-            flags:   { dragging: false },
-            options: options = getOptions(options),
-            remover: getRemover(target, true),
-            sizing:  sizing = getSizing(target)            
+        options = getOptions(options);
+        var sizing = getSizing(target),
+        thumbs, data = {
+            options: options, sizing: sizing,
+            flags: { dragging: false },
+            remover: getRemover(target, true)           
         };
+        
+        // only apply handlers if the overscrolled element
+        // actually has an area to scroll
+        if (sizing.valid) {
+            // provide a circular-reference, enable events, and
+            // apply any required CSS
+            data.target = target = $(target).css({
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: compat.cursorGrab
+            }).on(events.wheel, data, wheel)
+              .on(events.start, data, start)
+              .on(events.end, data, stop)
+              .on(events.scroll, data, scroll)
+              .on(events.ignored, false);
 
-        // provide a circular-reference, enable events, and
-        // apply any required CSS
-        data.target = target = $(target).css({
-            position: 'relative',
-            overflow: 'hidden',
-            cursor: compat.cursorGrab
-        }).on(events.wheel, data, wheel)
-          .on(events.start, data, start)
-          .on(events.end, data, stop)
-          .on(events.scroll, data, scroll)
-          .on(events.ignored, false);
+            // apply the stop listeners for drag end
+            if(options.dragHold) {
+                $(document).on(events.end, data, stop);
+            } else {
+                data.target.on(events.end, data, stop);
+            }
 
-        // apply the stop listeners for drag end
-        if(options.dragHold) {
-            $(document).on(events.end, data, stop);
-        } else {
-            data.target.on(events.end, data, stop);
-        }
+            // apply any user-provided scroll offsets
+            if (options.scrollLeft !== null) {
+                target.scrollLeft(options.scrollLeft);
+            } if (options.scrollTop !== null) {
+                target.scrollTop(options.scrollTop);
+            }
 
-        // apply any user-provided scroll offsets
-        if (options.scrollLeft !== null) {
-            target.scrollLeft(options.scrollLeft);
-        } if (options.scrollTop !== null) {
-            target.scrollTop(options.scrollTop);
-        }
-
-        // add thumbs and listeners (if we're showing them)
-        if (options.showThumbs) {
-            data.thumbs = thumbs = createThumbs(target, sizing, options);
-            if (thumbs.added) {
-                moveThumbs(thumbs, sizing, target.scrollLeft(), target.scrollTop());
-                if (options.hoverThumbs) {
-                    target.on(events.hover, data, hover);
+            // add thumbs and listeners (if we're showing them)
+            if (options.showThumbs) {
+                data.thumbs = thumbs = createThumbs(target, sizing, options);
+                if (thumbs.added) {
+                    moveThumbs(thumbs, sizing, target.scrollLeft(), target.scrollTop());
+                    if (options.hoverThumbs) {
+                        target.on(events.hover, data, hover);
+                    }
                 }
             }
-        }
 
-        target.data(datakey, data);
+            target.data(datakey, data);   
+        }        
 
     },
 
@@ -714,4 +722,4 @@
         removeOverscroll:   removeOverscroll
     });
 
-})(window, document, Math, setTimeout, clearTimeout, jQuery.fn, jQuery);
+})(window, document, navigator, Math, setTimeout, clearTimeout, jQuery.fn, jQuery);

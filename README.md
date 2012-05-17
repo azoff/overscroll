@@ -1,6 +1,6 @@
-Overscroll v1.6.2
+Overscroll v1.6.3
 =================
-Thursday, April 12th 2012
+Thursday, May 17th 2012
 
 Overscroll is a jQuery Plugin that [polyfills](http://remysharp.com/2010/10/08/what-is-a-polyfill) mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style in a desktop browser. It is intended for use with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -101,8 +101,17 @@ As of 1.3.1, if you would like to add click handlers to links inside of overscro
 
 As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as much as you like, without worrying about memory leaks. What this means is that you may dynamically add elements to the overscrolled element, and then re-call the `overscroll` method to take into account the new height. This would have been done programatically if DOM Elements supported the resize event, alas only the window object supports this event.
 
+A Note About AMD
+----------------
+Full disclosure, I have no interest in supporting [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD). It seems great, I'm sure lots of people use it - but [its goals](http://requirejs.org/docs/whyamd.html) seem tangential to making Overscroll a better plug-in. It's hard enough keeping up with browsers, no sense in making Overscroll anything more than what it is: a jQuery plug-in. If you want to turn Overscroll into an AMD module, than I wholly encourage you to do so! Just fork the project and shoot me a link so that I can reference it here.
+
 Change Log
 ----------
+ * __1.6.3__
+  - Fixed Chrome 19's bad overflow-scrolling implementation.
+      + <https://github.com/azoff/Overscroll/issues/59>
+  - Only apply overscroll if there is content to scroll. (thanks @tsneed290)
+      + <https://github.com/azoff/Overscroll/issues/57>
  * __1.6.2__
   - Explicit check for start element.
       + <https://github.com/azoff/Overscroll/issues/48>
