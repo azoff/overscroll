@@ -1,6 +1,6 @@
-Overscroll v1.6.3
+Overscroll v1.6.4
 =================
-Thursday, May 17th 2012
+Thursday, October 10 2012
 
 Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/what-is-a-polyfill) for mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style. It is intended for use on desktop browsers, with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -36,7 +36,7 @@ $(selector).overscroll([options]);
         - Start the overscrolled element at a particular top offset. Defers to the browser default if not set
     * `options.direction` `{String: 'auto'}`
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
-    * `options.cancelOn` `{String: ""}`
+    * `options.cancelOn` `{String: "select,input,textarea"}`
         - An optional jQuery selector to ignore on drag events. Note: must match an element inside the overscrolled element.
     * `options.wheelDirection` `{String: 'vertical'}`
         - The direction scrolled when the mouse wheel is triggered. Options are 'horizontal' for left/right scrolling and 'vertical' for up/down scrolling.
@@ -107,74 +107,58 @@ Full disclosure, I have no interest in supporting [AMD](https://github.com/amdjs
 
 Change Log
 ----------
+ * __1.6.4__
+  - Fixed bug in deferClick logic. #65
+  - Add support for scroll offset on iOS. #72
+  - Default cancelOn to "select, input, textarea". #70
+  - README and source cleanup
  * __1.6.3__
-  - Fixed Chrome 19's bad overflow-scrolling implementation.
-      + <https://github.com/azoff/Overscroll/issues/59>
-  - Only apply overscroll if there is content to scroll. (thanks @tsneed290)
-      + <https://github.com/azoff/Overscroll/issues/57>
+  - Fixed Chrome 19's bad overflow-scrolling implementation. #59
+  - Only apply overscroll if there is content to scroll. (thanks @tsneed290) #57
  * __1.6.2__
-  - Explicit check for start element.
-      + <https://github.com/azoff/Overscroll/issues/48>
-  - Added support for android devices.
-      + <https://github.com/azoff/Overscroll/issues/51>
-  - Added dragHold feature support.
-      + <https://github.com/azoff/Overscroll/issues/49>
+  - Explicit check for start element. #48
+  - Added support for android devices. #51
+  - Added dragHold feature support. #49
  * __1.6.1__
-  - Fixed feature detection and dragging data flag.
-      + <https://github.com/azoff/Overscroll/issues/41>
-  - Don't prevent default until after checking cancel on.
-      + <https://github.com/azoff/Overscroll/issues/42>
+  - Fixed feature detection and dragging data flag. #41
+  - Don't prevent default until after checking cancel on. #42
  * __1.6.0__
   - Major re-factor on code structure to improve readability (more modular, added comments)
   - Migrated drift function to use requestAnimationFrame
   - Exposed global settings, for even finer-grained control of plug-in execution
-  - Added restoration of original style information on removeOverscroll (thanks @coeamyd)
-       + <https://github.com/azoff/Overscroll/pull/38>
+  - Added restoration of original style information on removeOverscroll (thanks @coeamyd) #38
  * __1.5.2__
-  - Added zIndex option for configuring thumb elements' z-index
-       + <https://github.com/azoff/Overscroll/issues/33>
-  - Added handling of external scroll event for repositioning thumbs
-       + <https://github.com/azoff/Overscroll/issues/34>
-  - Added `hoverThumbs` option to show thumbs on hover (thanks @groenroos)
-       + <https://github.com/azoff/Overscroll/pull/32>
+  - Added zIndex option for configuring thumb elements' z-index #33
+  - Added handling of external scroll event for repositioning thumbs #34
+  - Added `hoverThumbs` option to show thumbs on hover (thanks @groenroos) #32
   - Migrated to new  jQuery plugin standard
        + <https://github.com/jquery/plugins.jquery.com/blob/master/docs/package.md>
  * __1.5.1__
-  - Added CSS "grab" cursors to scrolled elements
-       + <https://github.com/azoff/Overscroll/issues/31>
-  - Fixed click deference on event targets
-       + <https://github.com/azoff/Overscroll/issues/30> 
-  - Native scrolling support for touch enabled devices
-       + <https://github.com/azoff/Overscroll/issues/29>       
+  - Added CSS "grab" cursors to scrolled elements #31
+  - Fixed click deference on event targets #30
+  - Native scrolling support for touch enabled devices #29
  * __1.5.0__
   - Updated code to support jQuery v1.7
-  - Fixed mouse wheel support
-        + <https://github.com/azoff/Overscroll/issues/27>
-  - Fixed double event calling bug when overscroll is rebound
-        + <https://github.com/azoff/Overscroll/issues/28>
+  - Fixed mouse wheel support #27
+  - Fixed double event calling bug when overscroll is rebound #28
  * __1.4.9__
   - Data reference optimization in often called methods
   - Renamed demo file
   - Prevent default behavior on mouse wheel to prevent window scroll
   - Less assumptions made in removeOverscroll
   - Migrated to function form of "use strict"
-  - Added persistent thumb support
-        + <https://github.com/azoff/Overscroll/issues/26>
-  - Ensured that events are removed on Overscroll re-binding
-        + <https://github.com/azoff/Overscroll/issues/21>
+  - Added persistent thumb support #26
+  - Ensured that events are removed on Overscroll re-binding #21
  * __1.4.8__
-  - Fixed incorrect iOS event detection and normalization
-        + <https://github.com/azoff/Overscroll/issues/24>  
+  - Fixed incorrect iOS event detection and normalization #24
   - Cleaned up sizing method
   - Added scrollLeft and scrollTop options
  * __1.4.7__
   - Fixed formatting in README
   - Added a z-index to the thumb CSS
  * __1.4.6__
-  - Fixed regression in direction restriction
-        + <https://github.com/azoff/Overscroll/issues/23>
-  - Added click insulation on drag events
-        + <https://github.com/azoff/Overscroll/issues/22>
+  - Fixed regression in direction restriction #23
+  - Added click insulation on drag events #22
   - Fixed bug when calculating container scrollWidth/Height (thanks Riccardo "Rial" Re)
  * __1.4.5__
   - Changed compiler to uglifyjs
@@ -188,16 +172,12 @@ Change Log
   - Added deconstructor `jQuery.fn.removeOverscroll`
  * __1.4.3__
   - Improved iOS detection algorithm
-  - Fixed a typo in README.md
-        + <https://github.com/azoff/Overscroll/issues/14>
-  - Removed 'onDriftEnd' and added real events
-        + <https://github.com/azoff/Overscroll/issues/13>
+  - Fixed a typo in README.md #14
+  - Removed 'onDriftEnd' and added real events #13
  * __1.4.2__
   - Fixed bug in chrome due to ambiguous positioning
-  - Added the cancelOn option (thanks Herhor)
-        + <https://github.com/azoff/Overscroll/issues/5>
-  - Fixed iOS start handler bug (thanks kkriehl)
-    + <https://github.com/azoff/Overscroll/issues/9>
+  - Added the cancelOn option (thanks Herhor) #5
+  - Fixed iOS start handler bug (thanks kkriehl) #9
   - Added Opera support
  * __1.4.1__
   - Fixed a null pointer exception that occurs when thumbs are hidden (thanks Henning)
@@ -206,24 +186,19 @@ Change Log
   - Moved thumb start handler to start of drag (more like iOS behavior)
   - Fixed bug with scroll event binding when no thumbs are present
   - Improved drift mechanism by using a native animation over jQuery
-  - Added iOS support (thanks to Riccardo "Rial" Re)
-        + <http://github.com/azoff/Overscroll/issues/7>
+  - Added iOS support (thanks to Riccardo "Rial" Re) #7
  * __1.3.5__
-  - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr)
-        + <http://github.com/azoff/Overscroll/issues/4>
+  - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr) #4
   - Fixed bug with mouse wheel scroll direction (thanks Volderr)
   - Cached the cursor CSS
  * __1.3.4__
-  - Added the ability to call a function at the end of the drift via options.onDriftEnd 
-        + <http://github.com/azoff/Overscroll/issues/4> (thanks Volderr)
+  - Added the ability to call a function at the end of the drift via options.onDriftEnd (thanks Volderr) #4
  * __1.3.3__
-  - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta
-        + <http://github.com/azoff/Overscroll/issues/3> (thanks Volderr)
+  - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta (thanks Volderr) #3
   - Made mouse wheel scrolling more efficient via deferred fade out call
  * __1.3.2__
   - Updated documentation, added README file for Github
-  - Fixed undefined error on mouse wheel scroll for horizontal scrollers.
-        + <http://github.com/azoff/Overscroll/issues/1> (thanks Volderr)
+  - Fixed undefined error on mouse wheel scroll for horizontal scrollers. (thanks Volderr) #1
   - Added the ability to restrict scroll direction via options.direction
  * __1.3.1__
   - Made the dragging state externally visible via .data("dragging")
