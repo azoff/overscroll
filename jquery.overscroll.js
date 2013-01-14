@@ -234,7 +234,7 @@
 		sizing = data.sizing,
 		thumbs = data.thumbs,
 		wheel = data.wheel,
-		flags = data.flags, delta,
+		flags = data.flags, delta, deltax, deltay,
 		original = event.originalEvent;
 
 		// stop any drifts
@@ -244,9 +244,23 @@
 		// TODO: let's base this on some fact somewhere...
 		if (original.wheelDelta) {
 			delta = original.wheelDelta / (compat.prefix === 'o' ? -120 : 120);
-		} if (original.detail) {
-			delta = -original.detail / 3;
-		} delta *= options.wheelDelta;
+		}
+
+		if ( original.wheelDeltaX) {
+			deltaX = original.wheelDeltaX / (compat.prefix === 'o' ? -120 : 120);
+		}
+		
+		if ( original.wheelDeltaY) {
+			deltaY = original.wheelDeltaY / (compat.prefix === 'o' ? -120 : 120);
+		}
+		
+		if (original.detail) {
+			delta = deltaX = deltaY = -original.detail / 3;
+		}
+		
+		delta *= options.wheelDelta;
+		deltaX *= options.wheelDelta;
+		deltaY *= options.wheelDelta;
 
 		// initialize flags if this is the first tick
 		if (!wheel) {
@@ -256,7 +270,10 @@
 		}
 
 		// actually modify scroll offsets
-		if (options.wheelDirection === 'horizontal') {
+		if (options.wheelDirection === 'multi'){
+			this.scrollLeft -= deltaX;
+			this.scrollTop -= deltaY;
+		} else if ( options.wheelDirection === 'horizontal') {
 			this.scrollLeft -= delta;
 		} else {
 			this.scrollTop -= delta;
