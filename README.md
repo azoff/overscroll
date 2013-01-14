@@ -38,8 +38,8 @@ $(selector).overscroll([options]);
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
     * `options.cancelOn` `{String: "select,input,textarea"}`
         - An optional jQuery selector to ignore on drag events. Note: must match an element inside the overscrolled element.
-    * `options.wheelDirection` `{String: 'multi'}`
-        - The direction scrolled when the mouse wheel is triggered. Options are 'multi' for multi-directional scrolling, 'horizontal' for left/right scrolling, and 'vertical' for up/down scrolling.
+    * `options.wheelDirection` `{String: 'vertical'}`
+        - The direction scrolled when the mouse wheel is triggered. Options are 'horizontal' for left/right scrolling and 'vertical' for up/down scrolling.
     * `options.wheelDelta` `{Number: 20}`
         - The amount of drift to apply per mouse wheel 'tick'
     * `options.scrollDelta` `{Number: 5.7}`

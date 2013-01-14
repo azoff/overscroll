@@ -121,7 +121,7 @@
 		showThumbs:     true,
 		persistThumbs:  false,
 		wheelDelta:     settings.wheelDelta,
-		wheelDirection: 'multi',
+		wheelDirection: 'vertical',
 		zIndex:         999
 	},
 
