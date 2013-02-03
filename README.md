@@ -1,6 +1,6 @@
-Overscroll v1.6.4
+Overscroll v1.7.0
 =================
-Thursday, October 10 2012
+Monday, February 2nd 2013
 
 Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/what-is-a-polyfill) for mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style. It is intended for use on desktop browsers, with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -8,11 +8,11 @@ Homepage: <http://azoffdesign.com/overscroll>
 
 License
 -------
-Copyright 2012, Jonathan Azoff
+Copyright 2013, Jonathan Azoff
 
-Dual licensed under the MIT or GPL Version 2 licenses.
+Licensed under the MIT license.
 
-<http://jquery.org/license>
+<https://github.com/azoff/overscroll/blob/master/mit.license>
 
 Usage
 -----
@@ -38,8 +38,10 @@ $(selector).overscroll([options]);
         - The scroll direction of the overscrolled element, by default it will auto-detect the available directions. You can also restrict direction by setting this property equal to 'vertical' or 'horizontal'
     * `options.cancelOn` `{String: "select,input,textarea"}`
         - An optional jQuery selector to ignore on drag events. Note: must match an element inside the overscrolled element.
-    * `options.wheelDirection` `{String: 'vertical'}`
-        - The direction scrolled when the mouse wheel is triggered. Options are 'horizontal' for left/right scrolling and 'vertical' for up/down scrolling.
+    * `options.captureWheel` `{Boolean: true}`
+        - Designates whether or not to react to mouse wheel events
+    * `options.wheelDirection` `{String: 'multi'}`
+        - The direction scrolled when the mouse wheel is triggered. Options are 'multi' for multi-directional scrolling, 'horizontal' for left/right scrolling, and 'vertical' for up/down scrolling.
     * `options.wheelDelta` `{Number: 20}`
         - The amount of drift to apply per mouse wheel 'tick'
     * `options.scrollDelta` `{Number: 5.7}`
@@ -71,7 +73,6 @@ jQuery.fn.overscroll.settings = {
 }
 ```
 
-
 Events
 ------
 Apart from regular DOM events, overscrolled elements emit events to capture dragging and drifting boundaries. To listen to these events, simply listen for one of the following events on an overscrolled element:
@@ -91,8 +92,8 @@ Here is an example using jQuery's [on()](http://api.jquery.com/on/) method, list
 $('#selector').overscroll().on('overscroll:dragstart', function(){ console.log('Drag started!') });
 ```
 
-Notes
------
+Finer Points
+------------
 In order to get the most out of this plugin, make sure to only apply it to parent elements that are smaller than the collective width and/or height then their children. This way, you can see the actual scroll effect as you pan the element.
 
 While you can programatically control whether or not overscroll allows horizontal and/or vertical scroll, it is best practice to size the child elements accordingly (via CSS) and not depend on programatic restrictions.
@@ -101,134 +102,12 @@ As of 1.3.1, if you would like to add click handlers to links inside of overscro
 
 As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as much as you like, without worrying about memory leaks. What this means is that you may dynamically add elements to the overscrolled element, and then re-call the `overscroll` method to take into account the new height. This would have been done programatically if DOM Elements supported the resize event, alas only the window object supports this event.
 
+As of 1.7.0 you can scroll in multiple directions using the mouse wheel. You can also disable mouse wheel support.
+
+Contributing
+------------
+I <3 pull requests. If you want to contribute, please fork the code and submit a pull request. If you want to take an active maintaining overscroll, just let me know - I would wholeheartedly appreciate the help.
+
 A Note About AMD
 ----------------
-Full disclosure, I have no interest in supporting [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD). It seems great, I'm sure lots of people use it - but [its goals](http://requirejs.org/docs/whyamd.html) seem tangential to making Overscroll a better plug-in. It's hard enough keeping up with browsers, no sense in making Overscroll anything more than what it is: a jQuery plug-in. If you want to turn Overscroll into an AMD module, than I wholly encourage you to do so! Just fork the project and shoot me a link so that I can reference it here.
-
-Change Log
-----------
- * __1.6.4__
-  - Fixed bug in deferClick logic. #65
-  - Add support for scroll offset on iOS. #72
-  - Default cancelOn to "select, input, textarea". #70
-  - README and source cleanup
- * __1.6.3__
-  - Fixed Chrome 19's bad overflow-scrolling implementation. #59
-  - Only apply overscroll if there is content to scroll. (thanks @tsneed290) #57
- * __1.6.2__
-  - Explicit check for start element. #48
-  - Added support for android devices. #51
-  - Added dragHold feature support. #49
- * __1.6.1__
-  - Fixed feature detection and dragging data flag. #41
-  - Don't prevent default until after checking cancel on. #42
- * __1.6.0__
-  - Major re-factor on code structure to improve readability (more modular, added comments)
-  - Migrated drift function to use requestAnimationFrame
-  - Exposed global settings, for even finer-grained control of plug-in execution
-  - Added restoration of original style information on removeOverscroll (thanks @coeamyd) #38
- * __1.5.2__
-  - Added zIndex option for configuring thumb elements' z-index #33
-  - Added handling of external scroll event for repositioning thumbs #34
-  - Added `hoverThumbs` option to show thumbs on hover (thanks @groenroos) #32
-  - Migrated to new  jQuery plugin standard
-       + <https://github.com/jquery/plugins.jquery.com/blob/master/docs/package.md>
- * __1.5.1__
-  - Added CSS "grab" cursors to scrolled elements #31
-  - Fixed click deference on event targets #30
-  - Native scrolling support for touch enabled devices #29
- * __1.5.0__
-  - Updated code to support jQuery v1.7
-  - Fixed mouse wheel support #27
-  - Fixed double event calling bug when overscroll is rebound #28
- * __1.4.9__
-  - Data reference optimization in often called methods
-  - Renamed demo file
-  - Prevent default behavior on mouse wheel to prevent window scroll
-  - Less assumptions made in removeOverscroll
-  - Migrated to function form of "use strict"
-  - Added persistent thumb support #26
-  - Ensured that events are removed on Overscroll re-binding #21
- * __1.4.8__
-  - Fixed incorrect iOS event detection and normalization #24
-  - Cleaned up sizing method
-  - Added scrollLeft and scrollTop options
- * __1.4.7__
-  - Fixed formatting in README
-  - Added a z-index to the thumb CSS
- * __1.4.6__
-  - Fixed regression in direction restriction #23
-  - Added click insulation on drag events #22
-  - Fixed bug when calculating container scrollWidth/Height (thanks Riccardo "Rial" Re)
- * __1.4.5__
-  - Changed compiler to uglifyjs
-        + <https://github.com/mishoo/UglifyJS>
-  - Took advantage of `noop` shortcut
-  - Applied first git tag (1.4.5)
-  - Merged drift fix (thanks esseb)
-        + <https://github.com/esseb/Overscroll/commit/8570a3cb564bbf7943c33cc6483036f1a7d8d81e>
- * __1.4.4__
-  - Maintain state on elements that have a pre-existing scroll offset
-  - Added deconstructor `jQuery.fn.removeOverscroll`
- * __1.4.3__
-  - Improved iOS detection algorithm
-  - Fixed a typo in README.md #14
-  - Removed 'onDriftEnd' and added real events #13
- * __1.4.2__
-  - Fixed bug in chrome due to ambiguous positioning
-  - Added the cancelOn option (thanks Herhor) #5
-  - Fixed iOS start handler bug (thanks kkriehl) #9
-  - Added Opera support
- * __1.4.1__
-  - Fixed a null pointer exception that occurs when thumbs are hidden (thanks Henning)
- * __1.4.0__
-  - Deprecated remote cursors in lieu of the native alternative
-  - Moved thumb start handler to start of drag (more like iOS behavior)
-  - Fixed bug with scroll event binding when no thumbs are present
-  - Improved drift mechanism by using a native animation over jQuery
-  - Added iOS support (thanks to Riccardo "Rial" Re) #7
- * __1.3.5__
-  - Added the ability to toggle mouse wheel scroll direction via options.wheelDirection (thanks Volderr) #4
-  - Fixed bug with mouse wheel scroll direction (thanks Volderr)
-  - Cached the cursor CSS
- * __1.3.4__
-  - Added the ability to call a function at the end of the drift via options.onDriftEnd (thanks Volderr) #4
- * __1.3.3__
-  - Added the ability to control the drift delta (drift strength per scroll tick) via options.[wheel|scroll]Delta (thanks Volderr) #3
-  - Made mouse wheel scrolling more efficient via deferred fade out call
- * __1.3.2__
-  - Updated documentation, added README file for Github
-  - Fixed undefined error on mouse wheel scroll for horizontal scrollers. (thanks Volderr) #1
-  - Added the ability to restrict scroll direction via options.direction
- * __1.3.1__
-  - Made the dragging state externally visible via .data("dragging")
- * __1.3.0__
-  - Merged iThumbs and Overscroll
-  - Added the ability to pass in options
-  - Moved all code to GitHub
-  - Several improvements to the thumb code
-  - Greased up the scroll a bit more
-  - Removed the jerky animation on mouse wheel
-  - Added caching for cursors
- * __1.2.1__
-  - Made "smart" click support "smarter" :)
-  - Added JSLint validation to the build process
-  - Removed unused variables and cleaned up code
- * __1.2.0__
-  - Updated license to match the jQuery license (thanks Jesse)
-  - Added vertical scroll wheel support (thanks Pwakman)
-  - Added support to ignore proprietary drag events (thanks Raphael)
-  - Added "smart" click support for clickable elements (thanks Mark)
- * __1.1.2__
-  - Added the correct click handling to the scroll operation (thanks Evilc)
- * __1.1.1__
-  - Made scroll a bit smoother (thanks Nick)
- * __1.1.0__
-  - Optimized scrolling-internals so that it is both smoother and more memory efficient (relies entirely on event model now). 
-  - Added the ability to scroll horizontally (if the overscrolled element has wider children).
- * __1.0.3__
-  - Extended the easing object, as opposed to the $ object (thanks Andre)
- * __1.0.2__
-  - Fixed timer to actually return milliseconds (thanks Don)
- * __1.0.1__
-  - Fixed bug with interactive elements and made scrolling smoother (thanks Paul and Aktar)
+I have no interest in supporting [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD). It seems great and I'm sure lots of people use it. However, [its goals](http://requirejs.org/docs/whyamd.html) seem tangential to making Overscroll a better plug-in. It's hard enough keeping up with browsers, no sense in making Overscroll anything more than what it is: a jQuery plug-in. If you want to turn Overscroll into an AMD module, than I wholly encourage you to do so! Just fork the project and shoot me a link so that I can reference it here!
