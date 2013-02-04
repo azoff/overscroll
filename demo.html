@@ -224,14 +224,16 @@
 	</div>
 
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<!--<script src="jquery-latest.js"></script>-->
 	<script src="jquery.overscroll.js"></script>
 	<script>
 		$(function(o){
 			o = $("#overscroll").overscroll({
 				cancelOn: '.no-drag',
-				//hoverThumbs: true,
-				//persistThumbs: true,
-				//showThumbs: false,
+//				captureWheel: false,
+//				hoverThumbs: true,
+//				persistThumbs: true,
+//				showThumbs: false,
 				scrollLeft: 200,
 				scrollTop: 100
 			}).on('overscroll:dragstart overscroll:dragend overscroll:driftstart overscroll:driftend', function(event){
