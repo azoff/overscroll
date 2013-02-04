@@ -13,11 +13,13 @@
 		"email": "jon@azoffdesign.com",
 		"url":   "http://github.com/azoff"
 	},
-	"maintainers": {
-		"name":  "Jonathan Azoff",
-		"email": "jon@azoffdesign.com",
-		"url":   "http://github.com/azoff"
-	},
+	"maintainers": [
+		{
+			"name":  "Jonathan Azoff",
+			"email": "jon@azoffdesign.com",
+			"url":   "http://github.com/azoff"
+		}
+	],
 	"licenses": [
 		{
 			"type": "GPLv2",
