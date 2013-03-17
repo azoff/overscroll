@@ -24,6 +24,9 @@
 	// The key used to bind-instance specific data to an object
 	var datakey = 'overscroll';
 
+    // create <body> node if there's not one present (e.g., for test runners)
+    if (dom.body === null) dom.documentElement.appendChild(dom.createElement('body'));
+
 	// runs feature detection for overscroll
 	var compat = {
 		animate: (function(){
