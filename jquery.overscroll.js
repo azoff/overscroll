@@ -1,5 +1,5 @@
 /**
- * Overscroll v1.7.1
+ * Overscroll v1.7.2
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -13,7 +13,7 @@
  * For API documentation, see the README file
  *  http://azof.fr/pYCzuM
  *
- * Date: Monday, February 4th 2013
+ * Date: Tuesday, March 18th 2013
  */
 (function(global, dom, browser, math, wait, cancel, namespace, $, none){
 
@@ -23,6 +23,13 @@
 
 	// The key used to bind-instance specific data to an object
 	var datakey = 'overscroll';
+
+    // create <body> node if there's not one present (e.g., for test runners)
+	if (dom.body === null) {
+		dom.documentElement.appendChild(
+			dom.createElement('body')
+		);
+	}
 
 	// runs feature detection for overscroll
 	var compat = {
