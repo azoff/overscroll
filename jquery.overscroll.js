@@ -755,6 +755,21 @@
 		});
 	}
 
+    /*
+     * Usage: $("ithingy").overscrollTo("#myElement");
+     */
+    function overscrollTo(selector){
+        if(typeof(selector)=='string'){
+            selector = $(selector);
+        }
+        var position = selector.position();
+        var data = this.data("overscroll");
+        this.scrollTop(position.top);
+        this.scrollLeft(position.left);
+        return this;
+    }
+
+
 	// Extend overscroll to expose settings to the user
 	overscroll.settings = settings;
 
@@ -763,7 +778,8 @@
 	// attempt to override the browser's built in support
 	$.extend(namespace, {
 		overscroll:         overscroll,
-		removeOverscroll:   removeOverscroll
+		removeOverscroll:   removeOverscroll,
+		overscrollTo:       overscrollTo
 	});
 
 })(window, document, navigator, Math, setTimeout, clearTimeout, jQuery.fn, jQuery);
