@@ -24,75 +24,8 @@
 	// The key used to bind-instance specific data to an object
 	var datakey = 'overscroll';
 
-    // create <body> node if there's not one present (e.g., for test runners)
-	if (dom.body === null) {
-		dom.documentElement.appendChild(
-			dom.createElement('body')
-		);
-	}
-
 	// runs feature detection for overscroll
-	var compat = {
-		animate: (function(){
-			var fn = global.requestAnimationFrame    ||
-				global.webkitRequestAnimationFrame ||
-				global.mozRequestAnimationFrame    ||
-				global.oRequestAnimationFrame      ||
-				global.msRequestAnimationFrame     ||
-				function(callback) { wait(callback, 1000/60); };
-			return function(callback) {
-				fn.call(global, callback);
-			};
-		})(),
-		overflowScrolling: (function(){
-			var style = '';
-			var div = dom.createElement('div');
-			var prefixes = ['webkit', 'moz', 'o', 'ms'];
-			dom.body.appendChild(div);
-			$.each(prefixes, function(i, prefix){
-				div.style[prefix + 'OverflowScrolling'] = 'touch';
-			});
-			div.style.overflowScrolling = 'touch';
-			var computedStyle = global.getComputedStyle(div);
-			if (!!computedStyle.overflowScrolling) {
-				style = 'overflow-scrolling';
-			} else {
-				$.each(prefixes, function(i, prefix){
-					if (!!computedStyle[prefix + 'OverflowScrolling']) {
-						style = '-' + prefix + '-overflow-scrolling';
-					}
-					return !style;
-				});
-			}
-			div.parentNode.removeChild(div);
-			return style;
-		})(),
-		cursor: (function() {
-			var div = dom.createElement('div');
-			var prefixes = ['webkit', 'moz'];
-			var gmail = 'https://mail.google.com/mail/images/2/';
-			var style = {
-				grab:     'url('+gmail+'openhand.cur), move',
-				grabbing: 'url('+gmail+'closedhand.cur), move'
-			};
-			dom.body.appendChild(div);
-			$.each(prefixes, function(i, prefix){
-				var found, cursor = '-' + prefix + '-grab';
-				div.style.cursor = cursor;
-				var computedStyle = global.getComputedStyle(div);
-				found = computedStyle.cursor === cursor;
-				if (found) {
-					style = {
-						grab:     '-' + prefix + '-grab',
-						grabbing: '-' + prefix + '-grabbing'
-					};
-				}
-				return !found;
-			});
-			div.parentNode.removeChild(div);
-			return style;
-		})()
-	};
+	var compat = null;
 
 	// These are all the events that could possibly
 	// be used by the plug-in
@@ -741,6 +674,80 @@
 	// You can find it's exposure point at the end
 	// of this closure
 	function overscroll(options) {
+		if (!compat) {
+
+			// create <body> node if there's not one present (e.g., for test runners)
+			if (dom.body === null) {
+				dom.documentElement.appendChild(
+					dom.createElement('body')
+				);
+			}
+
+			// runs feature detection for overscroll
+			compat = {
+				animate: (function(){
+					var fn = global.requestAnimationFrame    ||
+						global.webkitRequestAnimationFrame ||
+						global.mozRequestAnimationFrame    ||
+						global.oRequestAnimationFrame      ||
+						global.msRequestAnimationFrame     ||
+						function(callback) { wait(callback, 1000/60); };
+					return function(callback) {
+						fn.call(global, callback);
+					};
+				})(),
+				overflowScrolling: (function(){
+					var style = '';
+					var div = dom.createElement('div');
+					var prefixes = ['webkit', 'moz', 'o', 'ms'];
+					dom.body.appendChild(div);
+					$.each(prefixes, function(i, prefix){
+						div.style[prefix + 'OverflowScrolling'] = 'touch';
+					});
+					div.style.overflowScrolling = 'touch';
+					var computedStyle = global.getComputedStyle(div);
+					if (!!computedStyle.overflowScrolling) {
+						style = 'overflow-scrolling';
+					} else {
+						$.each(prefixes, function(i, prefix){
+							if (!!computedStyle[prefix + 'OverflowScrolling']) {
+								style = '-' + prefix + '-overflow-scrolling';
+							}
+							return !style;
+						});
+					}
+					div.parentNode.removeChild(div);
+					return style;
+				})(),
+				cursor: (function() {
+					var div = dom.createElement('div');
+					var prefixes = ['webkit', 'moz'];
+					var gmail = 'https://mail.google.com/mail/images/2/';
+					var style = {
+						grab:     'url('+gmail+'openhand.cur), move',
+						grabbing: 'url('+gmail+'closedhand.cur), move'
+					};
+					dom.body.appendChild(div);
+					$.each(prefixes, function(i, prefix){
+						var found, cursor = '-' + prefix + '-grab';
+						div.style.cursor = cursor;
+						var computedStyle = global.getComputedStyle(div);
+						found = computedStyle.cursor === cursor;
+						if (found) {
+							style = {
+								grab:     '-' + prefix + '-grab',
+								grabbing: '-' + prefix + '-grabbing'
+							};
+						}
+						return !found;
+					});
+					div.parentNode.removeChild(div);
+					return style;
+				})()
+			};
+		}
+	
+	
 		return this.removeOverscroll().each(function() {
 			setup(this, options);
 		});
