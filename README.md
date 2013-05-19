@@ -1,6 +1,6 @@
-Overscroll v1.7.1
+Overscroll v1.7.2
 =================
-Monday, February 4th 2013
+Monday, March 18th 2013
 
 Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/what-is-a-polyfill) for mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style. It is intended for use on desktop browsers, with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -94,7 +94,7 @@ $('#selector').overscroll().on('overscroll:dragstart', function(){ console.log('
 
 Finer Points
 ------------
-In order to get the most out of this plugin, make sure to only apply it to parent elements that are smaller than the collective width and/or height then their children. This way, you can see the actual scroll effect as you pan the element.
+In order to get the most out of this plugin, make sure to only apply it to parent elements that are smaller than the collective width and/or height of their children. This way, you can see the actual scroll effect as you pan the element.
 
 While you can programatically control whether or not overscroll allows horizontal and/or vertical scroll, it is best practice to size the child elements accordingly (via CSS) and not depend on programatic restrictions.
 
