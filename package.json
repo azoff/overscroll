@@ -1,0 +1,13 @@
+{
+  "name": "jquery-overscroll",
+  "version": "1.7.2",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.5.2",
+    "grunt-jasmine-node": "~0.1.0"
+  },
+  "scripts": {
+    "test": "grunt travis --verbose"
+  }
+}
