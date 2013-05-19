@@ -22,14 +22,27 @@ module.exports = function (grunt) {
 			projectRoot: ".",
 			requirejs: false,
 			forceExit: true
+		},
+
+		connect: {
+			server: {
+				options: {
+					port: 9000,
+					base: './'
+				}
+			}
 		}
 
 	});
 
+	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-jasmine-node');
 
-	grunt.registerTask('test', ['jasmine_node']);
+	grunt.registerTask('test', [
+        'connect:server',
+        'jasmine_node'
+        ]);
 	grunt.registerTask('default', ['test']);
 
 };
