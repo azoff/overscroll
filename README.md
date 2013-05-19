@@ -94,7 +94,7 @@ $('#selector').overscroll().on('overscroll:dragstart', function(){ console.log('
 
 Finer Points
 ------------
-In order to get the most out of this plugin, make sure to only apply it to parent elements that are smaller than the collective width and/or height then their children. This way, you can see the actual scroll effect as you pan the element.
+In order to get the most out of this plugin, make sure to only apply it to parent elements that are smaller than the collective width and/or height of their children. This way, you can see the actual scroll effect as you pan the element.
 
 While you can programatically control whether or not overscroll allows horizontal and/or vertical scroll, it is best practice to size the child elements accordingly (via CSS) and not depend on programatic restrictions.
 
