@@ -1,27 +1,22 @@
-var x = require('casper').selectXPath;
 var casper = require('casper').create();
+
+casper.start();
 
 casper.options.viewportSize = {
 	width: 600,
 	height: 600
 };
 
-casper.start('http://localhost:9000/demo.html');
+casper.thenOpen('http://localhost:9000/demo.html', function () {
 
+	this.capture('test.png');
 
-casper.then(function () {
-	this.captureSelector("screenshot0.png", "html");
-});
-
-casper.then(function () {
 	this.mouse.down(500, 500);
+	this.mouse.move(200, 200);
 	this.mouse.up(200, 200);
+
+	this.capture('test1.png');
+
 });
 
-casper.then(function () {
-	this.captureSelector("screenshot1.png", "html");
-});
-
-casper.run(function () {
-	this.test.renderResults(true);
-});
+casper.run();
