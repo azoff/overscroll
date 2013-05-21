@@ -4,24 +4,21 @@ module.exports = function (grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
-		// jshint: {
-		// 	files: ['Gruntfile.js', 'src/jquery.overscroll.js', 'spec/**/*.js'],
-		// 	options: {
-		// 		// options here to override JSHint defaults
-		// 		globals: {
-		// 			jQuery: true,
-		// 			console: true,
-		// 			module: true,
-		// 			document: true
-		// 		}
-		// 	}
-		// },
-
-		jasmine_node: {
-			specNameMatcher: ".spec", // load only specs containing specNameMatcher
-			projectRoot: ".",
-			requirejs: false,
-			forceExit: true
+		jshint: {
+			files: [
+				'Gruntfile.js',
+				// 'src/*.js',
+				'test/*.js'
+			],
+			options: {
+				// options here to override JSHint defaults
+				globals: {
+					jQuery: true,
+					console: true,
+					module: true,
+					document: true
+				}
+			}
 		},
 
 		connect: {
@@ -31,18 +28,30 @@ module.exports = function (grunt) {
 					base: './'
 				}
 			}
+		},
+
+		casper: {
+			options: {
+				test: true
+			},
+			test: {
+				src: ['test/test.js']
+			}
 		}
 
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-jasmine-node');
+	grunt.loadNpmTasks('grunt-casper');
 
 	grunt.registerTask('test', [
+		'jshint',
         'connect:server',
-        'jasmine_node'
-        ]);
-	grunt.registerTask('default', ['test']);
+        'casper'
+	]);
+	grunt.registerTask('default', [
+		'test'
+	]);
 
 };
