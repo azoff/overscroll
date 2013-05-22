@@ -30,26 +30,23 @@ module.exports = function (grunt) {
 			}
 		},
 
-		casper: {
-			options: {
-				test: true
-			},
-			test: {
-				src: ['test/test.js']
-			}
+		casperjs: {
+			files: ['test/*.js']
 		}
 
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-casper');
+	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-casperjs');
+
 
 	grunt.registerTask('test', [
 		'jshint',
         'connect:server',
-        'casper'
+        'casperjs'
 	]);
+
 	grunt.registerTask('default', [
 		'test'
 	]);
