@@ -12,17 +12,21 @@
 //   waitFinished: Number// time to wait between last way() and finished call
 // }
 
-module.exports = drift;
+
 
 function drift (options) {
-  var MOVE_INTERVAL = 20; //ms
+  var MOVE_INTERVAL = 16.6666666; //ms
+  var speed = options.distance / options.duration;
+  options.degree = ((Math.PI * 2) / 360) * options.degree;
   var stepX = Math.sin(options.degree);
-  var stepY = Math.cos(options.degree);
-  var moveCoeficent = (1000 / MOVE_INTERVAL) * options.speed;
+  var stepY = -Math.cos(options.degree);
+  console.log(stepX, stepY);
+  var moveCoeficent = (MOVE_INTERVAL / 1000) * speed;
   var interval;
   var x, y;
-  var counter;
-  var limit = Math.floor(duration / MOVE_INTERVAL);
+  var counter = 0;
+  options.duration = options.duration * 1000;
+  var limit = Math.floor(options.duration / MOVE_INTERVAL);
   var that = this;
 
   // if no start point was given, start at 0
@@ -44,6 +48,7 @@ function drift (options) {
 
   stepX = stepX * moveCoeficent;
   stepY = stepY * moveCoeficent;
+  console.log(stepX, stepY);
 
   //start
   if (options.hasOwnProperty('start')
@@ -52,23 +57,29 @@ function drift (options) {
     options.start(x, y);
   }
 
-  interval = setInterval (function () {
+  interval = setInterval(function () {
+    //console.log(stepX, stepY);
     if (counter <= limit) {
       x += stepX;
       y += stepY;
       //call the way callback
-      options.way.call(that, x,y);
+      options.way(x, y);
       counter += 1;
     } else {
       clearInterval(interval);
       if (options.hasOwnProperty('waitFinished')) {
         setTimeout(function () {
-          finished.call(that, x, y);
-        }, waitFinished);
+          options.finished.call(that, x, y);
+        }, options.waitFinished);
       } else {
-        finished.call(that, x, y);
+        options.finished.call(that, x, y);
       }
     }
   }, MOVE_INTERVAL);
 
+}
+
+//the frontend doesnt know any module ..
+if (typeof module !== 'undefined') {
+    module.exports = drift;
 }
