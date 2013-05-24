@@ -8,7 +8,9 @@ module.exports = function (grunt) {
 			files: [
 				'Gruntfile.js',
 				// 'src/*.js',
-				'test/*.js'
+				'test/*.js',
+				'test/modules/*.js',
+				'test/drift-canvas/js/app.js'
 			],
 			options: {
 				// options here to override JSHint defaults

@@ -127,7 +127,7 @@ driftUp.forEach(function (test) {
   //testDrift(test);
 });
 
-var driftRight = [
+var driftLeft = [
   {
     target: {
       direct: {
@@ -175,7 +175,7 @@ var driftRight = [
   }
 ];
 
-driftRight.forEach(function (test) {
+driftLeft.forEach(function (test) {
   testDrift(test);
 });
 
