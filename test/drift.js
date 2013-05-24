@@ -38,7 +38,6 @@ function testDrift (test) {
     var target    = test.target;
     
     casper.waitFor(function () {
-      start = new Date().getMilliseconds();
       var result = drift({
         startCoordinates: { //optional
           x: 10,
@@ -63,7 +62,6 @@ function testDrift (test) {
       
       return result;
     }, function () {
-      console.log('time needed', new Date().getMilliseconds() - start);
       var pre = distance + ' px, ' + degree + 'º, ' + duration + ' ms';
       that.test.assertEquals(that.getScrollLeft(), target.direct.x, pre + ' direct after drift - x');
       that.test.assertEquals(that.getScrollTop(), target.direct.y, pre + ' direct after drift - y');
