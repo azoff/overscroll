@@ -1,31 +1,34 @@
-// var options = {
-//   startCoordinates: { //optional
-//     x: Number,
-//     y: Number
-//   },
-//   degree: Number,  // degree of direction to drift.
-//   speed: Number,      // speed in pixels per second
-//   duration: Number,   // duration of drift in seconds
-//   start: Function,    // Callback for start, arguments x,y
-//   way: Function,      // Callback for the way, arguments x,y
-//   finished: Function, // Callback when finished, arguments x,y
-//   waitFinished: Number// time to wait between last way() and finished call
-// }
-
-
-
-function drift (options) {
-  var MOVE_INTERVAL = 16.6666666; //ms
+/**
+ * A wrapper function to make easy drifts.
+ * Works as a nodejs or browser module.
+ * @author vardump
+ * @param  {object} options {
+      startCoordinates: { //optional
+        x: Number,
+        y: Number
+      },
+      degree: Number,  // degree of direction to drift.
+      distance: Number,   // distance in pixel
+      duration: Number,   // duration of drift in seconds
+      start: Function,    // Callback for start, arguments x,y
+      way: Function,      // Callback for the way, arguments x,y
+      finished: Function, // Callback when finished, arguments x,y
+      waitFinished: Number// time to wait between last way() and finished call
+    }
+ */
+function drift (options, window) {
+  var MOVE_INTERVAL = 2; //ms
   var speed = options.distance / options.duration;
   options.degree = ((Math.PI * 2) / 360) * options.degree;
   var stepX = Math.sin(options.degree);
   var stepY = -Math.cos(options.degree);
-  console.log(stepX, stepY);
+
   var moveCoeficent = (MOVE_INTERVAL / 1000) * speed;
   var interval;
   var x, y;
   var counter = 0;
   options.duration = options.duration * 1000;
+
   var limit = Math.floor(options.duration / MOVE_INTERVAL);
   var that = this;
 
@@ -48,7 +51,6 @@ function drift (options) {
 
   stepX = stepX * moveCoeficent;
   stepY = stepY * moveCoeficent;
-  console.log(stepX, stepY);
 
   //start
   if (options.hasOwnProperty('start')
@@ -57,26 +59,30 @@ function drift (options) {
     options.start(x, y);
   }
 
+  var returnVal = true;
+
   interval = setInterval(function () {
     //console.log(stepX, stepY);
     if (counter <= limit) {
       x += stepX;
       y += stepY;
-      //call the way callback
+      //call the way callback    
       options.way(x, y);
       counter += 1;
-    } else {
-      clearInterval(interval);
+    } else {  
       if (options.hasOwnProperty('waitFinished')) {
         setTimeout(function () {
-          options.finished.call(that, x, y);
+          options.finished(x, y);
         }, options.waitFinished);
       } else {
-        options.finished.call(that, x, y);
+        console.log('finished');
+        options.finished(x, y);
       }
+      window.clearInterval(interval);
+      returnVal = true;
     }
   }, MOVE_INTERVAL);
-
+  return returnVal;
 }
 
 //the frontend doesnt know any module ..
