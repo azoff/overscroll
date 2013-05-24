@@ -23,15 +23,14 @@ window.onload = function (e) {
     ctx.fill();
   }
 
-
   var options = {
     startCoordinates: { //optional
       x: shape.x,
       y: shape.y
     },
-    degree: 180,  // 90 means move right
-    distance: 300,      // speed in pixels per second
-    duration: .5,   // duration of drift in seconds
+    degree: 90,  // 90 means move right
+    distance: 50,      // speed in pixels per second
+    duration: 0.02,   // duration of drift in seconds
     start: function (x,y) {
       drawCircle(x, y);
     },    // Callback for start, arguments x,y
@@ -47,4 +46,4 @@ window.onload = function (e) {
   //start drifting
   drift(options);
 
-}
+};

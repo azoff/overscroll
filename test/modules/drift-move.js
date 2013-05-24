@@ -34,10 +34,10 @@ function drift (options, window) {
 
   // if no start point was given, start at 0
   if (options.hasOwnProperty('startCoordinates')) {
-    if (options.startCoordinates.hasOwnProperty('x')
-      && options.startCoordinates.hasOwnProperty('y')
-      && typeof options.startCoordinates.x === 'number'
-      && typeof options.startCoordinates.y === 'number') {
+    if (options.startCoordinates.hasOwnProperty('x') &&
+      options.startCoordinates.hasOwnProperty('y') &&
+      typeof options.startCoordinates.x === 'number' &&
+      typeof options.startCoordinates.y === 'number') {
         x = options.startCoordinates.x;
         y = options.startCoordinates.y;
     } else {
@@ -53,8 +53,8 @@ function drift (options, window) {
   stepY = stepY * moveCoeficent;
 
   //start
-  if (options.hasOwnProperty('start')
-    && typeof options.start === 'function') {
+  if (options.hasOwnProperty('start') &&
+    typeof options.start === 'function') {
     //call start callback
     options.start(x, y);
   }
