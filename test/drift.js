@@ -75,11 +75,27 @@ function testDrift (test, direction) {
       
       return result;
     }, function () {
-      that.test.assertEquals(that.getScrollLeft(), target.direct[0], 'direct after drift - x');
-      that.test.assertEquals(that.getScrollTop(), target.direct[1], 'direct after drift - y');
+      that.test.assertEquals(
+        that.getScrollLeft(),
+        target.direct[0],
+        'x = ' + target.direct[0] + ', direct after drift'
+      );
+      that.test.assertEquals(
+        that.getScrollTop(),
+        target.direct[1],
+        'y = ' + target.direct[1] + ', direct after drift'
+      );
       casper.wait(1000, function () {
-        that.test.assertEquals(that.getScrollLeft(), target.delay[0], '1 sec after drift - x');
-        that.test.assertEquals(that.getScrollTop(), target.delay[1], '1 sec after drift - y');
+        that.test.assertEquals(
+          that.getScrollLeft(),
+          target.delay[0],
+          'x = ' + target.direct[0] + ', 1 sec after drift'
+        );
+        that.test.assertEquals(
+          that.getScrollTop(),
+          target.delay[1],
+          'y = ' + target.direct[1] + ', 1 sec after drift'
+        );
       });
     });
 
