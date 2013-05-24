@@ -38,7 +38,7 @@ function testDrift (test, direction) {
     var target    = test.target;
 
     var pre = distance + ' px, ' + degree + 'º, ' + duration + ' s';
-    casper.test.comment('test drift ' + pre + (direction ? ', ' + direction : ''));
+    casper.test.comment('drift ' + (direction ? direction + ', ' : '') + pre);
 
     var startCoordinates = {};
     if (test.hasOwnProperty('startCoordinates')) {
