@@ -75,7 +75,7 @@ function testDrift (test) {
   });
 }
 
-var tests = [
+var driftUp = [
   {
     target: {
       direct: {
@@ -123,7 +123,59 @@ var tests = [
   }
 ];
 
-tests.forEach(function (test) {
+driftUp.forEach(function (test) {
+  //testDrift(test);
+});
+
+var driftRight = [
+  {
+    target: {
+      direct: {
+        x: 0,
+        y: 77
+      },
+      delay: {
+        x: 0,
+        y: 110
+      }     
+    },
+    distance: 50,
+    duration: 0.02,
+    degree: 90
+  },
+  {
+    target: {
+      direct: {
+        x: 0,
+        y: 165
+      },
+      delay: {
+        x: 0,
+        y: 236
+      }     
+    },
+    distance: 100,
+    duration: 0.02,
+    degree: 90
+  },
+  {
+    target: {
+      direct: {
+        x: 0,
+        y: 247
+      },
+      delay: {
+        x: 0,
+        y: 363
+      }     
+    },
+    distance: 150,
+    duration: 0.02,
+    degree: 90
+  }
+];
+
+driftRight.forEach(function (test) {
   testDrift(test);
 });
 
