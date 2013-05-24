@@ -75,7 +75,6 @@ function drift (options, window) {
           options.finished(x, y);
         }, options.waitFinished);
       } else {
-        console.log('finished');
         options.finished(x, y);
       }
       if (window) {

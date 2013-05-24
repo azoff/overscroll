@@ -48,15 +48,15 @@ function testDrift (test) {
         distance: distance,      // speed in pixels per second
         duration: duration,   // duration of drift in seconds
         start: function (x,y) {
-          casper.test.comment('down ' + x + ' ' + y);
+          //casper.test.comment('down ' + x + ' ' + y);
           that.mouse.down(x, y);
         },    // Callback for start, arguments x,y
         way: function (x,y) {
-          casper.test.comment('move ' + x + ' ' + y);
+          //casper.test.comment('move ' + x + ' ' + y);
           that.mouse.move(x, y);
         },      // Callback for the way, arguments x,y
         finished: function (x,y) {
-          casper.test.comment('up ' + x + ' ' + y);
+          //casper.test.comment('up ' + x + ' ' + y);
           that.mouse.up(x, y);
         }
       }, window);
