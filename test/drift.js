@@ -24,7 +24,7 @@ casper.getScrollLeft = function () {
 function testDrift (test, direction) {
   casper.thenOpen('http://localhost:9000/test/resources/simple.html', function () {
 
-    casper.test.comment('test drift ' + direction);
+
 
     this.test.assertEquals(this.getScrollTop(), 0, 'init - check top');
     this.test.assertEquals(this.getScrollLeft(), 0, 'init - check left');
@@ -36,6 +36,9 @@ function testDrift (test, direction) {
     var duration  = test.duration;
     var degree    = test.degree;
     var target    = test.target;
+
+    var pre = distance + ' px, ' + degree + 'º, ' + duration + ' s';
+    casper.test.comment('test drift ' + pre + (direction ? ', ' + direction : ''));
 
     var startCoordinates = {};
     if (test.hasOwnProperty('startCoordinates')) {
@@ -72,12 +75,11 @@ function testDrift (test, direction) {
       
       return result;
     }, function () {
-      var pre = distance + ' px, ' + degree + 'º, ' + duration + ' ms';
-      that.test.assertEquals(that.getScrollLeft(), target.direct[0], pre + ' direct after drift - x');
-      that.test.assertEquals(that.getScrollTop(), target.direct[1], pre + ' direct after drift - y');
+      that.test.assertEquals(that.getScrollLeft(), target.direct[0], 'direct after drift - x');
+      that.test.assertEquals(that.getScrollTop(), target.direct[1], 'direct after drift - y');
       casper.wait(1000, function () {
-        that.test.assertEquals(that.getScrollLeft(), target.delay[0], pre + ' 1 sec after drift - x');
-        that.test.assertEquals(that.getScrollTop(), target.delay[1], pre + ' 1 sec after drift - y');
+        that.test.assertEquals(that.getScrollLeft(), target.delay[0], '1 sec after drift - x');
+        that.test.assertEquals(that.getScrollTop(), target.delay[1], '1 sec after drift - y');
       });
     });
 
