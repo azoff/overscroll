@@ -24,8 +24,6 @@ casper.getScrollLeft = function () {
 function testDrift (test, direction) {
   casper.thenOpen('http://localhost:9000/test/resources/simple.html', function () {
 
-
-
     this.test.assertEquals(this.getScrollTop(), 0, 'init - check top');
     this.test.assertEquals(this.getScrollLeft(), 0, 'init - check left');
 
@@ -168,6 +166,5 @@ driftLeft.forEach(function (test) {
 
   testDrift(test, 'left');
 });
-
 
 casper.run();
