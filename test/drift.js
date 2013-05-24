@@ -40,8 +40,8 @@ function testDrift (test, direction) {
     var startCoordinates = {};
     if (test.hasOwnProperty('startCoordinates')) {
       startCoordinates = {
-        x: test.startCoordinates.x,
-        y: test.startCoordinates.y
+        x: test.startCoordinates[0],
+        y: test.startCoordinates[1]
       };
     } else {
       startCoordinates = {
@@ -73,11 +73,11 @@ function testDrift (test, direction) {
       return result;
     }, function () {
       var pre = distance + ' px, ' + degree + 'º, ' + duration + ' ms';
-      that.test.assertEquals(that.getScrollLeft(), target.direct.x, pre + ' direct after drift - x');
-      that.test.assertEquals(that.getScrollTop(), target.direct.y, pre + ' direct after drift - y');
+      that.test.assertEquals(that.getScrollLeft(), target.direct[0], pre + ' direct after drift - x');
+      that.test.assertEquals(that.getScrollTop(), target.direct[1], pre + ' direct after drift - y');
       casper.wait(1000, function () {
-        that.test.assertEquals(that.getScrollLeft(), target.delay.x, pre + ' 1 sec after drift - x');
-        that.test.assertEquals(that.getScrollTop(), target.delay.y, pre + ' 1 sec after drift - y');
+        that.test.assertEquals(that.getScrollLeft(), target.delay[0], pre + ' 1 sec after drift - x');
+        that.test.assertEquals(that.getScrollTop(), target.delay[1], pre + ' 1 sec after drift - y');
       });
     });
 
@@ -88,40 +88,22 @@ function testDrift (test, direction) {
 var driftUp = [
   {
     target: {
-      direct: {
-        x: 0,
-        y: 81
-      },
-      delay: {
-        x: 0,
-        y: 110
-      }     
+      direct: [0, 81],
+      delay: [0, 110]
     },
     distance: 50
   },
   {
     target: {
-      direct: {
-        x: 0,
-        y: 165
-      },
-      delay: {
-        x: 0,
-        y: 236
-      }     
+      direct: [0, 165],
+      delay: [0, 236]
     },
     distance: 100
   },
   {
     target: {
-      direct: {
-        x: 0,
-        y: 247
-      },
-      delay: {
-        x: 0,
-        y: 363
-      }     
+      direct: [0, 247],
+      delay: [0, 363]
     },
     distance: 150
   }
@@ -130,10 +112,7 @@ var driftUp = [
 driftUp.forEach(function (test) {
   // same options for all tests
   // don't need to be repeated!
-  test.startCoordinates = {
-    x: 20,
-    y: 400
-  };
+  test.startCoordinates = [20, 400];
   test.duration = 0.02;
   test.degree   = 0;
 
@@ -143,50 +122,29 @@ driftUp.forEach(function (test) {
 var driftLeft = [
   {
     target: {
-      direct: {
-        x: 81,
-        y: 0
-      },
-      delay: {
-        x: 110,
-        y: 0
-      }     
+      direct: [81, 0],
+      delay: [110, 0]
     },
     distance: 50
   },
   {
     target: {
-      direct: {
-        x: 165,
-        y: 0
-      },
-      delay: {
-        x: 236,
-        y: 0
-      }     
+      direct: [165, 0],
+      delay: [236, 0]
     },
     distance: 100
   },
   {
     target: {
-      direct: {
-        x: 247,
-        y: 0
-      },
-      delay: {
-        x: 363,
-        y: 0
-      }     
+      direct: [247, 0],
+      delay: [363, 0]
     },
     distance: 150
   }
 ];
 
 driftLeft.forEach(function (test) {
-  test.startCoordinates = {
-    x: 400,
-    y: 20
-  };
+  test.startCoordinates = [400, 20];
   test.duration = 0.02;
   test.degree   = 270;
 
