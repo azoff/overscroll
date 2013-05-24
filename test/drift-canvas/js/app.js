@@ -4,8 +4,8 @@ window.onload = function (e) {
   var ctx = canvas.getContext('2d');
   var shape = {
     type:'circle',
-    x: 0,
-    y: 0,
+    x: 200,
+    y: 200,
     xdir: 1,
     ydir: 1,
     radius: 25,
@@ -23,16 +23,19 @@ window.onload = function (e) {
     ctx.fill();
   }
 
-  var options = {
+
+  //start drifting
+  setInterval (function () {
+    drift({
     startCoordinates: { //optional
       x: shape.x,
       y: shape.y
     },
-    degree: 90,  // 90 means move right
+    degree: 270,  // 90 means move right
     distance: 50,      // speed in pixels per second
     duration: 0.02,   // duration of drift in seconds
     start: function (x,y) {
-      drawCircle(x, y);
+      drawCircle(x, y, 'green');
     },    // Callback for start, arguments x,y
     way: function (x,y) {
       drawCircle(x,y, 'red');
@@ -41,9 +44,7 @@ window.onload = function (e) {
       drawCircle(x,y,'black');
     }, // Callback when finished, arguments x,y
     waitFinished: 0// time to wait between last way() and finished call
-  };
-
-  //start drifting
-  drift(options);
+  });
+  }, 1000);  
 
 };

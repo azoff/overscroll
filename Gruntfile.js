@@ -29,6 +29,13 @@ module.exports = function (grunt) {
 					port: 9000,
 					base: './'
 				}
+			},
+			driftcanvas: {
+				options: {
+					port: 8999,
+					base: './test/',
+					keepalive: true
+				}
 			}
 		},
 
@@ -45,8 +52,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('test', [
 		'jshint',
-        'connect:server',
-        'casperjs'
+    'connect:server',
+    'casperjs'
 	]);
 
 	grunt.registerTask('default', [
