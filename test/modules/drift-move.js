@@ -78,7 +78,11 @@ function drift (options, window) {
         console.log('finished');
         options.finished(x, y);
       }
-      window.clearInterval(interval);
+      if (window) {
+        window.clearInterval(interval);
+      } else {
+        clearInterval(interval);
+      }
       returnVal = true;
     }
   }, MOVE_INTERVAL);
