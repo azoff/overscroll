@@ -69,7 +69,7 @@ function drift (options, window) {
       //call the way callback    
       options.way(x, y);
       counter += 1;
-    } else {  
+    } else {
       if (options.hasOwnProperty('waitFinished')) {
         setTimeout(function () {
           options.finished(x, y);

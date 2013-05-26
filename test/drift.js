@@ -48,9 +48,9 @@ function testDrift (test, direction) {
       startCoordinates = {
         x: 20,
         y: 400
-      };     
+      };
     }
-    
+
     casper.waitFor(function () {
       var result = drift({
         startCoordinates: startCoordinates,
@@ -70,7 +70,7 @@ function testDrift (test, direction) {
           that.mouse.up(x, y);
         }
       }, window);
-      
+
       return result;
     }, function () {
       that.test.assertEquals(

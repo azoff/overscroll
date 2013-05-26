@@ -11,7 +11,7 @@ window.onload = function (e) {
     radius: 25,
     fill:'green',
     stroke:'black'
-  }; 
+  };
 
   function drawCircle (x, y, color) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -45,6 +45,6 @@ window.onload = function (e) {
     }, // Callback when finished, arguments x,y
     waitFinished: 0// time to wait between last way() and finished call
   });
-  }, 1000);  
+  }, 1000);
 
 };
