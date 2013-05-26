@@ -231,6 +231,7 @@
 	function scroll(event) {
 		var data = event.data;
 		if (!data.flags.dragged) {
+			/*jshint validthis:true */
 			moveThumbs(data.thumbs, data.sizing, this.scrollLeft, this.scrollTop);
 		}
 	}
@@ -286,6 +287,7 @@
 
 		// actually modify scroll offsets
 		if (options.wheelDirection === 'vertical'){
+			/*jshint validthis:true */
 			this.scrollTop -= delta;
 		} else if ( options.wheelDirection === 'horizontal') {
 			this.scrollLeft -= delta;
@@ -741,6 +743,7 @@
 	// You can find it's exposure point at the end
 	// of this closure
 	function overscroll(options) {
+		/*jshint validthis:true */
 		return this.removeOverscroll().each(function() {
 			setup(this, options);
 		});
@@ -750,6 +753,7 @@
 	// You can find it's exposure point at the end
 	// of this closure
 	function removeOverscroll() {
+		/*jshint validthis:true */
 		return this.each(function () {
 			teardown(this);
 		});

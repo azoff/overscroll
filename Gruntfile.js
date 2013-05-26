@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				// 'src/*.js',
+				'src/jquery.overscroll.js',
 				'test/*.js',
 				'test/modules/*.js',
 				'test/drift-canvas/js/app.js'
@@ -52,8 +52,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('test', [
 		'jshint',
-    'connect:server',
-    'casperjs'
+		'connect:server',
+		'casperjs'
 	]);
 
 	grunt.registerTask('default', [
