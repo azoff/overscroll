@@ -6,6 +6,14 @@ Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/wha
 
 Homepage: <http://azoffdesign.com/overscroll>
 
+Support
+-------
+
+If you're having problems with using the project, use the support forum at CodersClan.
+
+<a href="http://codersclan.net/forum/index.php?repo_id=18"><img src="http://www.codersclan.net/graphics/getSupport_blue_big.png" width="160"></a>
+
+
 License
 -------
 Copyright 2013, Jonathan Azoff
