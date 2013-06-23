@@ -6,13 +6,6 @@ Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/wha
 
 Homepage: <http://azoffdesign.com/overscroll>
 
-Support
--------
-
-If you're having problems with using the project, use the support forum at CodersClan.
-
-<a href="http://codersclan.net/forum/index.php?repo_id=18"><img src="http://www.codersclan.net/graphics/getSupport_blue_big.png" width="160"></a>
-
 
 License
 -------
@@ -115,6 +108,13 @@ As of 1.7.0 you can scroll in multiple directions using the mouse wheel. You can
 Contributing
 ------------
 I <3 pull requests. If you want to contribute, please fork the code and submit a pull request. If you want to take an active maintaining overscroll, just let me know - I would wholeheartedly appreciate the help.
+
+Support
+-------
+
+If you're having problems with using the project, use the support forum at CodersClan.
+
+<a href="http://codersclan.net/forum/index.php?repo_id=18"><img src="http://www.codersclan.net/graphics/getSupport_blue_big.png" width="160"></a>
 
 A Note About AMD
 ----------------
