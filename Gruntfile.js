@@ -23,6 +23,14 @@ module.exports = function (grunt) {
 			}
 		},
 
+		uglify: {
+			overscroll: {
+				files: {
+					'src/jquery.overscroll.min.js': ['src/jquery.overscroll.js']
+				}
+			}
+		},
+
 		connect: {
 			server: {
 				options: {
@@ -46,14 +54,19 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-casperjs');
-
 
 	grunt.registerTask('test', [
 		'jshint',
 		'connect:server',
 		'casperjs'
+	]);
+
+	grunt.registerTask('min', [
+		'jshint',
+		'uglify'
 	]);
 
 	grunt.registerTask('default', [

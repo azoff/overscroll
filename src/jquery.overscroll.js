@@ -1,5 +1,5 @@
 /**
- * Overscroll v1.7.2
+ * Overscroll v1.7.3
  *  A jQuery Plugin that emulates the iPhone scrolling experience in a browser.
  *  http://azoffdesign.com/overscroll
  *
@@ -153,7 +153,8 @@
 		captureWheel:   true,
 		wheelDelta:     settings.wheelDelta,
 		wheelDirection: 'multi',
-		zIndex:         999
+		zIndex:         999,
+		ignoreSizing:	false
 	};
 
 	// Triggers a DOM event on the overscrolled element.
@@ -692,7 +693,7 @@
 
 		// only apply handlers if the overscrolled element
 		// actually has an area to scroll
-		if (sizing.valid) {
+		if (sizing.valid || options.ignoreSizing) {
 			// provide a circular-reference, enable events, and
 			// apply any required CSS
 			data.target = target = $(target).css({

@@ -1,6 +1,6 @@
-Overscroll v1.7.2
+Overscroll v1.7.3
 =================
-Monday, March 18th 2013
+Wed, August 7th 2013
 
 Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/what-is-a-polyfill) for mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style. It is intended for use on desktop browsers, with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -51,6 +51,8 @@ $(selector).overscroll([options]);
         - The z-index applied to the thumb elements
     * `options.dragHold` `{Boolean: false}`
         - Locks onto the overscrolled element when dragging and doesn't let go when the mouse moves away from it.
+    * `options.ignoreSizing` `{Boolean: false}`
+        - Applies overscroll to the selected element even if it has no area to scroll
 
 ```javascript
 $(selector).removeOverscroll();
