@@ -1,0 +1,86 @@
+@import "compass";
+
+$default-size: 16px;
+
+* {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	@include box-sizing(border-box);
+}
+
+body {
+	color: #444;
+	font: $default-size/1 Roboto, Helvetica, Verdana, Sans;
+	padding: $default-size;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+	margin-top: $default-size;
+	font-weight: 300;
+	text-align: center;
+	font-size: 3em;
+}
+
+small {
+	font-size: 0.9em;
+	text-align: center;
+	display: block;
+	margin-top: $default-size/2
+}
+
+a {
+	color: black;
+	text-decoration: none;
+	i {
+		margin-right: 0.5em;
+	}
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.screen {
+	left: 21px;
+	top: 78px;
+	position: relative;
+	overflow: auto;
+}
+
+.screen, .pane {
+	width: 211px;
+	height: 375px;
+}
+
+.pane {
+	padding-top: 10em;
+	text-align: center;
+}
+
+.pane2 {
+	background-color: #444;
+	color: #EEE;
+	a {
+		color: white;
+		text-decoration: underline;
+	}
+}
+
+.frame {
+	@include background-size(contain);
+	background: url("../img/iphone.png") no-repeat top left scroll transparent;
+	height: 536px;
+	width: 250px;
+	margin:  2*$default-size auto;
+}
+
+.links {
+	text-align: center;
+	margin-bottom: $default-size;
+	margin-right: $default-size;
+	a {
+		margin: 0 $default-size/2;
+	}
+}

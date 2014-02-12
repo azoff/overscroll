@@ -1,0 +1,3 @@
+$(".screen").overscroll({
+	direction: 'vertical'
+});
