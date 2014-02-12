@@ -1,6 +1,6 @@
-Overscroll v1.7.3
+Overscroll v1.7.4
 =================
-Wed, August 7th 2013
+Wednesday, February 12th, 2014
 
 Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/what-is-a-polyfill) for mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style. It is intended for use on desktop browsers, with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
@@ -9,7 +9,7 @@ Homepage: <http://azoffdesign.com/overscroll>
 
 License
 -------
-Copyright 2013, Jonathan Azoff
+Copyright 2014, Jonathan Azoff
 
 Licensed under the MIT license.
 
@@ -103,13 +103,15 @@ While you can programatically control whether or not overscroll allows horizonta
 
 As of 1.3.1, if you would like to add click handlers to links inside of overscroll, you can dynamially check the state of the overscrolled element via the jQuery's [data()](http://api.jquery.com/bind/) method. This ability should allow you to prevent default behavior of a click handler if a drag state is detected. For example, an overscrolled jQuery element `elm` can be checked for drag state via `elm.data("overscroll").dragging`.
 
-As of 1.4.4 you can call the `overscroll` constructor on a jQuery element as much as you like, without worrying about memory leaks. What this means is that you may dynamically add elements to the overscrolled element, and then re-call the `overscroll` method to take into account the new height. This would have been done programatically if DOM Elements supported the resize event, alas only the window object supports this event.
+As of 1.4.4, you can call the `overscroll` constructor on a jQuery element as much as you like, without worrying about memory leaks. What this means is that you may dynamically add elements to the overscrolled element, and then re-call the `overscroll` method to take into account the new height. This would have been done programatically if DOM Elements supported the resize event, alas only the window object supports this event.
 
-As of 1.7.0 you can scroll in multiple directions using the mouse wheel. You can also disable mouse wheel support.
+As of 1.7.0, you can scroll in multiple directions using the mouse wheel. You can also disable mouse wheel support.
+
+As of 1.7.4, Overscroll runs on the jQuery 2.x.x variants - hence, older browsers are no longer supported.
 
 Contributing
 ------------
-I <3 pull requests. If you want to contribute, please fork the code and submit a pull request. If you want to take an active maintaining overscroll, just let me know - I would wholeheartedly appreciate the help.
+I <3 pull requests. If you want to contribute, please fork the code and submit a pull request. If you want to take an active role maintaining overscroll, just let me know - I would wholeheartedly appreciate the help.
 
 Support
 -------

@@ -1,4 +1,5 @@
 .DS_Store
 .idea
 .tern-port
+.sass-cache
 node_modules

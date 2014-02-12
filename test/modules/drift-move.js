@@ -16,79 +16,81 @@
       waitFinished: Number// time to wait between last way() and finished call
     }
  */
-function drift (options, window) {
-  var MOVE_INTERVAL = 2; //ms
-  var speed = options.distance / options.duration;
-  options.degree = ((Math.PI * 2) / 360) * options.degree;
-  var stepX = Math.sin(options.degree);
-  var stepY = -Math.cos(options.degree);
+function drift(options, window) {
 
-  var moveCoeficent = (MOVE_INTERVAL / 1000) * speed;
-  var interval;
-  var x, y;
-  var counter = 0;
-  options.duration = options.duration * 1000;
+	"use strict";
 
-  var limit = Math.floor(options.duration / MOVE_INTERVAL);
-  var that = this;
+	var MOVE_INTERVAL = 2; //ms
+	var speed = options.distance / options.duration;
+	options.degree = ((Math.PI * 2) / 360) * options.degree;
+	var stepX = Math.sin(options.degree);
+	var stepY = -Math.cos(options.degree);
 
-  // if no start point was given, start at 0
-  if (options.hasOwnProperty('startCoordinates')) {
-    if (options.startCoordinates.hasOwnProperty('x') &&
-      options.startCoordinates.hasOwnProperty('y') &&
-      typeof options.startCoordinates.x === 'number' &&
-      typeof options.startCoordinates.y === 'number') {
-        x = options.startCoordinates.x;
-        y = options.startCoordinates.y;
-    } else {
-      x = 0;
-      y = 0;
-    }
-  } else {
-    x = 0;
-    y = 0;
-  }
+	var moveCoeficent = (MOVE_INTERVAL / 1000) * speed;
+	var interval;
+	var x, y;
+	var counter = 0;
+	options.duration = options.duration * 1000;
 
-  stepX = stepX * moveCoeficent;
-  stepY = stepY * moveCoeficent;
+	var limit = Math.floor(options.duration / MOVE_INTERVAL);
 
-  //start
-  if (options.hasOwnProperty('start') &&
-    typeof options.start === 'function') {
-    //call start callback
-    options.start(x, y);
-  }
+	// if no start point was given, start at 0
+	if (options.hasOwnProperty('startCoordinates')) {
+		if (options.startCoordinates.hasOwnProperty('x') &&
+			options.startCoordinates.hasOwnProperty('y') &&
+			typeof options.startCoordinates.x === 'number' &&
+			typeof options.startCoordinates.y === 'number') {
+			x = options.startCoordinates.x;
+			y = options.startCoordinates.y;
+		} else {
+			x = 0;
+			y = 0;
+		}
+	} else {
+		x = 0;
+		y = 0;
+	}
 
-  var returnVal = true;
+	stepX = stepX * moveCoeficent;
+	stepY = stepY * moveCoeficent;
 
-  interval = setInterval(function () {
-    //console.log(stepX, stepY);
-    if (counter <= limit) {
-      x += stepX;
-      y += stepY;
-      //call the way callback    
-      options.way(x, y);
-      counter += 1;
-    } else {
-      if (options.hasOwnProperty('waitFinished')) {
-        setTimeout(function () {
-          options.finished(x, y);
-        }, options.waitFinished);
-      } else {
-        options.finished(x, y);
-      }
-      if (window) {
-        window.clearInterval(interval);
-      } else {
-        clearInterval(interval);
-      }
-      returnVal = true;
-    }
-  }, MOVE_INTERVAL);
-  return returnVal;
+	//start
+	if (options.hasOwnProperty('start') &&
+		typeof options.start === 'function') {
+		//call start callback
+		options.start(x, y);
+	}
+
+	var returnVal = true;
+
+	interval = setInterval(function () {
+		//console.log(stepX, stepY);
+		if (counter <= limit) {
+			x += stepX;
+			y += stepY;
+			//call the way callback
+			options.way(x, y);
+			counter += 1;
+		} else {
+			if (options.hasOwnProperty('waitFinished')) {
+				setTimeout(function () {
+					options.finished(x, y);
+				}, options.waitFinished);
+			} else {
+				options.finished(x, y);
+			}
+			if (window) {
+				window.clearInterval(interval);
+			} else {
+				clearInterval(interval);
+			}
+			returnVal = true;
+		}
+	}, MOVE_INTERVAL);
+	return returnVal;
 }
 
 //the frontend doesnt know any module ..
 if (typeof module !== 'undefined') {
-    module.exports = drift;
+	module.exports = drift;
 }

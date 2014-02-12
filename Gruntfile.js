@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 		jshint: {
 			files: [
 				'Gruntfile.js',
-				'src/jquery.overscroll.js',
+				'dist/jquery.overscroll.js',
 				'test/*.js',
 				'test/modules/*.js',
 				'test/drift-canvas/js/app.js'
@@ -25,8 +25,12 @@ module.exports = function (grunt) {
 
 		uglify: {
 			overscroll: {
+				options: {
+					preserveComments: 'some',
+					sourceMap: 'dist/jquery.overscroll.map'
+				},
 				files: {
-					'src/jquery.overscroll.min.js': ['src/jquery.overscroll.js']
+					'dist/jquery.overscroll.min.js': ['dist/jquery.overscroll.js']
 				}
 			}
 		},

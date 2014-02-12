@@ -1,7 +1,7 @@
 {
   "name": "jquery-overscroll",
-  "version": "1.7.3",
-  "dependencies": {},
+  "version": "1.7.4",
+  "dependencies": { },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.5.2",
