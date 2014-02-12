@@ -4,7 +4,7 @@ Wednesday, February 12th, 2014
 
 Overscroll is a jQuery Plugin and [polyfill](http://remysharp.com/2010/10/08/what-is-a-polyfill) for mobile safari's [overflow-scrolling](http://johanbrook.com/browsers/native-momentum-scrolling-ios-5/) style. It is intended for use on desktop browsers, with [the latest version of jQuery](http://code.jquery.com/jquery-latest.js).
 
-Homepage: <http://azoffdesign.com/overscroll>
+Homepage: <http://azoff.github.io/overscroll/>
 
 
 License

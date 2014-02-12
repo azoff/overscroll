@@ -4,9 +4,9 @@
 	"title":   "Overscroll",
 	"description": "Overscroll is a jQuery Plugin and polyfill for mobile safari's overflow-scrolling style. It is intended for use on desktop browsers.",
 	"keywords": ["ios", "iphone", "ipad", "retina", "scroll", "drift", "drag", "bounce", "overflow"],
-	"homepage": "http://azoffdesign.com/overscroll",
+	"homepage": "http://azoff.github.io/overscroll/",
 	"docs": "http://azof.fr/pYCzuM",
-	"demo": "http://azoffdesign.com/overscroll",
+	"demo": "http://azoff.github.io/overscroll/",
 	"bugs": "https://github.com/azoff/overscroll/issues",
 	"author": {
 		"name":  "Jonathan Azoff",

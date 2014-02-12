@@ -1,7 +1,7 @@
 /**
  * Overscroll 1.7.5
  *  Touch scrolling for the browser
- *  http://azoffdesign.com/overscroll
+ *  http://azoff.github.io/overscroll/
  *
  * Intended for use with the latest jQuery
  *  http://code.jquery.com/jquery-latest.js
