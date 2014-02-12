@@ -1,5 +1,5 @@
 /**
- * Overscroll 1.7.5
+ * Overscroll 1.7.7
  *  Touch scrolling for the browser
  *  http://azoff.github.io/overscroll/
  *
@@ -15,7 +15,7 @@
  *
  * Date: Wednesday, February 11th 2014
  */
-/*! Overscroll 1.7.5 | (c) 2014 Jon Azoff | http://azof.fr/pYCzuM */
+/*! Overscroll 1.7.7 | (c) 2014 Jon Azoff | http://azof.fr/pYCzuM */
 (function(global, dom, browser, math, wait, cancel, namespace, $, none){
 
 	// We want to run overscroll in strict-mode

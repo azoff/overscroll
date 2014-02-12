@@ -1,6 +1,6 @@
 {
 	"name": "jquery-overscroll",
-	"version": "1.7.5",
+	"version": "1.7.7",
 	"dependencies": {
 		"jquery": ">=2.1.0"
 	},
