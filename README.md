@@ -18,7 +18,7 @@ Licensed under the MIT license.
 Usage
 -----
 ```javascript
-$(selector).overscroll([options]);
+$(selector).overscroll({options});
 ```
 
 + `selector`
