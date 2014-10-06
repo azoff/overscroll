@@ -73,7 +73,7 @@ jQuery.fn.overscroll.settings = {
     thumbOpacity:       0.7, // The default active opacity for the thumbs
     thumbThickness:     6,   // The thickness, in pixels, of the generated thumbs
     thumbTimeout:       400, // The amount of time to wait before fading out thumbs
-    draggingTimeout:    100, // The amount of time to wait before resetting the dragging flag back to false after stop dragging (useful when detecting dragging in onClick events
+    draggingTimeout:    100, // The amount of time to wait before resetting the dragging flag back to false after stop dragging (useful when detecting dragging in onClick events)
 }
 ```
 

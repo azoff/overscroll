@@ -48,7 +48,7 @@
 		thumbOpacity:     0.7,
 		thumbThickness:   6,
 		thumbTimeout:     400,
-        draggingTimeout:  100,
+		draggingTimeout:  100,
 		wheelDelta:       20,
 		wheelTicks:       120
 	};
