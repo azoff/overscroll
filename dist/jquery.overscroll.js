@@ -48,6 +48,7 @@
 		thumbOpacity:     0.7,
 		thumbThickness:   6,
 		thumbTimeout:     400,
+		draggingTimeout:  100,
 		wheelDelta:       20,
 		wheelTicks:       120
 	};
@@ -519,12 +520,13 @@
 		}
 
 		// clear all internal flags and settings
-		target.data(datakey).dragging =
+		setTimeout(function() { target.data(datakey).dragging =
 			data.start     =
 			data.capture   =
 			data.position  =
 			flags.dragged  =
 			flags.dragging = false;
+        }, settings.draggingTimeout);
 
 		// set the cursor back to normal
 		target.css('cursor', compat().cursor.grab);
